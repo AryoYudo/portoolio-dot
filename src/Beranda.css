@@ -1,0 +1,27 @@
+/* Beranda.css */
+
+/* Control the spacing and alignment in the text section */
+.stats-section div {
+    min-width: 100px;
+}
+
+/* Adjust the image stacking to avoid overlap and add shadow */
+.image-stack {
+    position: relative;
+    display: flex;
+    gap: 10px;
+}
+
+.stacked-image {
+    width: 60px; /* Adjust width as needed */
+    height: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateX(0); /* Start images aligned */
+    transition: transform 0.3s;
+}
+
+/* Control individual image positions for a staggered effect */
+.stacked-image:nth-child(2) { transform: translateX(-10px); }
+.stacked-image:nth-child(3) { transform: translateX(-20px); }
+.stacked-image:nth-child(4) { transform: translateX(-30px); }
+.stacked-image:nth-child(5) { transform: translateX(-40px); }

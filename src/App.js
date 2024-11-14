@@ -2,7 +2,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './layouts/header.jsx'; 
-import Beranda from './components/beranda.jsx'; 
+import Beranda from './components/Beranda.jsx'; 
 
 function App() {
   return (
