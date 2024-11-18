@@ -62,7 +62,7 @@ const About = () => {
                 <div className="col-md-6">
                     {/* Title */}
                     <h2 className="fw-bold">
-                        <span className="me-2" style={{Color: '#E31F52'}}> ❖</span>Layanan Utama
+                        <span className="me-2" style={{color: "#E31F52"}}> ❖</span>Layanan Utama
                     </h2>
                     
                     {/* Services List */}

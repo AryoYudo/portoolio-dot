@@ -39,9 +39,14 @@ const ProjectGrid = () => {
   return (
     <Container className="my-5">
       <h1 className="text-center fw-bold">DOT PROJECT</h1>
-      <p className="text-center text-muted">
-        #AdaptiveLeadership #StartupVisionary #InnoMaestro #TeamAgility
-      </p>
+      <div className="d-flex flex-wrap justify-content-center gap-2">
+        <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h4>
+        <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h4>
+        <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h4>
+        <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h4>
+      </div>
+      <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+
       <Row className="g-4 mt-4">
         {projects.map((project, index) => (
           <Col key={index} md={4} lg={3} sm={6} xs={12}>
