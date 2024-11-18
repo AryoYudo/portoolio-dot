@@ -25,3 +25,30 @@
 .stacked-image:nth-child(3) { transform: translateX(-20px); }
 .stacked-image:nth-child(4) { transform: translateX(-30px); }
 .stacked-image:nth-child(5) { transform: translateX(-40px); }
+
+.marquee-container {
+    overflow: hidden; /* Membatasi animasi hanya pada lebar col-md-8 */
+    width: 100%; /* Mengikuti ukuran container col-md-8 */
+  }
+  
+  .marquee-content {
+    display: inline-flex;
+    white-space: nowrap;
+    animation: marquee 15s linear infinite;
+  }
+  
+  .marquee-content span {
+    padding-right: 50px; /* Jarak antar teks untuk memastikan ada spasi */
+  }
+  
+  /* Keyframes untuk animasi marquee */
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%); /* Mulai dari luar kanan container */
+    }
+    100% {
+      transform: translateX(-100%); /* Bergerak hingga luar kiri container */
+    }
+  }
+  
+  
