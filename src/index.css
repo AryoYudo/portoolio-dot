@@ -11,3 +11,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.animasi {
+  opacity: 0;
+  transform: translateY(-50px); /* Mulai dari bawah */
+  transition: opacity 2s ease, transform 1s ease;
+}
+
+.animasi.visible {
+  opacity: 1;
+  transform: translateY(0); /* Kembali ke posisi asli */
+}
+
+

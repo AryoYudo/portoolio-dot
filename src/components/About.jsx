@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const About = () => {
     const teamRoles = [
@@ -46,11 +47,31 @@ const About = () => {
             color: "#E31F52",
         },
     ];
+    const [isVisible, setIsVisible] = useState(false);
+    const elementRef = useRef(null);
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const element = elementRef.current;
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const isInViewport = rect.top >= 0 && rect.bottom <= window.innerHeight;
+          if (isInViewport) {
+            setIsVisible(true);
+          }
+        }
+      };
+  
+      window.addEventListener("scroll", handleScroll);
+      handleScroll(); // Jalankan sekali untuk memastikan status awal
+      return () => window.removeEventListener("scroll", handleScroll); // Bersihkan event listener
+    }, []);
+    
     return (
         <div className="container my-5">
             <main className="row my-5">
                 {/* Left Section: Image */}
-                <div className="col-md-6 d-flex justify-content-center align-items-center">
+                <div ref={elementRef} className={`col-md-6 d-flex justify-content-center align-items-center animasi ${isVisible ? "visible" : ""}`}>
                     <img
                         src="path-to-image.png"
                         alt="Platform Showcase"
@@ -59,7 +80,7 @@ const About = () => {
                 </div>
 
                 {/* Right Section: Services */}
-                <div className="col-md-6">
+                <div ref={elementRef} className={`col-md-6 animasi ${isVisible ? "visible" : ""}`}>
                     {/* Title */}
                     <h2 className="fw-bold">
                         <span className="me-2" style={{color: "#E31F52"}}> ❖</span>Layanan Utama
@@ -134,7 +155,7 @@ const About = () => {
             </main>
 
             {/* Visi Section */}
-            <div className="text-center mb-5">
+            <div ref={elementRef} className={`text-center mb-5 animasi ${isVisible ? "visible" : ""}`} >
                 <h3 className="fw-bold text-danger">
                     <span className="me-2">❖</span>Visi
                 </h3>
@@ -195,14 +216,16 @@ const About = () => {
                                 {/* Circle Number */}
                                 <div
                                     className="rounded-circle bg-danger text-white d-flex justify-content-center align-items-center"
-                                    style={{ width: "40px", height: "40px" }}
+                                    style={{ width: "70px", height: "40px" }}
                                     >
                                     {misi.number}
                                 </div>
                                 {/* Text Content */}
-                                <div className="ms-3">
-                                    <h6 className="fw-bold">{misi.title}</h6>
-                                    <p className="mb-0">{misi.description}</p>
+                                <div className="card ms-3 shadow-sm border-0">
+                                    <div className="card-body">
+                                        <h6 className="fw-bold">{misi.title}</h6>
+                                        <p className="mb-0">{misi.description}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
