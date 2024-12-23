@@ -12,13 +12,13 @@ code {
     monospace;
 }
 
-.animasi {
+.animasiatas {
   opacity: 0;
-  transform: translateY(-50px); /* Mulai dari bawah */
+  transform: translateY(-50px); /* Mulai dari atas */
   transition: opacity 2s ease, transform 1s ease;
 }
 
-.animasi.visible {
+.animasiatas.visible {
   opacity: 1;
   transform: translateY(0); /* Kembali ke posisi asli */
 }

@@ -71,7 +71,7 @@ const About = () => {
         <div className="container my-5">
             <main className="row my-5">
                 {/* Left Section: Image */}
-                <div ref={elementRef} className={`col-md-6 d-flex justify-content-center align-items-center animasi ${isVisible ? "visible" : ""}`}>
+                <div ref={elementRef} className={`col-md-6 d-flex justify-content-center align-items-center animasiatas ${isVisible ? "visible" : ""}`}>
                     <img
                         src="path-to-image.png"
                         alt="Platform Showcase"
@@ -80,7 +80,7 @@ const About = () => {
                 </div>
 
                 {/* Right Section: Services */}
-                <div ref={elementRef} className={`col-md-6 animasi ${isVisible ? "visible" : ""}`}>
+                <div ref={elementRef} className={`col-md-6 animasiatas ${isVisible ? "visible" : ""}`}>
                     {/* Title */}
                     <h2 className="fw-bold">
                         <span className="me-2" style={{color: "#E31F52"}}> ❖</span>Layanan Utama
@@ -155,7 +155,7 @@ const About = () => {
             </main>
 
             {/* Visi Section */}
-            <div ref={elementRef} className={`text-center mb-5 animasi ${isVisible ? "visible" : ""}`} >
+            <div ref={elementRef} className={`text-center mb-5 animasiatas ${isVisible ? "visible" : ""}`} >
                 <h3 className="fw-bold text-danger">
                     <span className="me-2">❖</span>Visi
                 </h3>
