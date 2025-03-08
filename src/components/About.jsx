@@ -62,7 +62,7 @@ const About = () => {
                 </motion.div>
 
                 {/* Right Section: Services */}
-                <motion.div initial={{ opacity: 0, y: 30}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2,  delay: 2}} viewport={{ once:true}} className="col-md-6">
+                <motion.div initial={{ opacity: 0, y: 30}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2,  delay: 1}} viewport={{ once:true}} className="col-md-6">
                     {/* Title */}
                     <h2 className="fw-bold">
                         <span className="me-2" style={{color: "#E31F52"}}> ❖</span>Layanan Utama
@@ -138,10 +138,10 @@ const About = () => {
 
             {/* Visi Section */}
             <div className="text-center mb-5" >
-                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2}} viewport={{ once:true}}  className="fw-bold ">
+                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 1.5}} viewport={{ once:true}}  className="fw-bold ">
                     <span className="me-2 text-danger">❖</span>Visi
                 </motion.h3>
-                <motion.p initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 1.5}} viewport={{ once:true}} className="fs-5 mx-auto" style={{ maxWidth: "800px" }}>
+                <motion.p initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 2}} viewport={{ once:true}} className="fs-5 mx-auto" style={{ maxWidth: "800px" }}>
                     "Menjadi pemimpin dalam transformasi operasi digital dengan memanfaatkan AI dan teknologi digital
                     untuk meningkatkan efisiensi, kelincahan, pengambilan keputusan berbasis data, serta membangun
                     budaya kerja yang inovatif dan kolaboratif demi keberlanjutan dan keunggulan kompetitif."
@@ -150,7 +150,7 @@ const About = () => {
 
             {/* Misi Section */}
             <div className="text-center">
-                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 2}} viewport={{ once:true}} className="fw-bold ">
+                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 1}} viewport={{ once:true}} className="fw-bold ">
                     <span className="me-2 text-danger">❖</span>Misi
                 </motion.h3>
                 <div className="row mt-4">
@@ -193,7 +193,7 @@ const About = () => {
                             "Menerapkan teknologi digital berkelanjutan untuk meminimalkan dampak lingkungan.",
                         },
                     ].map((misi, index) => (
-                        <motion.div initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: index * 1}} viewport={{ once:true}} key={index} className="col-md-4 mb-4">
+                        <motion.div initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 1, delay: index * 2}} viewport={{ once:true}} key={index} className="col-md-4 mb-4">
                             <div className="d-flex align-items-start bg-white rounded shadow-sm p-3">
                                 {/* Circle Number */}
                                 <div
