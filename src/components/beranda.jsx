@@ -1,13 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Beranda.css'; // Optional: to add custom CSS styles
+import { motion } from 'framer-motion';
 
 const Beranda = () => {
     return (
         <div className="container my-5">
             <div className="row">
                 {/* Text Section */}
-                <div className="col-md-8">
+                <motion.div initial={{ opacity: 0, x: -100 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }}  className="col-md-8">
                     <div className="d-flex flex-column">
                         <h1><strong>Future Tech: AI, IoT, and</strong></h1>
                         <h1><strong>Digital Solutions</strong></h1>
@@ -88,16 +89,26 @@ const Beranda = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Image Section */}
                 <div className="col-md-4 d-flex align-items-end justify-content-end image-section">
                     <div className="image-stack">
-                        <img src="/home/1.png" alt="Digital Solutions Illustration 1" className="stacked-image" />
-                        <img src="/home/2.png" alt="Digital Solutions Illustration 2" className="stacked-image" />
-                        <img src="/home/3.png" alt="Digital Solutions Illustration 3" className="stacked-image" />
-                        <img src="/home/4.png" alt="Digital Solutions Illustration 4" className="stacked-image" />
-                        <img src="/home/5.png" alt="Digital Solutions Illustration 5" className="stacked-image" />
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                            <img src="/home/1.png" alt="Digital Solutions Illustration 1" className="stacked-image" />
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                            <img src="/home/2.png" alt="Digital Solutions Illustration 2" className="stacked-image" />
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                            <img src="/home/3.png" alt="Digital Solutions Illustration 3" className="stacked-image" />
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                            <img src="/home/4.png" alt="Digital Solutions Illustration 4" className="stacked-image" />
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                            <img src="/home/5.png" alt="Digital Solutions Illustration 5" className="stacked-image" />
+                        </motion.div>
                     </div>
                 </div>
             </div>
