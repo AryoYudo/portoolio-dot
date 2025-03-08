@@ -94,19 +94,19 @@ const Beranda = () => {
                 {/* Image Section */}
                 <div className="col-md-4 d-flex align-items-end justify-content-end image-section">
                     <div className="image-stack">
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
                             <img src="/home/1.png" alt="Digital Solutions Illustration 1" className="stacked-image" />
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
                             <img src="/home/2.png" alt="Digital Solutions Illustration 2" className="stacked-image" />
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
                             <img src="/home/3.png" alt="Digital Solutions Illustration 3" className="stacked-image" />
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
                             <img src="/home/4.png" alt="Digital Solutions Illustration 4" className="stacked-image" />
                         </motion.div>
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5 }}>
+                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
                             <img src="/home/5.png" alt="Digital Solutions Illustration 5" className="stacked-image" />
                         </motion.div>
                     </div>

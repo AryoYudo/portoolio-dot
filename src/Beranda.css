@@ -34,7 +34,7 @@
   .marquee-content {
     display: inline-flex;
     white-space: nowrap;
-    animation: marquee 15s linear infinite;
+    animation: marquee 10s linear infinite reverse;
   }
   
   .marquee-content span {
