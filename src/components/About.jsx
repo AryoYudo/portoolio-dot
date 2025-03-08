@@ -53,7 +53,7 @@ const About = () => {
         <div className="container my-5">
             <main className="row my-5">
                 {/* Left Section: Image */}
-                <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{ duration: 4}} className="col-md-6 d-flex justify-content-center align-items-center">
+                <motion.div initial={{ opacity: 0, y: 30}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2}} viewport={{ once:true}} className="col-md-6 d-flex justify-content-center align-items-center">
                     <img
                         src="path-to-image.png"
                         alt="Platform Showcase"
@@ -62,7 +62,7 @@ const About = () => {
                 </motion.div>
 
                 {/* Right Section: Services */}
-                <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{ duration: 4,  delay: 2}} className="col-md-6">
+                <motion.div initial={{ opacity: 0, y: 30}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2,  delay: 2}} viewport={{ once:true}} className="col-md-6">
                     {/* Title */}
                     <h2 className="fw-bold">
                         <span className="me-2" style={{color: "#E31F52"}}> ❖</span>Layanan Utama
@@ -138,21 +138,21 @@ const About = () => {
 
             {/* Visi Section */}
             <div className="text-center mb-5" >
-                <h3 className="fw-bold text-danger">
-                    <span className="me-2">❖</span>Visi
-                </h3>
-                <p className="fs-5 mx-auto" style={{ maxWidth: "800px" }}>
+                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2}} viewport={{ once:true}}  className="fw-bold ">
+                    <span className="me-2 text-danger">❖</span>Visi
+                </motion.h3>
+                <motion.p initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 1.5}} viewport={{ once:true}} className="fs-5 mx-auto" style={{ maxWidth: "800px" }}>
                     "Menjadi pemimpin dalam transformasi operasi digital dengan memanfaatkan AI dan teknologi digital
                     untuk meningkatkan efisiensi, kelincahan, pengambilan keputusan berbasis data, serta membangun
                     budaya kerja yang inovatif dan kolaboratif demi keberlanjutan dan keunggulan kompetitif."
-                </p>
+                </motion.p>
             </div>
 
             {/* Misi Section */}
             <div className="text-center">
-                <h3 className="fw-bold text-danger">
-                    <span className="me-2">❖</span>Misi
-                </h3>
+                <motion.h3 initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 2}} viewport={{ once:true}} className="fw-bold ">
+                    <span className="me-2 text-danger">❖</span>Misi
+                </motion.h3>
                 <div className="row mt-4">
                     {/* Misi Items */}
                     {[
@@ -193,7 +193,7 @@ const About = () => {
                             "Menerapkan teknologi digital berkelanjutan untuk meminimalkan dampak lingkungan.",
                         },
                     ].map((misi, index) => (
-                        <div key={index} className="col-md-4 mb-4">
+                        <motion.div initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: index * 1}} viewport={{ once:true}} key={index} className="col-md-4 mb-4">
                             <div className="d-flex align-items-start bg-white rounded shadow-sm p-3">
                                 {/* Circle Number */}
                                 <div
@@ -210,7 +210,7 @@ const About = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
