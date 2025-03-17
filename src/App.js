@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Router
 import Header from './layouts/header.jsx'; 
+import Footer from './layouts/footer.jsx'; 
 import Beranda from './components/Beranda.jsx'; 
 import About from './components/About.jsx'; 
 import Project from './components/project/ProjectGrid.jsx'; 
@@ -29,6 +30,9 @@ function App() {
         <Routes>
           <Route path="/detailproject" element={<DetailProject />} />
         </Routes>
+        <div className="bottom">
+          <Footer />
+        </div>
       </div>
     </Router>
   );
