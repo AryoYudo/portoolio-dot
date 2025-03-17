@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
+import { motion } from 'framer-motion';
 
 const TeamCulture = () => {
   return (
     <Container className="my-5">
       {/* Section Header */}
-      <div className="text-center">
+      <motion.div initial={{ opacity: 0, y: 0}} whileInView={{ opacity: 1, y:0}} transition={{ duration: 2, delay: 1}} viewport={{ once:true}} className="text-center">
         <h2 className="mb-3">OUR TEAM CULTURE</h2>
         <div className="d-flex flex-wrap justify-content-center gap-2">
           <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h4>
@@ -16,49 +17,52 @@ const TeamCulture = () => {
           <h4 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h4>
         </div>
         <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-      </div>
-
-
-      {/* Content Section */}
-      <Row className="align-items-center mt-5">
-        <Col md={4}>
-          <Image
-            src="/ourteam/diner.png" // Ganti dengan path gambar Anda
-            alt="Team Achievement Dinner"
-            className="w-100 rounded shadow"
-          />
-        </Col>
-        <Col md={8}>
-          <h3 className="fw-bold">Team Achievement Dinner</h3>
-          <p>
-            Tim DOT merayakan kesuksesan menyelesaikan proyek dengan kebersamaan
-            dalam makan malam yang hangat. Tawa, cerita sukses, dan apresiasi
-            mengalir di antara anggota tim, menciptakan momen penuh semangat
-            dan inspirasi. Ini menjadi pemicu bagi kami untuk menghadapi
-            tantangan proyek berikutnya dengan antusiasme yang lebih besar.
-          </p>
-        </Col>
-      </Row>
+      </motion.div>
 
       {/* Content Section */}
-      <Row className="align-items-center mt-5">
-        <Col md={8}>
-          <h3 className="fw-bold">Morning Scrum Meeting</h3>
-          <p>
-            Setiap Pagi, Team kami mengadakan rapat harian untuk menyelaraskan tugas dan target harian.
-            Rapat ini memastikan anggota memahami peran dan tangguang jawab mereka, serta mengidentifikasikan 
-            prioritas utama hari itu. Dengan komunikasi yang terbuka,rapat ini menjaga kordinasi yang baik antar team,
-            meminimalkan hambatan, dan memastikan semua, anggota siap bekerja menuju tujuan yang sama dengan fokus yang jelas.
-          </p>
-        </Col>
-        <Col md={4}>
-          <Image
-            src="/ourteam/scrum.png" // Ganti dengan path gambar Anda
-            alt="Team Achievement Dinner"
-            className="w-100 rounded shadow"
-          />
-        </Col>
-      </Row>
+      <motion.div initial={{ opacity: 0, x: -100 }} whileInView={{ opacity: 1, x:0}} animate={{ opacity: 1, x: 0 }} transition={{ duration: 3 }} >
+        <Row className="align-items-center mt-5">
+          <Col md={4}>
+            <Image
+              src="/ourteam/diner.png" // Ganti dengan path gambar Anda
+              alt="Team Achievement Dinner"
+              className="w-100 rounded shadow"
+            />
+          </Col>
+          <Col md={8}>
+            <h3 className="fw-bold">Team Achievement Dinner</h3>
+            <p>
+              Tim DOT merayakan kesuksesan menyelesaikan proyek dengan kebersamaan
+              dalam makan malam yang hangat. Tawa, cerita sukses, dan apresiasi
+              mengalir di antara anggota tim, menciptakan momen penuh semangat
+              dan inspirasi. Ini menjadi pemicu bagi kami untuk menghadapi
+              tantangan proyek berikutnya dengan antusiasme yang lebih besar.
+            </p>
+          </Col>
+        </Row>
+      </motion.div>
+
+      {/* Content Section */}
+      <motion.div initial={{ opacity: 0, x: 100 }} whileInView={{ opacity: 1, x:0}} animate={{ opacity: 1, x: 0 }} transition={{ duration: 3 }} >
+        <Row className="align-items-center mt-5">
+          <Col md={8}>
+            <h3 className="fw-bold">Morning Scrum Meeting</h3>
+            <p>
+              Setiap Pagi, Team kami mengadakan rapat harian untuk menyelaraskan tugas dan target harian.
+              Rapat ini memastikan anggota memahami peran dan tangguang jawab mereka, serta mengidentifikasikan 
+              prioritas utama hari itu. Dengan komunikasi yang terbuka,rapat ini menjaga kordinasi yang baik antar team,
+              meminimalkan hambatan, dan memastikan semua, anggota siap bekerja menuju tujuan yang sama dengan fokus yang jelas.
+            </p>
+          </Col>
+          <Col md={4}>
+            <Image
+              src="/ourteam/scrum.png" // Ganti dengan path gambar Anda
+              alt="Team Achievement Dinner"
+              className="w-100 rounded shadow"
+            />
+          </Col>
+        </Row>
+        </motion.div>
 
       {/* Content Section */}
       <Row className="align-items-center mt-5">

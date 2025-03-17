@@ -22,5 +22,51 @@ code {
   opacity: 1;
   transform: translateY(0); /* Kembali ke posisi asli */
 }
+/* Untuk layar besar (desktop) - 5 card per row */
+@media (min-width: 1200px) {
+  .custom-col {
+    width: 20%;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+/* Untuk layar sedang (tablet) - 4 card per row */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .custom-col {
+    width: 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+/* Untuk layar kecil (mobile landscape) - 3 card per row */
+@media (min-width: 768px) and (max-width: 991px) {
+  .custom-col {
+    width: 33.33%;
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+/* Untuk layar sangat kecil (mobile portrait) - 2 card per row */
+@media (min-width: 576px) and (max-width: 767px) {
+  .custom-col {
+    width: 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/* Untuk layar ekstra kecil (HP kecil) - 1 card per row */
+@media (max-width: 575px) {
+  .custom-col {
+    width: 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+
 
 

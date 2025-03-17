@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProjectCard from './ProjectCard';
+import '../../index.css'; // Optional: to add custom CSS styles
 
 const projects = [
   {
@@ -47,18 +48,18 @@ const ProjectGrid = () => {
       </div>
       <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
 
-      <Row className="g-4 mt-4">
+      <div className="row g-3 mt-4">
         {projects.map((project, index) => (
-          <Col key={index} md={4} lg={3} sm={6} xs={12}>
+          <div key={index} className="custom-col">
             <ProjectCard
               category={project.category}
               icon={project.icon}
               title={project.title}
               imageUrl={project.imageUrl}
             />
-          </Col>
+          </div>
         ))}
-      </Row>
+      </div>
     </Container>
   );
 };
