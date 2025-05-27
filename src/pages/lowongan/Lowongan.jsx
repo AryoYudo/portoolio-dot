@@ -1,31 +1,38 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom'
 
 const jobData = [
   {
     title: 'System Support',
     description: 'Focused on maintaining technology & ensuring system function',
-    image: '/images/system-support.jpg', // Ganti dengan path gambar asli
+    image: '/job.png', // Ganti dengan path gambar asli
   },
   {
     title: 'Junior System Developer',
     description: 'Focused on maintaining technology & ensuring system function',
-    image: '/images/junior-dev.jpg',
+    image: '/job.png',
   },
   {
     title: 'QA Engineer',
     description: 'Responsible for ensuring the quality and functionality of software products before they reach users, QA Engineer...',
-    image: '/images/qa-engineer.jpg',
+    image: '/job.png',
   },
   {
     title: 'UI/UX Designer',
     description: 'Focused on creating user-friendly, visually appealing, and intuitive digital experiences',
-    image: '/images/uiux.jpg',
+    image: '/job.png',
   },
 ];
 const Lowongan = () => {
+  const navigate = useNavigate();
   return (
     <div className="container my-5">
+      <nav className="mb-3">
+        <span className="me-2 text-muted">{`< Back`}</span>
+        <span className="me-2">Beranda</span> /
+        <strong className="mx-2">Join Us</strong> 
+      </nav>
       <h1 className="text-2xl font-bold mb-4">
         Join Us at <span className="text-gray-800">PT Satnusa Persada!</span>
       </h1>
@@ -80,11 +87,12 @@ const Lowongan = () => {
                   <h5 className="card-title fw-bold">{job.title}</h5>
                   <p className="card-text small">{job.description}</p>
                 </div>
-                <div>
-                  <button className="btn btn-outline-danger mt-2 w-100" style={{ borderRadius: '12px' }}>
-                    See Descriptions
-                  </button>
-                </div>
+                  <div className="text-end mt-2">
+                    <button   onClick={() => navigate('/DetailLowongan')} className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                      See Descriptions
+                    </button>
+                  </div>
+
               </div>
             </div>
           </div>

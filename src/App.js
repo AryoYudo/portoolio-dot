@@ -8,6 +8,7 @@ import Project from './components/project/ProjectGrid.jsx';
 import TeamCulture from './components/Team.jsx'; 
 import DetailProject from './components/project/DetailProject'; 
 import Lowongan from './pages/lowongan/Lowongan.jsx';
+import DetailLowongan from './pages/lowongan/DetailLowongan.jsx';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             />
             <Route path="/detailproject" element={<DetailProject />} />
             <Route path="/lowongan" element={<Lowongan />} />
+            <Route path="/detaillowongan" element={<DetailLowongan />} />
           </Routes>
         </div>
 
