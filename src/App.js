@@ -12,6 +12,7 @@ import DetailProject from './components/project/DetailProject';
 import Lowongan from './pages/lowongan/Lowongan';
 import DetailLowongan from './pages/lowongan/DetailLowongan';
 import LoginAdmin from './pages/admin/auth/LoginAdmin';
+import ProjectList from './pages/admin/project/Project';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         {/* Admin Pages */}
         <Route path="/admin/login" element={<LoginAdmin />} />
         <Route path="/admin" element={ <AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout> } />
+        <Route path="/project" element={ <ProjectList> </ProjectList> } />
       </Routes>
     </Router>
   );
