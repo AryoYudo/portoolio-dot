@@ -6,7 +6,7 @@ const Sidebar = () => {
   return (
     <div className="col-md-2 position-fixed bg-white shadow-sm vh-100 d-flex flex-column p-3" >
       <div className="d-flex justify-content-center mb-4">
-        <img src="/logo.png" alt="Tixboom Logo" className="mb-2" style={{ height: '50px' }} />
+        <img src="/logo.png" alt="Tixboom Logo" className="mt-2" style={{ height: '50px' }} />
       </div>
 
       <ul className="nav nav-pills flex-column mb-auto w-100">
@@ -20,7 +20,20 @@ const Sidebar = () => {
               backgroundColor: isActive ? '#B487F8' : 'transparent',
             })}
           >
-            <i className="bi bi-grid me-2"></i> Dashboard
+              <img src="/projecticon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Project List
+          </NavLink>
+        </li>
+        <li className="nav-item mb-2">
+          <NavLink
+            to="/events"
+            className={({ isActive }) =>
+              `nav-link fw-semibold ${isActive ? 'text-white' : 'text-dark'}`
+            }
+            style={({ isActive }) => ({
+              backgroundColor: isActive ? '#B487F8' : 'transparent',
+            })}
+          >
+            <img src="/employee_icon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Employee List
           </NavLink>
         </li>
         <li className="nav-item mb-4">
@@ -33,9 +46,13 @@ const Sidebar = () => {
               backgroundColor: isActive ? '#B487F8' : 'transparent',
             })}
           >
-            <i className="bi bi-card-list me-2"></i> List Event
+            <img src="/job_icon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Job Vacancy
           </NavLink>
         </li>
+
+      </ul>
+
+      <div className="mt-auto ms-2 w-100 mb-4">
         <div className="d-flex align-items-center justify-content-center mb-2">
           <i className="bi bi-person-circle fs-3 me-2"></i>
           <div className="fw-semibold">Admin 1</div>
@@ -48,10 +65,6 @@ const Sidebar = () => {
             <i className="bi bi-box-arrow-right me-2"></i>
             Log Out
           </button>
-
-      </ul>
-
-      <div className="mt-auto ms-2 w-100 mb-4">
       </div>
     </div>
   );
