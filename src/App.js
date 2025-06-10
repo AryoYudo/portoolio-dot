@@ -1,46 +1,32 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './layouts/header.jsx'; 
-import Footer from './layouts/footer.jsx'; 
-import Beranda from './components/Beranda.jsx'; 
-import About from './components/About.jsx'; 
-import Project from './components/project/ProjectGrid.jsx'; 
-import TeamCulture from './components/Team.jsx'; 
-import DetailProject from './components/project/DetailProject'; 
-import Lowongan from './pages/lowongan/Lowongan.jsx';
-import DetailLowongan from './pages/lowongan/DetailLowongan.jsx';
+
+import UserLayout from './layouts/UserLayout';
+import AdminLayout from './layouts/AdminLayout';
+
+import Beranda from './components/Beranda';
+import About from './components/About';
+import Project from './components/project/ProjectGrid';
+import TeamCulture from './components/Team';
+import DetailProject from './components/project/DetailProject';
+import Lowongan from './pages/lowongan/Lowongan';
+import DetailLowongan from './pages/lowongan/DetailLowongan';
+import LoginAdmin from './pages/admin/auth/LoginAdmin';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <div className="fixed-top">
-          <Header />
-        </div>
+      <Routes>
+        {/* User Pages */}
+        <Route path="/" element={ <UserLayout> <> <Beranda /> <About /> <Project /> <TeamCulture /> </> </UserLayout> } />
+        <Route path="/detailproject" element={ <UserLayout> <DetailProject /> </UserLayout> } />
+        <Route path="/lowongan" element={ <UserLayout> <Lowongan /> </UserLayout> } />
+        <Route path="/detaillowongan" element={ <UserLayout> <DetailLowongan /> </UserLayout> } />
 
-        <div className="pt-5 mt-5">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Beranda />
-                  <About />
-                  <Project />
-                  <TeamCulture />
-                </>
-              }
-            />
-            <Route path="/detailproject" element={<DetailProject />} />
-            <Route path="/lowongan" element={<Lowongan />} />
-            <Route path="/detaillowongan" element={<DetailLowongan />} />
-          </Routes>
-        </div>
-
-        <div className="bottom">
-          <Footer />
-        </div>
-      </div>
+        {/* Admin Pages */}
+        <Route path="/admin/login" element={<LoginAdmin />} />
+        <Route path="/admin" element={ <AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout> } />
+      </Routes>
     </Router>
   );
 }
