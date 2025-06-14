@@ -13,6 +13,7 @@ import Lowongan from './pages/lowongan/Lowongan';
 import DetailLowongan from './pages/lowongan/DetailLowongan';
 import LoginAdmin from './pages/admin/auth/LoginAdmin';
 import ProjectList from './pages/admin/project/Project';
+import EmployeeList from './pages/admin/employee/Employee';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/admin/login" element={<LoginAdmin />} />
         <Route path="/admin" element={ <AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout> } />
         <Route path="/project" element={ <ProjectList> </ProjectList> } />
+        <Route path="/employee" element={ <EmployeeList> </EmployeeList> } />
       </Routes>
     </Router>
   );

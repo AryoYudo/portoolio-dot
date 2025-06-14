@@ -1,103 +1,123 @@
-import React from 'react';
-import { Pencil, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import DataTable from 'react-data-table-component';
+import { Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { color } from 'framer-motion';
+import { InputGroup, FormControl } from 'react-bootstrap';
+import Sidebar from '../../../layouts/sidebar';
 
-const projects = [
+
+const data = [
   {
-    title: 'Development of a Smart Parking System',
-    description: 'based on IoT for Urban Area Optimization',
-    image: '/images/parking.jpg',
+    id: 1,
+    title: "Development of a Smart Parking System",
+    description: "based on IoT for Urban Area Optimization",
+    image: "job.png"
   },
   {
-    title: 'IoT Integration in Manufacturing',
-    description: 'to Improve Efficiency and Reduce Operational Costs',
-    image: '/images/iot.jpg',
+    id: 2,
+    title: "IoT Integration in Manufacturing",
+    description: "to Improve Efficiency and Reduce Operational Costs",
+    image: "job.png"
   },
   {
-    title: 'Development of an AI Chatbot',
-    description: 'as a Virtual Assistant for E-Commerce Customer Service',
-    image: '/images/ai-chatbot.jpg',
+    id: 3,
+    title: "Development of an AI Chatbot",
+    description: "as a Virtual Assistant for E-Commerce Customer Service",
+    image: "job.png"
   },
   {
-    title: 'Building a Local Marketplace Website',
-    description: 'with a Customized Checkout Experience',
-    image: '/images/marketplace.jpg',
+    id: 4,
+    title: "Building a Local Marketplace Website",
+    description: "with a Customized Checkout Experience",
+    image: "job.png"
   },
   {
-    title: 'Mobile Learning Application',
-    description: 'with AI-Powered Quiz Recommendations',
-    image: '/images/mobile-learning.jpg',
-  },
+    id: 5,
+    title: "Mobile Learning Application",
+    description: "with AI-Powered Quiz Recommendations",
+    image: "job.png"
+  }
 ];
 
-const ProjectList = () => {
-  return (
-    <div className="p-6">
-      {/* Breadcrumb */}
-      <nav className="text-sm text-gray-500 mb-4">
-        <span>Dashboards</span> / <span className="text-black font-semibold">Project List</span>
-      </nav>
-
-      {/* Title */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-semibold">Project List</h1>
-        <button className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg text-sm">
-          + Add Project
-        </button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="relative mb-6 max-w-xl">
-        <input
-          type="text"
-          placeholder="Search by name, etc."
-          className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none"
+const columns = [
+  {
+    name: 'Project',
+    selector: row => row.title,
+    sortable: true,
+    cell: row => (
+      <div className="d-flex align-items-center">
+        <img
+          src={row.image}
+          alt={row.title}
+          style={{ width: 190, height: 110, objectFit: 'cover', borderRadius: 8 }}
+          className="mb-3 me-4"
         />
-      </div>
-
-      {/* Project List */}
-      <div className="space-y-6">
-        {projects.map((project, index) => (
-          <div key={index} className="flex items-start justify-between border-b pb-4">
-            <div className="flex items-start gap-4">
-              <img src={project.image} alt={project.title} className="w-28 h-20 object-cover rounded-md" />
-              <div>
-                <h2 className="font-semibold text-lg">{project.title}</h2>
-                <p className="text-sm text-gray-500">{project.description}</p>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button className="bg-gray-100 hover:bg-gray-200 p-2 rounded">
-                <Pencil size={16} />
-              </button>
-              <button className="bg-rose-100 hover:bg-rose-200 p-2 rounded">
-                <Trash2 size={16} className="text-rose-500" />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Footer Controls */}
-      <div className="mt-6 flex justify-between items-center text-sm text-gray-500">
         <div>
-          Show result:
-          <select className="ml-2 border rounded px-2 py-1">
-            <option>5</option>
-            <option>10</option>
-          </select>
+          <div className="fw-bold">{row.title}</div>
+          <div style={{ fontSize: '0.9rem', color: 'gray' }}>{row.description}</div>
         </div>
-        <div className="flex items-center gap-1">
-          <button className="px-2">&lt;</button>
-          <button className="w-6 h-6 rounded-full bg-rose-500 text-white">2</button>
-          <button className="px-2">3</button>
-          <button className="px-2">4</button>
-          <span>...</span>
-          <button className="px-2">20</button>
-          <button className="px-2">&gt;</button>
+      </div>
+    )
+  },
+  {
+    name: 'Actions',
+    button: true,
+    cell: row => (
+      <>
+        <Button variant="light" size="sm" className="me-2">
+          <i className="bi bi-pencil-square"></i>
+        </Button>
+        <Button variant="danger" size="sm">
+          <i className="bi bi-trash"></i>
+        </Button>
+      </>
+    )
+  }
+];
+
+const ProjectDataTable = () => {
+  const [filterText, setFilterText] = useState("");
+
+  const filteredItems = data.filter(
+    item => item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
+  );
+
+  return (
+  <div className="d-flex">
+    <div className="col-md-2">
+      <Sidebar />
+    </div>
+    <div className="flex-grow-1 mt-4">
+      <div className="card shadow p-3 mx-3" style={{ borderRadius: 17 }}>
+        <h2 className="fw-bold mb-3">Project List</h2>
+        <div className="d-flex justify-content-between mb-2">
+          <InputGroup style={{ flexGrow: 1, maxWidth: '85%' }} className="me-2">
+            <InputGroup.Text style={{ background: '#f0f0f0', borderRight: 'none' }}>
+              <i className="bi bi-search"></i>
+            </InputGroup.Text>
+            <FormControl
+              style={{ background: '#f0f0f0', borderLeft: 'none' }}
+              placeholder="Search by name, etc."
+              value={filterText}
+              onChange={e => setFilterText(e.target.value)}
+            />
+          </InputGroup>
+
+          <Button
+            variant="danger"
+            style={{ background: "#E31F52", borderRadius: 12 }}
+          >
+            + Add Project
+          </Button>
         </div>
+        <DataTable columns={columns} data={filteredItems} pagination highlightOnHover responsive noHeader />
       </div>
     </div>
+  </div>
+
   );
 };
 
-export default ProjectList;
+export default ProjectDataTable;
