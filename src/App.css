@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-modal-width {
+  max-width: 900px; /* Lebih besar dari default lg */
+}
+
+.custom-radio .form-check-input[type="radio"] {
+  accent-color: #E31F52; /* Untuk browser modern */
+}
+
+/* Untuk fallback jika accent-color tidak didukung */
+.custom-radio .form-check-input:checked {
+  background-color: #E31F52;
+  border-color: #E31F52;
+}
+

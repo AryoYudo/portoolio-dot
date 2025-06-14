@@ -90,10 +90,10 @@ const ProjectDataTable = () => {
       <Sidebar />
     </div>
     <div className="flex-grow-1 mt-4">
-      <div className="card shadow p-3 mx-3" style={{ borderRadius: 17 }}>
+      <div className="card shadow p-4 mx-3" style={{ borderRadius: 17 }}>
         <h2 className="fw-bold mb-3">Project List</h2>
         <div className="d-flex justify-content-between mb-2">
-          <InputGroup style={{ flexGrow: 1, maxWidth: '85%' }} className="me-2">
+          <InputGroup style={{ flexGrow: 1, maxWidth: '90%' }} className="me-2">
             <InputGroup.Text style={{ background: '#f0f0f0', borderRight: 'none' }}>
               <i className="bi bi-search"></i>
             </InputGroup.Text>

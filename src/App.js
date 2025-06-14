@@ -14,6 +14,8 @@ import DetailLowongan from './pages/lowongan/DetailLowongan';
 import LoginAdmin from './pages/admin/auth/LoginAdmin';
 import ProjectList from './pages/admin/project/Project';
 import EmployeeList from './pages/admin/employee/Employee';
+import JobVacancy from './pages/admin/vacancy/JobVacancy';
+import ApplicantList from './pages/admin/vacancy/Applicants';
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/admin" element={ <AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout> } />
         <Route path="/project" element={ <ProjectList> </ProjectList> } />
         <Route path="/employee" element={ <EmployeeList> </EmployeeList> } />
+        <Route path="/jobvacancy" element={ <JobVacancy> </JobVacancy> } />
+        <Route path="/applicantlist" element={ <ApplicantList> </ApplicantList> } />
       </Routes>
     </Router>
   );

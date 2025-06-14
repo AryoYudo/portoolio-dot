@@ -1,8 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Collapse } from 'react-bootstrap';
+import { useState } from 'react';
 
 const Sidebar = () => {
+  const [openJobMenu, setOpenJobMenu] = useState(false);
   return (
     <div className="col-md-2 position-fixed bg-white shadow-sm vh-100 d-flex flex-column p-3" >
       <div className="d-flex justify-content-center mb-4">
@@ -12,12 +15,12 @@ const Sidebar = () => {
       <ul className="nav nav-pills flex-column mb-auto w-100">
         <li className="nav-item mb-2">
           <NavLink
-            to="/dashboard"
+            to="/project"
             className={({ isActive }) =>
-              `nav-link fw-semibold ${isActive ? 'text-white' : 'text-dark'}`
+              `nav-link fw-semibold ${isActive ? 'text-dark' : 'text-dark'}`
             }
             style={({ isActive }) => ({
-              backgroundColor: isActive ? '#B487F8' : 'transparent',
+              backgroundColor: isActive ? '#F4F4F4' : 'transparent',
             })}
           >
               <img src="/projecticon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Project List
@@ -25,30 +28,71 @@ const Sidebar = () => {
         </li>
         <li className="nav-item mb-2">
           <NavLink
-            to="/events"
+            to="/employee"
             className={({ isActive }) =>
-              `nav-link fw-semibold ${isActive ? 'text-white' : 'text-dark'}`
+              `nav-link fw-semibold ${isActive ? 'text-dark' : 'text-dark'}`
             }
             style={({ isActive }) => ({
-              backgroundColor: isActive ? '#B487F8' : 'transparent',
+              backgroundColor: isActive ? '#F4F4F4' : 'transparent',
             })}
           >
             <img src="/employee_icon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Employee List
           </NavLink>
         </li>
-        <li className="nav-item mb-4">
-          <NavLink
-            to="/events"
-            className={({ isActive }) =>
-              `nav-link fw-semibold ${isActive ? 'text-white' : 'text-dark'}`
-            }
-            style={({ isActive }) => ({
-              backgroundColor: isActive ? '#B487F8' : 'transparent',
-            })}
+        <li className="nav-item mb-2">
+          <div
+            className="nav-link fw-semibold text-dark d-flex justify-content-between align-items-center"
+            style={{ cursor: 'pointer', backgroundColor: openJobMenu ? '#F4F4F4' : 'transparent' }}
           >
-            <img src="/job_icon.png" alt="Project Icon" style={{ height: '40px', width: '40px' }}/> Job Vacancy
-          </NavLink>
+            <div className="d-flex align-items-center">
+              <img src="/job_icon.png" alt="Project Icon" style={{ height: '40px', width: '40px', marginRight: 8 }} />
+              Job Vacancy
+            </div>
+            <i
+              className={`bi ${openJobMenu ? 'bi-chevron-up' : 'bi-chevron-down'}`}
+              onClick={(e) => {
+                e.stopPropagation(); // Hindari bubble ke parent
+                setOpenJobMenu(!openJobMenu);
+              }}
+              style={{ cursor: 'pointer' }}
+            ></i>
+          </div>
+
+          <Collapse in={openJobMenu}>
+            <ul className="list-unstyled ps-4 mt-2">
+              <li className="nav-item mb-2">
+                <NavLink
+                  to="/jobvacancy"
+                  className={({ isActive }) =>
+                    `nav-link fw-semibold ${isActive ? 'text-dark' : 'text-dark'}`
+                  }
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? '#F4F4F4' : 'transparent',
+                    borderRadius: 8
+                  })}
+                >
+                  <i className="bi bi-briefcase me-2"></i> Job Vacancy
+                </NavLink>
+              </li>
+              <li className="nav-item mb-2">
+                <NavLink
+                  to="/applicantlist"
+                  className={({ isActive }) =>
+                    `nav-link fw-semibold ${isActive ? 'text-dark' : 'text-dark'}`
+                  }
+                  style={({ isActive }) => ({
+                    backgroundColor: isActive ? '#F4F4F4' : 'transparent',
+                    borderRadius: 8
+                  })}
+                >
+                  <i className="bi bi-people me-2"></i> Applicant
+                </NavLink>
+              </li>
+            </ul>
+          </Collapse>
         </li>
+
+
 
       </ul>
 
