@@ -12,14 +12,17 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
   const [photoFile, setPhotoFile] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/master/master_position')
-      .then((response) => {
-        setPositionList(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching position list:', error);
-      });
-  }, []);
+    if (show) {
+      axios.get('http://127.0.0.1:8000/api/master/master_position')
+        .then((response) => {
+          setPositionList(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching position list:', error);
+        });
+    }
+  }, [show]);
+
 
   const handlePhotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -53,7 +56,6 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
       setName('');
       setStatus('Employee');
       setPosition('');
-      setPositionList([]); // ✅ reset array, bukan string
       setPhotoPreview(null);
       setPhotoFile(null);
       handleClose();

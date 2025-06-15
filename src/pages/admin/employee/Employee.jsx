@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { InputGroup, FormControl, Button, Dropdown, DropdownButton, Card, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../../layouts/sidebar';
-import AddEmployeeModal from './AddEmployeeModal';
+import AddEmployeeModal from '../../../components/modals/admin/AddEmployeeModal';
+import EmployeeDetailModal from '../../../components/modals/admin/DetailEmployee';
 import axios from 'axios';
 
 const EmployeeList = () => {
@@ -9,6 +10,8 @@ const EmployeeList = () => {
   const [filterText, setFilterText] = useState('');
   const [showResult, setShowResult] = useState(12);
   const [showModal, setShowModal] = useState(false);
+  const [showModalDetail, setShowModalDetail] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const handleSave = (data) => {
     console.log('Employee saved:', data);
@@ -30,6 +33,24 @@ const EmployeeList = () => {
   useEffect(() => {
     fetchEmployees();
   }, [filterText]); // re-fetch saat filterText berubah
+
+  const handlePhotoClick = (employee) => {
+    setSelectedEmployee(employee);
+    setShowModalDetail(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModalDetail(false);
+    setSelectedEmployee(null);
+  };
+
+  const handleEdit = () => {
+    alert(`Edit ${selectedEmployee.name}`);
+  };
+
+  const handleDelete = () => {
+    alert(`Delete ${selectedEmployee.name}`);
+  };
 
   return (
     <div className="container-fluid">
@@ -69,11 +90,24 @@ const EmployeeList = () => {
               {employeeList.slice(0, showResult).map(emp => (
                 <Col key={emp.employee_uuid} xs={6} sm={4} md={3} lg={2} className="mb-4 position-relative">
                   <Card className="border-0 text-center" style={{ position: 'relative' }}>
-                    <div style={{ position: 'relative' }}>
+                    <div style={{ 
+                      position: 'relative',
+                      width: '100%',
+                      height: 200, // ✅ tinggi tetap, bisa disesuaikan
+                      borderRadius: 12,
+                      overflow: 'hidden',
+                      backgroundColor: '#f0f0f0' // fallback kalau gambar kosong
+                    }}>
                       <Card.Img
                         variant="top"
                         src={emp.employee_picture || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(emp.employee_name)}
-                        style={{ borderRadius: 12 }}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover', // ✅ ini bikin proporsional
+                          objectPosition: 'center' // fokus tengah
+                        }}
+                        onClick={() => handlePhotoClick(emp)}
                       />
 
                       {emp.employee_status === 'Internship' && (
@@ -99,9 +133,20 @@ const EmployeeList = () => {
                       <div className="text-muted" style={{ fontSize: '0.9rem' }}>{emp.employee_position}</div>
                     </Card.Body>
                   </Card>
+
                 </Col>
               ))}
             </Row>
+
+            {/* Modal cukup render satu kali di luar map */}
+            <EmployeeDetailModal
+              show={showModalDetail}
+              handleClose={handleCloseModal}
+              employee={selectedEmployee}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+
 
             <div className="d-flex justify-content-between align-items-center mt-3">
               <div className="d-flex align-items-center">
