@@ -13,15 +13,24 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
 
     useEffect(() => {
     if (show) {
-        axios.get('http://127.0.0.1:8000/api/master/master_position')
+        axios.get(
+        'http://127.0.0.1:8000/api/master/master_position',
+        {
+            headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I`,
+            'Content-Type': 'application/json'
+            }
+        }
+        )
         .then((response) => {
-            setPositionList(response.data.data);
+        setPositionList(response.data.data);
         })
         .catch((error) => {
-            console.error('Error fetching position list:', error);
+        console.error('Error fetching position list:', error);
         });
     }
     }, [show]);
+
 
     useEffect(() => {
     if (employee) {
@@ -58,7 +67,7 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
           headers: {
             'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I`,
             'Content-Type': 'multipart/form-data',
-          },
+          },data:{}
         }
       );
       handleClose();

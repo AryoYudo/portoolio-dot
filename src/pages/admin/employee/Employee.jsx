@@ -22,15 +22,22 @@ const EmployeeList = () => {
 
   // Ambil data dari API
   const fetchEmployees = async () => {
-    try {
-      const response = await axios.get('http://127.0.0.1:8000/api/master_employee/list_master_employee', {
-        params: { search: filterText } // search filter masuk ke query param
-      });
-      setEmployeeList(response.data.data);
-    } catch (error) {
-      console.error('Error fetching employee list:', error);
-    }
-  };
+      try {
+      const response = await axios.get(
+        'http://127.0.0.1:8000/api/master_employee/list_master_employee',
+        {
+          params: { search: filterText },
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I`,
+            'Content-Type': 'application/json'
+          },data:{}
+        }
+      );
+        setEmployeeList(response.data.data);
+      } catch (error) {
+        console.error('Error fetching employee list:', error);
+      }
+    };
 
   useEffect(() => {
     fetchEmployees();
@@ -52,9 +59,11 @@ const EmployeeList = () => {
     setShowModalDetail(false);
   };
 
-  const handleDelete = () => {
-    alert(`Delete ${selectedEmployee.name}`);
+  const handleDelete = (employee_uuid) => {
+    setEmployeeList((prev) => prev.filter(employee => employee.employee_uuid !== employee_uuid));
   };
+
+
 
   return (
     <div className="container-fluid">
@@ -144,12 +153,7 @@ const EmployeeList = () => {
 
             {/* Modal cukup render satu kali di luar map */}
             <EmployeeDetailModal show={showModalDetail} handleClose={handleCloseModal} employee={selectedEmployee} handleEdit={handleEdit} handleDelete={handleDelete} />
-            <EditEmployeeModal
-              show={showModalEdit}
-              handleClose={() => setShowModalEdit(false)}
-              onSuccessEdit={fetchEmployees}
-              employee={selectedEmployee}
-            />
+            <EditEmployeeModal show={showModalEdit} handleClose={() => setShowModalEdit(false)} onSuccessEdit={fetchEmployees} employee={selectedEmployee} />
 
 
 
