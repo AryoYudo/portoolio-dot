@@ -1,28 +1,36 @@
-import React, { useState, useEffect } from 'react'; // tambahin useEffect di sini
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Image } from 'react-bootstrap';
-import '../../../App.css';
+import '../../../../App.css';
 import axios from 'axios';
 
-const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
+const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
   const [name, setName] = useState('');
-  const [status, setStatus] = useState('Employee'); // 'Employee' atau 'Internship'
+  const [status, setStatus] = useState('Employee');
   const [positionList, setPositionList] = useState([]);
-  const [position, setPosition] = useState(''); // ✅ tambahin ini
+  const [position, setPosition] = useState('');
   const [photoPreview, setPhotoPreview] = useState(null);
   const [photoFile, setPhotoFile] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
     if (show) {
-      axios.get('http://127.0.0.1:8000/api/master/master_position')
+        axios.get('http://127.0.0.1:8000/api/master/master_position')
         .then((response) => {
-          setPositionList(response.data.data);
+            setPositionList(response.data.data);
         })
         .catch((error) => {
-          console.error('Error fetching position list:', error);
+            console.error('Error fetching position list:', error);
         });
     }
-  }, [show]);
+    }, [show]);
 
+    useEffect(() => {
+    if (employee) {
+        setName(employee.employee_name || '');
+        setStatus(employee.employee_status === 'Internship' ? 'Internship' : 'Employee');
+        setPosition(employee.employee_position_id || '');
+        setPhotoPreview(employee.employee_picture || null);
+    }
+    }, [employee]);
 
   const handlePhotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -34,6 +42,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('employee_id', employee.employee_id); // penting!
     formData.append('employee_name', name);
     formData.append('employee_status_id', status === 'Employee' ? '1' : '2');
     formData.append('employee_position_id', position);
@@ -43,7 +52,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
 
     try {
       await axios.post(
-        'http://127.0.0.1:8000/api/master_employee/add_master_employee',
+        `http://127.0.0.1:8000/api/master_employee/update_employee/${employee.employee_uuid}`,
         formData,
         {
           headers: {
@@ -52,35 +61,21 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
           },
         }
       );
-      // Reset form setelah berhasil
-      setName('');
-      setStatus('Employee');
-      setPosition('');
-      setPhotoPreview(null);
-      setPhotoFile(null);
       handleClose();
-      if (onSuccessAdd) onSuccessAdd();
+      if (onSuccessEdit) onSuccessEdit();
     } catch (error) {
-      console.error('Error saving employee:', error);
-      alert('Failed to add employee. Check console for error detail.');
+      console.error('Error updating employee:', error);
+      alert('Failed to update employee. Check console for details.');
     }
   };
 
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      centered
-      size="lg"
-      className="p-4"
-    >
+    <Modal show={show} onHide={handleClose} centered size="lg" className="p-4">
       <Modal.Header closeButton>
-        <Modal.Title className="fw-bold">Add Employee</Modal.Title>
+        <Modal.Title className="fw-bold">Edit Employee</Modal.Title>
       </Modal.Header>
       <Modal.Body className="p-4">
-        <p className="text-muted mb-4">
-          Please provide correct and complete information in the fields below.
-        </p>
+        <p className="text-muted mb-4">Update the employee information below.</p>
         <div className="text-center mb-4">
           <label htmlFor="photoUpload" style={{ cursor: 'pointer' }}>
             {photoPreview ? (
@@ -106,12 +101,10 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
 
         <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>
-              Name <span className="text-danger">*</span>
-            </Form.Label>
+            <Form.Label>Name <span className="text-danger">*</span></Form.Label>
             <Form.Control
               type="text"
-              placeholder="Insert Employee Name"
+              placeholder="Edit Employee Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -119,9 +112,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>
-              Status <span className="text-danger">*</span>
-            </Form.Label>
+            <Form.Label>Status <span className="text-danger">*</span></Form.Label>
             <div className="custom-radio">
               <Form.Check
                 inline
@@ -143,9 +134,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
           </Form.Group>
 
           <Form.Group className="mb-4">
-            <Form.Label>
-              Position <span className="text-danger">*</span>
-            </Form.Label>
+            <Form.Label>Position <span className="text-danger">*</span></Form.Label>
             <Form.Select
               value={position}
               onChange={(e) => setPosition(e.target.value)}
@@ -165,7 +154,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
             className="w-100 fw-bold"
             style={{ backgroundColor: '#EB2D66', border: 'none' }}
           >
-            Add Employee
+            Update Employee
           </Button>
         </Form>
       </Modal.Body>
@@ -173,4 +162,4 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
   );
 };
 
-export default AddEmployeeModal;
+export default EditEmployeeModal;

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { InputGroup, FormControl, Button, Dropdown, DropdownButton, Card, Row, Col } from 'react-bootstrap';
 import Sidebar from '../../../layouts/sidebar';
-import AddEmployeeModal from '../../../components/modals/admin/AddEmployeeModal';
-import EmployeeDetailModal from '../../../components/modals/admin/DetailEmployee';
+import AddEmployeeModal from '../../../components/modals/admin/employee/AddEmployeeModal';
+import EmployeeDetailModal from '../../../components/modals/admin/employee/DetailEmployee';
+import EditEmployeeModal from '../../../components/modals/admin/employee/EditEmployee';
 import axios from 'axios';
 
 const EmployeeList = () => {
@@ -11,6 +12,7 @@ const EmployeeList = () => {
   const [showResult, setShowResult] = useState(12);
   const [showModal, setShowModal] = useState(false);
   const [showModalDetail, setShowModalDetail] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   const handleSave = (data) => {
@@ -45,7 +47,9 @@ const EmployeeList = () => {
   };
 
   const handleEdit = () => {
-    alert(`Edit ${selectedEmployee.name}`);
+    alert(`Edit ${selectedEmployee.employee_name}`);
+    setShowModalEdit(true);
+    setShowModalDetail(false);
   };
 
   const handleDelete = () => {
@@ -139,13 +143,14 @@ const EmployeeList = () => {
             </Row>
 
             {/* Modal cukup render satu kali di luar map */}
-            <EmployeeDetailModal
-              show={showModalDetail}
-              handleClose={handleCloseModal}
+            <EmployeeDetailModal show={showModalDetail} handleClose={handleCloseModal} employee={selectedEmployee} handleEdit={handleEdit} handleDelete={handleDelete} />
+            <EditEmployeeModal
+              show={showModalEdit}
+              handleClose={() => setShowModalEdit(false)}
+              onSuccessEdit={fetchEmployees}
               employee={selectedEmployee}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
             />
+
 
 
             <div className="d-flex justify-content-between align-items-center mt-3">
