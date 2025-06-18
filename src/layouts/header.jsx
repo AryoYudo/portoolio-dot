@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Lowongan from '../pages/lowongan/Lowongan';
 
 const Header = () => {
-    const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
-    };
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
-    return (
-        <header className="bg-white pb-3 pb-lg-0">
+  return (
+        <header className="bg-white position-fixed top-0 start-0 w-100 shadow-sm" style={{ zIndex: 1050 }} >
             <div className="container px-4">
                 {/* Desktop & Tablet Navbar */}
                 <nav className="d-flex align-items-center justify-content-between py-3">

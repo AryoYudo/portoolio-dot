@@ -5,12 +5,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Sidebar from '../../../layouts/sidebar';
 import AddProjectModal from '../../../components/modals/admin/project/AddProject';
+import EditProjectModal from '../../../components/modals/admin/project/EditProject';
 import axios from 'axios';
 
 const ProjectDataTable = () => {
   const [filterText, setFilterText] = useState("");
   const [data, setData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showModalAdd, setShowModalAdd] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(false);
 
   const handleSave = (formData) => {
     // Contoh: kirim ke API atau update local state
@@ -73,7 +76,15 @@ const ProjectDataTable = () => {
       button: true,
       cell: row => (
         <>
-          <Button variant="light" size="sm" className="me-2">
+          <Button
+            variant="light"
+            size="sm"
+            className="me-2"
+            onClick={() => {
+              setShowModalEdit(true);
+              setSelectedProject(row);
+            }}
+          >
             <i className="bi bi-pencil-square"></i>
           </Button>
 
@@ -112,7 +123,7 @@ const ProjectDataTable = () => {
 
             <Button
               variant="danger"
-              style={{ background: "#E31F52", borderRadius: 12 }} onClick={() => setShowModal(true)}
+              style={{ background: "#E31F52", borderRadius: 12 }} onClick={() => setShowModalAdd(true)}
             >
               + Add Project
             </Button>
@@ -125,12 +136,9 @@ const ProjectDataTable = () => {
             responsive 
             noHeader 
           />
-          <AddProjectModal
-            show={showModal}
-            handleClose={() => setShowModal(false)}
-            handleSave={handleSave}  // handleSave menerima FormData atau object
-          />
-
+          <AddProjectModal show={showModalAdd} handleClose={() => setShowModalAdd(false)} handleSave={handleSave} />
+          {selectedProject && ( <EditProjectModal show={showModalEdit} handleClose={() => setShowModalEdit(false)} project={selectedProject} handleSave={handleSave} />
+          )}
         </div>
       </div>
     </div>
