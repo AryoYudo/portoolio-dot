@@ -6,18 +6,19 @@ import axios from 'axios';
 const DotAIChatWidget = () => {
   const [showModal, setShowModal] = useState(false);
   const [showBubble, setShowBubble] = useState(true);
-  const fullText = "Need any help? Ask any information to AI Intelligence DOT now!";
   const [runningText, setRunningText] = useState('');
   const [isTypingDone, setIsTypingDone] = useState(false);
   const [chatHistory, setChatHistory] = useState([]);
   const [input, setInput] = useState('');
+  const [fromVoice, setFromVoice] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+
+  const recognitionRef = useRef(null);
   const isMobile = window.innerWidth <= 576;
 
-  // Mic
-  const [isListening, setIsListening] = useState(false);
-  const recognitionRef = useRef(null);
+  const fullText = "Need any help? Ask any information to AI Intelligence DOT now!";
 
-  // Typing bubble
+  // Running text bubble
   useEffect(() => {
     let interval;
     if (showBubble && !isTypingDone) {
@@ -51,67 +52,89 @@ const DotAIChatWidget = () => {
     }
   }, [showModal]);
 
-  // Submit handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-  
-    const userMessage = input;
+  // Initialize SpeechRecognition
+    useEffect(() => {
+        if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+            console.warn("SpeechRecognition not supported in this browser.");
+            return;
+        }
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        recognition.onresult = (event) => {
+            const voiceInput = event.results[0][0].transcript;
+            setFromVoice(true); // aktifkan TTS
+            handleSubmit(null, voiceInput); // kirim langsung ke AI
+            setIsListening(false);
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognitionRef.current = recognition;
+    }, []);
+
+  const handleSubmit = async (e, customInput = null) => {
+    if (e) e.preventDefault();
+
+        const userMessage = customInput || input;
+    if (!userMessage.trim()) return;
+
     setChatHistory(prev => [...prev, { from: 'user', text: userMessage }]);
     setInput('');
-  
+
     try {
-      const res = await axios.post(
-        'http://127.0.0.1:8000/api/ai_assistant/gemini_chat_view',
+        const res = await axios.post(
+        'http://127.0.0.1:8000/api/ai_asistant/gemini_chat_view',
         JSON.stringify({ user_input: userMessage }),
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },data: {}
+        { headers: { 'Content-Type': 'application/json' } }
+        );
+
+        const aiResponse = res.data.response || "Sorry, I couldn't get that.";
+        setChatHistory(prev => [...prev, { from: 'ai', text: aiResponse }]);
+
+        // TTS hanya jika input berasal dari mic
+        if (fromVoice) {
+        const synth = window.speechSynthesis;
+        const utter = new SpeechSynthesisUtterance(aiResponse);
+        utter.lang = 'en-US';
+        synth.speak(utter);
+
+        // Reset flag voice setelah TTS
+        utter.onend = () => {
+            setFromVoice(false);
+        };
         }
-      );
 
-      const aiResponse = res.data.response || "Sorry, I couldn't get that.";
-      setChatHistory(prev => [...prev, { from: 'ai', text: aiResponse }]);
     } catch (err) {
-      console.error("Axios error:", err);
-      setChatHistory(prev => [...prev, { from: 'ai', text: "Error: unable to reach AI." }]);
+        console.error("Axios error:", err);
+        setChatHistory(prev => [...prev, { from: 'ai', text: "Error: unable to reach AI." }]);
+        setFromVoice(false); // reset meskipun gagal
     }
-  };
-  
-
-  // Initialize mic
-  useEffect(() => {
-    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) return;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognition();
-    recognitionRef.current.continuous = false;
-    recognitionRef.current.interimResults = false;
-    recognitionRef.current.lang = 'en-US';
-
-    recognitionRef.current.onresult = (event) => {
-      const voiceInput = event.results[0][0].transcript;
-      setInput(voiceInput);
-      setIsListening(false);
     };
 
-    recognitionRef.current.onend = () => {
-      setIsListening(false);
-    };
-  }, []);
 
-  const handleMicClick = () => {
-    if (isListening) {
-      recognitionRef.current.stop();
-    } else {
+  const handleMicDown = () => {
+    if (recognitionRef.current) {
       recognitionRef.current.start();
       setIsListening(true);
     }
   };
 
+  const handleMicUp = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+  };
+
   return (
     <>
-      {/* Bubble Info */}
+      {/* Bubble Text */}
       {showBubble && (
         <div style={{
           position: 'fixed',
@@ -147,7 +170,7 @@ const DotAIChatWidget = () => {
         zIndex: 9999,
         cursor: 'pointer'
       }}>
-        <img src="/ai.svg" alt="DOT AI" width="60" height="60"
+        <img src="/ai.jpeg" alt="DOT AI" width="60" height="60"
           style={{ borderRadius: '50%', border: '4px solid #EB2D66' }} />
       </div>
 
@@ -185,7 +208,7 @@ const DotAIChatWidget = () => {
               })}
             </div>
 
-            {/* Chat Bubble History */}
+            {/* Chat Messages */}
             <div style={{ maxHeight: '250px', overflowY: 'auto', paddingBottom: '1rem' }}>
               {chatHistory.map((chat, i) => (
                 <div
@@ -212,8 +235,7 @@ const DotAIChatWidget = () => {
               ))}
             </div>
 
-
-            {/* Input Field */}
+            {/* Input Area */}
             <div style={{
               padding: '0.5rem 1rem',
               borderTop: '1px solid #eee',
@@ -235,9 +257,14 @@ const DotAIChatWidget = () => {
               </Form>
 
               {/* Mic Button */}
-              <Button variant={isListening ? 'secondary' : 'outline-secondary'}
-                onClick={handleMicClick}
-                style={{ borderRadius: '50%', width: '2.5rem', height: '2.5rem' }}>
+              <Button
+                variant={isListening ? 'secondary' : 'outline-secondary'}
+                onMouseDown={handleMicDown}
+                onMouseUp={handleMicUp}
+                onTouchStart={handleMicDown}
+                onTouchEnd={handleMicUp}
+                style={{ borderRadius: '50%', width: '2.5rem', height: '2.5rem' }}
+              >
                 <i className={`bi ${isListening ? 'bi-mic-mute-fill' : 'bi-mic-fill'}`} />
               </Button>
             </div>
