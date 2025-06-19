@@ -12,7 +12,7 @@ const Lowongan = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await axios.get('http://127.0.0.1:8000/api/vacancy/list_loker', {
+      const res = await axios.get('http://127.0.0.1:8000/api/vacancy/list_lowongan', {
         headers: {
           'Content-Type': 'application/json'
         }, data: {}
@@ -107,7 +107,7 @@ const Lowongan = () => {
           <div key={index} className="col-md-3 mb-4">
             <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
               <img
-                src="/job.png"
+                src={job.job_picture}
                 alt={job.position_job}
                 className="card-img-top"
                 style={{ height: '180px', objectFit: 'cover', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}
@@ -118,7 +118,7 @@ const Lowongan = () => {
                   <p className="card-text small">{job.short_description}</p>
                 </div>
                 <div className="text-end mt-2">
-                  <button onClick={() => navigate('/DetailLowongan')} className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                  <button onClick={() => navigate(`/DetailLowongan/${job.job_uuid}`)} className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
                     See Descriptions
                   </button>
                 </div>
