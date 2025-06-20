@@ -3,12 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 const DetailLowongan = () => {
   const { uuid } = useParams();
   const [job, setJob] = useState(null);
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    user_name: '',
+    email: '',
+    whatsapp_number: '',
+    cv_file: null
+  });
+
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
@@ -35,6 +44,47 @@ const DetailLowongan = () => {
 
     fetchDetail();
   }, [uuid]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const payload = new FormData();
+      payload.append('job_id', job.job_id);
+      payload.append('user_name', formData.user_name);
+      payload.append('email', formData.email);
+      payload.append('whatsapp_number', formData.whatsapp_number);
+      payload.append('cv_file', formData.cv_file);
+      payload.append('source', formData.source);
+
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/vacancy/applicants',
+        payload
+      );
+
+      if (response.data.status_code === 200) {
+        alert('Successfully applied!');
+        navigate('/lowongan');
+      } else {
+        alert('Submission failed.');
+      }
+    } catch (err) {
+      console.error('Error submitting application:', err);
+      alert('There was an error submitting the form.');
+    }
+  };
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, cv_file: e.target.files[0] });
+  };
+
+
 
   if (!job) {
     return (
@@ -85,38 +135,56 @@ const DetailLowongan = () => {
         <Modal.Body className="p-5">
           <h3 className="fw-bold">Welcome, New Member!</h3>
           <p className="mb-5">Job: <strong>{job.position_job}</strong></p>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label className='small'>Name</Form.Label>
-              <Form.Control type="text" placeholder="Insert Name" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className='small'>Email</Form.Label>
-              <Form.Control type="email" placeholder="Insert Email" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className='small'>WhatsApp Number</Form.Label>
-              <Form.Control type="text" placeholder="Insert WhatsApp Number" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className='small'>Upload CV (PDF)</Form.Label>
-              <Form.Control type="file" accept=".pdf" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label className='small'>
-                Where do you find us:<span className="text-danger">*</span>
-              </Form.Label>
-              <div>
-                <Form.Check inline label="Instagram" name="source" type="radio" />
-                <Form.Check inline label="Friends" name="source" type="radio" />
-                <Form.Check inline label="Other" name="source" type="radio" />
+          <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3">
+                <Form.Label className='small'>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="user_name"
+                  placeholder="Insert Name"
+                  value={formData.user_name}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className='small'>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  placeholder="Insert Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className='small'>WhatsApp Number</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="whatsapp_number"
+                  placeholder="Insert WhatsApp Number"
+                  value={formData.whatsapp_number}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label className='small'>Upload CV (PDF)</Form.Label>
+                <Form.Control
+                  type="file"
+                  name="cv_file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  required
+                />
+              </Form.Group>
+              <div className="d-flex justify-content-end gap-3">
+                <Button variant="outline-danger" onClick={handleClose}>Cancel</Button>
+                <Button variant="danger" type="submit">Send</Button>
               </div>
-            </Form.Group>
-            <div className="d-flex justify-content-end gap-3">
-              <Button variant="outline-danger" onClick={handleClose}>Cancel</Button>
-              <Button variant="danger">Send</Button>
-            </div>
-          </Form>
+            </Form>
+
         </Modal.Body>
       </Modal>
     </div>

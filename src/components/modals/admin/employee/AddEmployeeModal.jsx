@@ -13,15 +13,21 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
 
   useEffect(() => {
     if (show) {
-      axios.get('http://127.0.0.1:8000/api/master/master_position')
-        .then((response) => {
-          setPositionList(response.data.data);
-        })
-        .catch((error) => {
-          console.error('Error fetching position list:', error);
-        });
+      axios.get('http://127.0.0.1:8000/api/master/master_position', {
+        headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I',
+          'Content-Type': 'application/json',
+        },data: {}
+      })
+      .then((response) => {
+        setPositionList(response.data.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching position list:', error);
+      });
     }
   }, [show]);
+
 
 
   const handlePhotoChange = (e) => {

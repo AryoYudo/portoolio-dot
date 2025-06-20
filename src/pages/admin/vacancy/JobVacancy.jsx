@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Button, Spinner, InputGroup, FormControl } from 'react-bootstrap';
 import Sidebar from '../../../layouts/sidebar';
 import AddVacancyModal from '../../../components/modals/admin/job/AddVacancyModal';
 import EditVacancyModal from '../../../components/modals/admin/job/EditVacancyModal';
@@ -13,6 +13,7 @@ const JobVacancy = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedVacancy, setSelectedVacancy] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchJobVacancies = async () => {
     try {
@@ -25,6 +26,8 @@ const JobVacancy = () => {
       setJobList(response.data.data);
     } catch (error) {
       console.error('Error fetching job vacancies:', error);
+    }finally {
+        setLoading(false);
     }
   };
 
@@ -142,16 +145,26 @@ const JobVacancy = () => {
             </Button>
           </div>
 
-          <DataTable
-            columns={columns}
-            data={filteredData}
-            pagination
-            paginationPerPage={showResult}
-            paginationRowsPerPageOptions={[5, 10, 20]}
-            highlightOnHover
-            responsive
-            noHeader
-          />
+          
+          <div style={{ minHeight: '300px' }}>
+            {loading ? (
+              <div className="d-flex justify-content-center align-items-center" style={{ height: '200px' }}>
+                <Spinner animation="border" variant="danger" role="status" />
+              </div>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={filteredData}
+                pagination
+                paginationPerPage={showResult}
+                paginationRowsPerPageOptions={[5, 10, 20]}
+                highlightOnHover
+                responsive
+                noHeader
+              />
+            )}
+          </div>
+
 
           {/* Add Vacancy Modal */}
           <AddVacancyModal 
