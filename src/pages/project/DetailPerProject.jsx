@@ -26,9 +26,8 @@ const DetailPerProject = () => {
           <span className="mx-1">Project</span> /
           <strong>AI-Enabled Camera Vision</strong>
         </div>
-      <Row className="justify-content-center mt-4">
+      <Row className="justify-content-center">
         <Col md={12}>
-      =-
           {/* Title */}
           <h2 className="fw-bold text-center">AI-Enabled Camera Vision</h2>
           <p className="text-center text-muted" style={{ marginTop: '-5px' }}>
@@ -50,17 +49,17 @@ const DetailPerProject = () => {
             src="job.png"
             alt="Camera Vision"
             fluid
-            className="rounded shadow my-4"
+            className=" shadow "
             style={{
               border: '1px solid #dee2e6',
-              width: '100%'
+              width: '100%',
+              maxHeight: '470px',
+              objectFit: 'cover',
+              borderRadius: '12px',
             }}
           />
         </Col>
       </Row>
-
-
-
 
       {/* Description */}
       <Row className="mt-4">
@@ -106,47 +105,159 @@ const DetailPerProject = () => {
           </Row>
         </Col>
         {/* Sidebar Right */}
-        <Col md={4}>
-          <Card className="p-3 mb-4">
-            <h6 className="fw-bold">🔧 Technology used</h6>
-            <div className="d-flex flex-wrap gap-2 mt-2">
-              {technologies.map((tech, idx) => (
-                <Badge key={idx} bg="light" text="dark" className="border">
-                  {tech}
-                </Badge>
-              ))}
+    <Col md={4}>
+
+      <div className="px-3">
+        {/* Member Project */}
+        <div className="mb-4">
+          <h6 className="fw-bold border-start border-4 ps-2 border-danger  text-dark" style={{ borderColor: '#0d6efd' }}>
+            Technology Used
+          </h6>
+          <div className="d-flex flex-wrap gap-2 mt-2">
+            {technologies.map((tech, idx) => (
+              <Badge key={idx} bg="light" text="dark" className="border">
+                {tech}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+
+        {/* Member Project */}
+        <div className="mb-4">
+          <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">Member Project</h6>
+          {memberProject.map((member, i) => (
+            <div className="d-flex align-items-center mb-3" key={i}>
+              <Image src={member.image} roundedCircle width={40} height={40} className="me-2 object-fit-cover" />
+              <div>
+                <div className="fw-semibold">{member.name}</div>
+                <div className="text-muted small">{member.position}</div>
+              </div>
             </div>
-          </Card>
+          ))}
+        </div>
 
-          <Card className="p-3 mb-4">
-            <h6 className="fw-bold">👥 Member Project</h6>
-            {memberProject.map((member, i) => (
-              <div className="d-flex align-items-center mb-2" key={i}>
-                <Image src={member.image} roundedCircle width={35} height={35} className="me-2" />
-                <span>{member.name}</span>
+        {/* Member Internship Project */}
+        <div className="mb-4">
+          <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">Member Internship Project</h6>
+          {memberIntern.map((intern, i) => (
+            <div className="d-flex align-items-center mb-3" key={i}>
+              <Image src={intern.image} roundedCircle width={40} height={40} className="me-2 object-fit-cover" />
+              <div>
+                <div className="fw-semibold">{intern.name}</div>
+                <div className="text-muted small">{intern.position}</div>
               </div>
-            ))}
-          </Card>
+            </div>
+          ))}
+        </div>
 
-          <Card className="p-3 mb-4">
-            <h6 className="fw-bold">🧑‍🎓 Member Internship Project</h6>
-            {memberIntern.map((member, i) => (
-              <div className="d-flex align-items-center mb-2" key={i}>
-                <Image src={member.image} roundedCircle width={35} height={35} className="me-2" />
-                <span>{member.name}</span>
+        {/* Related Job Postings */}
+        <div className="mb-4">
+          <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">Related Job Postings</h6>
+          {relatedJobs.map((job, i) => (
+            <div className="d-flex mb-3" key={i}>
+              <Image src={job.image} rounded width={60} height={40} className="me-2 object-fit-cover" />
+              <div>
+                <div className="fw-semibold">{job.title}</div>
+                <div className="text-muted small"><a href={job.link} className="text-decoration-none">Join here!</a></div>
               </div>
-            ))}
-          </Card>
+            </div>
+          ))}
+        </div>
 
-          <Card className="p-3 mb-4">
-            <h6 className="fw-bold">💼 Related Job Posting</h6>
-            {relatedJobs.map((job, i) => (
-              <div className="d-flex align-items-center mb-2" key={i}>
-                <Image src={job.image} rounded width={45} height={30} className="me-2" />
-                <span>{job.title}</span>
+      </div>
+        </Col>
+      </Row>
+      <Row className="justify-content-center">
+        <Col md={12}>
+          {/* Full-width image */}
+          <div className="row">
+            
+              <div className="col-md-3 mb-4">
+                <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+                  <img
+                    src="job.png"
+                    className="card-img-top"
+                    style={{ height: '180px', objectFit: 'cover', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 className="card-title fw-bold">AI ASSISTANT</h5>
+                      <p className="card-text small">BLA BLA BLA BLA</p>
+                    </div>
+                    <p>2024</p>
+                    <div className="text-end mt-2">
+                      <button  className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                        Priview
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
-            ))}
-          </Card>
+              <div className="col-md-3 mb-4">
+                <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+                  <img
+                    src="job.png"
+                    className="card-img-top"
+                    style={{ height: '180px', objectFit: 'cover', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 className="card-title fw-bold">AI ASSISTANT</h5>
+                      <p className="card-text small">BLA BLA BLA BLA</p>
+                    </div>
+                    <p>2024</p>
+                    <div className="text-end mt-2">
+                      <button  className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                        Priview
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3 mb-4">
+                <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+                  <img
+                    src="job.png"
+                    className="card-img-top"
+                    style={{ height: '180px', objectFit: 'cover', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 className="card-title fw-bold">AI ASSISTANT</h5>
+                      <p className="card-text small">BLA BLA BLA BLA</p>
+                    </div>
+                    <p>2024</p>
+                    <div className="text-end mt-2">
+                      <button  className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                        Priview
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-3 mb-4">
+                <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+                  <img
+                    src="job.png"
+                    className="card-img-top"
+                    style={{ height: '180px', objectFit: 'cover', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 className="card-title fw-bold">AI ASSISTANT</h5>
+                      <p className="card-text small">BLA BLA BLA BLA</p>
+                    </div>
+                    <p>2024</p>
+                    <div className="text-end mt-2">
+                      <button  className="btn btn-outline-danger" style={{ borderRadius: '12px' }}>
+                        Priview
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
         </Col>
       </Row>
     </Container>
