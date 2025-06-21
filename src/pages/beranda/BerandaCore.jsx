@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Beranda.css'; // Optional: to add custom CSS styles
+import '../../ProjectCard.css'; // Optional: to add custom CSS styles
 import { motion } from 'framer-motion';
 
 const BerandaCore = () => {
@@ -60,6 +61,33 @@ const BerandaCore = () => {
                 "QA ensures software meets standards by testing for bugs, reporting issues, and working with developers to fix problems, ensuring the software is reliable and ready for release.",
             icon: "bi-patch-check-fill",
             color: "#E31F52",
+        },
+    ];
+    const projects = [
+        {
+            title: 'AI Smart Parking And Application',
+            category: 'Artificial Intelligence (AI)',
+            image: '/project/project1.png',
+        },
+        {
+            title: 'AI-Enhanced PCB COUNTER',
+            category: 'Artificial Intelligence (AI)',
+            image: '/project/project2.png',
+        },
+        {
+            title: 'Forklift Management System',
+            category: 'Mobile',
+            image: '/project/project3.png',
+        },
+        {
+            title: 'My Satnusa Mobile Apps',
+            category: 'Mobile',
+            image: '/project/project4.png',
+        },
+        {
+            title: 'Xiaomi AI–Powered',
+            category: 'Artificial Intelligence (AI)',
+            image: '/project/project5.png',
         },
     ];
     return (
@@ -171,170 +199,217 @@ const BerandaCore = () => {
                 </div>
             </div>
              {/* Layanan Section */}
-      <div className="row my-5">
-        <div className="text-center mb-5">
-            <motion.h3 {...fadeInUp(0)} className="fw-bold">
-            <span className="me-2 text-danger">❖</span>Layanan Utama
-            </motion.h3>
-        </div>
-
-        <motion.div {...fadeInUp(0)} className="col-md-6 d-flex justify-content-center align-items-center">
-          <img src="path-to-image.png" alt="Platform Showcase" className="img-fluid" />
-        </motion.div>
-
-        <motion.div {...fadeInUp(0.2)} className="col-md-6 ">
-          <ul className="list-unstyled mt-4">
-            {[
-              {
-                title: 'Artificial Intelligence (AI)',
-                desc: 'Solusi AI untuk mempercepat transformasi digital...',
-                icon: 'bi-cpu',
-              },
-              {
-                title: 'Internet of Things (IoT)',
-                desc: 'Integrasi IoT untuk pemantauan waktu nyata...',
-                icon: 'bi-wifi',
-              },
-              {
-                title: 'Mobile App Development',
-                desc: 'Pengembangan aplikasi mobile untuk bisnis modern...',
-                icon: 'bi-phone',
-              },
-              {
-                title: 'Web Development',
-                desc: 'Solusi digital inovatif dengan website cepat dan aman...',
-                icon: 'bi-globe',
-              },
-            ].map((item, i) => (
-              <motion.li
-                key={i}
-                className="d-flex align-items-start mb-3"
-                {...fadeInUp(0.3 + i * 0.1)}
-              >
-                <span className="text-danger fs-4 me-3">
-                  <i className={`bi ${item.icon}`}></i>
-                </span>
-                <div>
-                  <h6>{item.title}</h6>
-                  <p className="m-0 text-muted">{item.desc}</p>
+            <div className="row my-5">
+                <div className="text-center mb-5">
+                    <motion.h3 {...fadeInUp(0)} className="fw-bold">
+                    <span className="me-2 text-danger">❖</span>Layanan Utama
+                    </motion.h3>
                 </div>
-              </motion.li>
-            ))}
-          </ul>
-        </motion.div>
-      </div>
 
-      {/* Visi */}
-      <div className="text-center mb-5">
-        <motion.h3 {...fadeInUp(0)} className="fw-bold">
-          <span className="me-2 text-danger">❖</span>Visi
-        </motion.h3>
-        <motion.p {...fadeInUp(0.2)} className="fs-6 mx-auto" style={{ maxWidth: '1000px' }}>
-          "Menjadi pemimpin dalam transformasi operasi digital dengan memanfaatkan AI dan teknologi digital untuk meningkatkan efisiensi, kelincahan, pengambilan keputusan berbasis data, serta membangun budaya kerja yang inovatif dan kolaboratif demi keberlanjutan dan keunggulan kompetitif.""
-        </motion.p>
-      </div>
+                <motion.div {...fadeInUp(0)} className="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="path-to-image.png" alt="Platform Showcase" className="img-fluid" />
+                </motion.div>
 
-      {/* Misi */}
-        <div className="text-center mb-5">
-            <motion.h3 {...fadeInUp(0)} className="fw-bold">
-                <span className="me-2 text-danger">❖</span>Misi
-            </motion.h3>
-
-            <div className="row mt-4 gx-3">
-                {[
-                {
-                    title: 'Meningkatkan Efisiensi Operasional dengan Teknologi Digital dan AI',
-                    desc: 'Memanfaatkan teknologi digital dan AI untuk menyederhanakan proses, mengurangi tugas manual, dan meningkatkan produktivitas.',
-                },
-                {
-                    title: 'Pengambilan Keputusan dengan Data dan AI',
-                    desc: 'Menyediakan data akurat dan wawasan berbasis AI untuk pengambilan keputusan yang cepat dan tepat.',
-                },
-                {
-                    title: 'Inovasi dengan AI dan Solusi Digital',
-                    desc: 'Mengintegrasikan AI dengan teknologi digital untuk menciptakan solusi yang adaptif sesuai kebutuhan operasional.',
-                },
-                {
-                    title: 'Solusi Ramah Lingkungan',
-                    desc: 'Mengembangkan solusi digital berkelanjutan dengan AI untuk efisiensi lebih baik, mengurangi limbah, dan meningkatkan kinerja.',
-                },
-                {
-                    title: 'Meningkatkan Kapasitas Organisasi',
-                    desc: 'Mempromosikan keterampilan digital dan AI di organisasi, serta menanamkan budaya kerja yang inovatif, kolaboratif, dan proaktif melalui pelatihan dan kolaborasi lintas tim.',
-                },
-                {
-                    title: 'Kolaborasi Digital',
-                    desc: 'Mendorong komunikasi terbuka, kolaborasi, dan saling menghargai antar tim untuk menciptakan lingkungan kerja yang produktif, inovatif, dan responsif terhadap perubahan.',
-                },
-                ].map((item, i) => (
-                <motion.div
-                    key={i}
-                    className="col-12 col-sm-6 col-lg-4 mb-4"
-                    {...fadeInUp(0.2 + i * 0.1)}
-                >
-                    <div className="position-relative w-100">
-                    {/* Bulatan nomor */}
-                    <div
-                        className="position-absolute top-0 start-50 translate-middle"
-                        style={{
-                        zIndex: 1,
-                        width: '38px',
-                        height: '38px',
-                        backgroundColor: '#E31F52',
-                        borderRadius: '50%',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '16px',
-                        }}
+                <motion.div {...fadeInUp(0.2)} className="col-md-6 ">
+                <ul className="list-unstyled mt-4">
+                    {[
+                    {
+                        title: 'Artificial Intelligence (AI)',
+                        desc: 'Solusi AI untuk mempercepat transformasi digital...',
+                        icon: 'bi-cpu',
+                    },
+                    {
+                        title: 'Internet of Things (IoT)',
+                        desc: 'Integrasi IoT untuk pemantauan waktu nyata...',
+                        icon: 'bi-wifi',
+                    },
+                    {
+                        title: 'Mobile App Development',
+                        desc: 'Pengembangan aplikasi mobile untuk bisnis modern...',
+                        icon: 'bi-phone',
+                    },
+                    {
+                        title: 'Web Development',
+                        desc: 'Solusi digital inovatif dengan website cepat dan aman...',
+                        icon: 'bi-globe',
+                    },
+                    ].map((item, i) => (
+                    <motion.li
+                        key={i}
+                        className="d-flex align-items-start mb-3"
+                        {...fadeInUp(0.3 + i * 0.1)}
                     >
-                        {i + 1}
-                    </div>
-
-                    {/* Card konten */}
-                        <div className="bg-white rounded-3 shadow-sm pt-4 pb-3 px-3" style={{ paddingTop: '3rem', minHeight: '180px' }}>
-                            <h6 className="fw-bold mt-2">{item.title}</h6>
-                            <p className="mb-0 text-muted">{item.desc}</p>
+                        <span className="text-danger fs-4 me-3">
+                        <i className={`bi ${item.icon}`}></i>
+                        </span>
+                        <div>
+                        <h6>{item.title}</h6>
+                        <p className="m-0 text-muted">{item.desc}</p>
                         </div>
+                    </motion.li>
+                    ))}
+                </ul>
+                </motion.div>
+            </div>
+
+            {/* Visi */}
+            <div className="text-center mb-5">
+                <motion.h3 {...fadeInUp(0)} className="fw-bold">
+                <span className="me-2 text-danger">❖</span>Visi
+                </motion.h3>
+                <motion.p {...fadeInUp(0.2)} className="fs-6 mx-auto" style={{ maxWidth: '1000px' }}>
+                "Menjadi pemimpin dalam transformasi operasi digital dengan memanfaatkan AI dan teknologi digital untuk meningkatkan efisiensi, kelincahan, pengambilan keputusan berbasis data, serta membangun budaya kerja yang inovatif dan kolaboratif demi keberlanjutan dan keunggulan kompetitif.""
+                </motion.p>
+            </div>
+
+            {/* Misi */}
+                <div className="text-center mb-5">
+                    <motion.h3 {...fadeInUp(0)} className="fw-bold mb-4">
+                        <span className="me-2 text-danger">❖</span>Misi
+                    </motion.h3>
+
+                    <div className="row mt-4 gx-3">
+                        {[
+                        {
+                            title: 'Meningkatkan Efisiensi Operasional dengan Teknologi Digital dan AI',
+                            desc: 'Memanfaatkan teknologi digital dan AI untuk menyederhanakan proses, mengurangi tugas manual, dan meningkatkan produktivitas.',
+                        },
+                        {
+                            title: 'Pengambilan Keputusan dengan Data dan AI',
+                            desc: 'Menyediakan data akurat dan wawasan berbasis AI untuk pengambilan keputusan yang cepat dan tepat.',
+                        },
+                        {
+                            title: 'Inovasi dengan AI dan Solusi Digital',
+                            desc: 'Mengintegrasikan AI dengan teknologi digital untuk menciptakan solusi yang adaptif sesuai kebutuhan operasional.',
+                        },
+                        {
+                            title: 'Solusi Ramah Lingkungan',
+                            desc: 'Mengembangkan solusi digital berkelanjutan dengan AI untuk efisiensi lebih baik, mengurangi limbah, dan meningkatkan kinerja.',
+                        },
+                        {
+                            title: 'Meningkatkan Kapasitas Organisasi',
+                            desc: 'Mempromosikan keterampilan digital dan AI di organisasi, serta menanamkan budaya kerja yang inovatif, kolaboratif, dan proaktif melalui pelatihan dan kolaborasi lintas tim.',
+                        },
+                        {
+                            title: 'Kolaborasi Digital',
+                            desc: 'Mendorong komunikasi terbuka, kolaborasi, dan saling menghargai antar tim untuk menciptakan lingkungan kerja yang produktif, inovatif, dan responsif terhadap perubahan.',
+                        },
+                        ].map((item, i) => (
+                        <motion.div
+                            key={i}
+                            className="col-12 col-sm-6 col-lg-4 mb-4"
+                            {...fadeInUp(0.2 + i * 0.1)}
+                        >
+                            <div className="position-relative w-100">
+                            {/* Bulatan nomor */}
+                            <div
+                                className="position-absolute top-0 start-50 translate-middle"
+                                style={{
+                                zIndex: 1,
+                                width: '38px',
+                                height: '38px',
+                                backgroundColor: '#E31F52',
+                                borderRadius: '50%',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '16px',
+                                }}
+                            >
+                                {i + 1}
+                            </div>
+
+                            {/* Card konten */}
+                                <div className="bg-white rounded-3 shadow-sm pt-4 pb-3 px-3" style={{ paddingTop: '3rem', minHeight: '180px' }}>
+                                    <h6 className="fw-bold mt-2">{item.title}</h6>
+                                    <p className="mb-0 text-muted">{item.desc}</p>
+                                </div>
+                            </div>
+                        </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+            {/* Tim */}
+            <div className="text-center mb-5">
+                <motion.h2 {...fadeInUp(0.1)} className="fw-bold">
+                <span className="me-2 text-danger">❖</span>Team Core
+                </motion.h2>
+                <motion.p {...fadeInUp(0.2)} className="text-muted">
+                The core team is the central group responsible for driving strategy...
+                </motion.p>
+            </div>
+
+            <div className="row row-cols-1 row-cols-md-2 g-4">
+                {teamRoles.map((role, i) => (
+                <motion.div key={i} className="col" {...fadeInUp(i * 0.2)}>
+                    <div className="card h-100 border-0 shadow-sm p-3">
+                    <div className="d-flex align-items-start">
+                        <span className="me-3 fs-2" style={{ color: role.color }}>
+                        <i className={`bi ${role.icon}`}></i>
+                        </span>
+                        <div>
+                        <h5 className="fw-bold">{role.title}</h5>
+                        <p className="text-muted m-0">{role.description}</p>
+                        </div>
+                    </div>
                     </div>
                 </motion.div>
                 ))}
             </div>
-        </div>
+            <div className='mt-5 mb-5'>
+  <motion.h1
+    className="text-center fw-bold"
+    {...fadeInUp(0)}
+  >
+    DOT PROJECT
+  </motion.h1>
 
+  <motion.div
+    className="d-flex flex-wrap justify-content-center gap-2"
+    {...fadeInUp(0.2)}
+  >
+    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+  </motion.div>
 
+  <motion.hr
+    style={{ borderTop: '2px solid', margin: '9px 0' }}
+    {...fadeInUp(0.4)}
+  />
+</div>
 
-
-      {/* Tim */}
-      <div className="text-center mb-5">
-        <motion.h2 {...fadeInUp(0.1)} className="fw-bold">
-          <span className="me-2 text-danger">❖</span>Team Core
-        </motion.h2>
-        <motion.p {...fadeInUp(0.2)} className="text-muted">
-          The core team is the central group responsible for driving strategy...
-        </motion.p>
+<div className="d-flex flex-wrap justify-content-center gap-3 mt-5">
+  {projects.map((project, index) => (
+    <motion.div
+      key={index}
+      className={`project-card position-relative custom-card ${index % 2 === 0 ? 'up' : 'down'}`}
+      {...fadeInUp(0.3 + index * 0.1)}
+    >
+      <img src={project.image} alt={project.title} className="project-img" />
+      <div className="gradient-overlay rounded-4"></div>
+      <span className="badge-category">
+        <i className="bi bi-cpu me-1" />
+        {project.category}
+      </span>
+      <div className="project-title">
+        <span>{project.title}</span>
       </div>
+    </motion.div>
+  ))}
+</div>
 
-      <div className="row row-cols-1 row-cols-md-2 g-4">
-        {teamRoles.map((role, i) => (
-          <motion.div key={i} className="col" {...fadeInUp(i * 0.2)}>
-            <div className="card h-100 border-0 shadow-sm p-3">
-              <div className="d-flex align-items-start">
-                <span className="me-3 fs-2" style={{ color: role.color }}>
-                  <i className={`bi ${role.icon}`}></i>
-                </span>
-                <div>
-                  <h5 className="fw-bold">{role.title}</h5>
-                  <p className="text-muted m-0">{role.description}</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-            
+{/* See More */}
+<motion.div className="text-center mt-4" {...fadeInUp(0.8)}>
+  <a href="#" className="text-primary fw-bold" style={{ fontSize: '14px' }}>
+    See more &gt;
+  </a>
+</motion.div>
+
         </div>
     );
 }
