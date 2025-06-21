@@ -1,10 +1,12 @@
-import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Beranda.css'; // Optional: to add custom CSS styles
 import '../../ProjectCard.css'; // Optional: to add custom CSS styles
-import { motion } from 'framer-motion';
+import { Container, Row, Col, Image, Carousel  } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import '../../TeamCarousel.css';
 
-const BerandaCore = () => {
+const Beranda = () => {
     // Reusable motion variants
     const fadeInUp = (delay = 0) => ({
         initial: { opacity: 0, y: 30 },
@@ -90,6 +92,39 @@ const BerandaCore = () => {
             image: '/project/project5.png',
         },
     ];
+    const teamData = [
+        {
+            name: 'Abidin Fan Hasibuan',
+            title: 'President Director',
+            image: '/management/abidin.png',
+            description: `Since 1990, Abidin has been served as the Company’s President Director. Previously, he was the Production Manager of PT Singamip (1989-1990) and General Manager of PT Hi Tech Agratekron Sempurna (1987-1989). Abidin has also been the Chairman of DPK APINDO Batam since 2003 and DPP APINDO Riau Island since 2004, and Board of Advisors member of PSMTI. Honorary Board of APINDO Kepri since 2009. He was appointed by deed No.14 through Extraordinary Shareholders Meeting of the Company, dated August 7, 2007, made by Fathiah Helmi, SH, Notary in Jakarta.`,
+        },
+        {
+            name: 'Bidin Yusuf',
+            title: 'Operational Director',
+            image: '/management/bidin.png',
+            description: `Since 2007, Bidin Yusuf has been assigned as the Company’s Operational Director. Formerly, he was the General Manager of PT Sat Nusapersada Brothers (1995-2007) and the Company (1999-2007), and Supervisor of PT McDermott Indonesia (1982-1995). He was appointed by deed No.14 through Extraordinary Shareholders Meeting of the Company, dated August 7, 2007, made by Fathiah Helmi, SH, Notary in Jakarta. He obtained his Diploma degree from International Correspondence Schools.`,
+        },
+        {
+            name: 'Alex Chandra',
+            title: 'Wakil Operational Director',
+            image: '/management/alex.png',
+            description: `Since 1990, Abidin has been served as the Company’s President Director. Previously, he was the Production Manager of PT Singamip (1989-1990) and General Manager of PT Hi Tech Agratekron Sempurna (1987-1989). Abidin has also been the Chairman of DPK APINDO Batam since 2003 and DPP APINDO Riau Island since 2004, and Board of Advisors member of PSMTI. Honorary Board of APINDO Kepri since 2009. He was appointed by deed No.14 through Extraordinary Shareholders Meeting of the Company, dated August 7, 2007, made by Fathiah Helmi, SH, Notary in Jakarta.`,
+        },
+        {
+            name: 'Jemmy Loew',
+            title: 'General Manager',
+            image: '/management/jemmy.png',
+            description: `Jemmy Leow is a dedicated and results-oriented professional with over 14 years of experience in electronic manufacturing. Starting as a Production Superintendent in the SMT Department, he later moved into Production Planning & Control to broaden his experience with customer relations. After six years, he was appointed to lead PT SM Engineering, where he successfully managed full factory operations and drove significant growth, achieving a fivefold increase in sales and receiving prestigious awards from clients like Sony, Kenwood, and Panasonic.`,
+        },
+        {
+            name: 'Ali Sadikin',
+            title: 'Head Of Digital Operation Transformation',
+            image: '/management/ali.png',
+            description: `5 year experienced in Digital Transformation Both National and International Three time awarded for the transformation  of business to digital 4.0 at various national levels throughout Indonesia 1 st Place Winner of NEXTDEV TELEKOMSEL 1 st Place Winner of StartUp Wordcup Top 10 of Bubu Awards 8 Year experience as a Software Consultant in a multinational company in Singapore I Have Participated in several international conferences organized by Google in Silicon Valley - USA as well as the UNCTAD & ALIBABA e-founder fellowship program in Hangzhou, China.`,
+        },
+    ];
+
     return (
         <div className="container my-5">
             <div className="row">
@@ -360,58 +395,180 @@ const BerandaCore = () => {
                 ))}
             </div>
             <div className='mt-5 mb-5'>
-  <motion.h1
-    className="text-center fw-bold"
-    {...fadeInUp(0)}
-  >
-    DOT PROJECT
-  </motion.h1>
+                <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-3" >
+                    <h2 className="">DOT PROJECT</h2>
+                    <div className="d-flex flex-wrap justify-content-center gap-2">
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
+                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
+                    </div>
+                    <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+                </motion.div>
+            </div>
 
-  <motion.div
-    className="d-flex flex-wrap justify-content-center gap-2"
-    {...fadeInUp(0.2)}
-  >
-    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-  </motion.div>
+            <div className="d-flex flex-wrap justify-content-center gap-3 mt-5">
+                {projects.map((project, index) => (
+                    <motion.div
+                    key={index}
+                    className={`project-card position-relative custom-card ${index % 2 === 0 ? 'up' : 'down'}`}
+                    {...fadeInUp(0.3 + index * 0.1)}
+                    >
+                    <img src={project.image} alt={project.title} className="project-img" />
+                    <div className="gradient-overlay rounded-4"></div>
+                    <span className="badge-category">
+                        <i className="bi bi-cpu me-1" />
+                        {project.category}
+                    </span>
+                    <div className="project-title">
+                        <span>{project.title}</span>
+                    </div>
+                    </motion.div>
+                ))}
+            </div>
 
-  <motion.hr
-    style={{ borderTop: '2px solid', margin: '9px 0' }}
-    {...fadeInUp(0.4)}
-  />
-</div>
+            {/* See More */}
+            <motion.div className="text-center mb-4" {...fadeInUp(0.8)}>
+                <a href="/projectlist" className="text-primary fw-bold" style={{ fontSize: '14px' }}>
+                    See more &gt;
+                </a>
+            </motion.div>
 
-<div className="d-flex flex-wrap justify-content-center gap-3 mt-5">
-  {projects.map((project, index) => (
-    <motion.div
-      key={index}
-      className={`project-card position-relative custom-card ${index % 2 === 0 ? 'up' : 'down'}`}
-      {...fadeInUp(0.3 + index * 0.1)}
-    >
-      <img src={project.image} alt={project.title} className="project-img" />
-      <div className="gradient-overlay rounded-4"></div>
-      <span className="badge-category">
-        <i className="bi bi-cpu me-1" />
-        {project.category}
-      </span>
-      <div className="project-title">
-        <span>{project.title}</span>
-      </div>
-    </motion.div>
-  ))}
-</div>
+            {/* Section Header */}
+            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-4" >
+                <h2 className="">OUR TEAM CULTURE</h2>
+                <div className="d-flex flex-wrap justify-content-center gap-2">
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
+                </div>
+                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+            </motion.div>
 
-{/* See More */}
-<motion.div className="text-center mt-4" {...fadeInUp(0.8)}>
-  <a href="#" className="text-primary fw-bold" style={{ fontSize: '14px' }}>
-    See more &gt;
-  </a>
-</motion.div>
+            {/* SECTION 1 - from Left */}
+            <motion.div initial={{ opacity: 0, x: -100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={4} xs={12} className="mb-3 mb-md-0">
+                    <Image src="/ourteam/diner.png" alt="Team Achievement Dinner" className="w-100 rounded shadow" />
+                    </Col>
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Team Achievement Dinner</h3>
+                    <p>TTim DOT merayakan kesuksesan menyelesaikan proyek dengan kebersamaan dalam makan malam yang hangat. Tawa, cerita sukses, dan apresiasi mengalir di antara anggota tim, menciptakan momen penuh semangat dan inspirasi. Ini menjadi pemicu bagi kami untuk menghadapi tantangan proyek berikutnya dengan antusiasme yang lebih besar.</p>
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* SECTION 2 - from Right */}
+            <motion.div initial={{ opacity: 0, x: 100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Morning Scrum Meeting</h3>
+                    <p>Setiap pagi, tim kami mengadakan rapat harian untuk menyelaraskan tugas dan menetapkan target harian. Rapat ini bertujuan memastikan setiap anggota memahami peran dan tanggung jawab mereka, serta mengidentifikasi prioritas utama hari itu. Dengan komunikasi yang terbuka, rapat ini menjaga koordinasi yang baik antar tim, meminimalkan hambatan, dan memastikan semua anggota siap bekerja menuju tujuan yang sama dengan fokus yang jelas.</p>
+                    </Col>
+                    <Col md={4} xs={12} className="mt-3 mt-md-0">
+                    <Image src="/ourteam/scrum.png" alt="Morning Scrum" className="w-100 rounded shadow" />
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* SECTION 3 - from Left */}
+            <motion.div initial={{ opacity: 0, x: -100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={4} xs={12} className="mb-3 mb-md-0">
+                    <Image src="/ourteam/holiday.png" alt="Holiday" className="w-100 rounded shadow" />
+                    </Col>
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Holiday</h3>
+                    <p>Kebersamaan Tim DOT tercermin dalam setiap momen, mulai dari liburan bersama hingga perayaan hari-hari besar. Kegiatan ini bukan hanya sebagai ajang rekreasi, tetapi juga sebagai kesempatan untuk membangun keakraban antar anggota tim. Momen-momen ini mempererat hubungan, memperkuat rasa saling percaya, dan menciptakan semangat kolaborasi yang solid. Dengan sinergi yang kuat, tim semakin kompak dalam menghadapi setiap tantangan proyek yang datang.</p>
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* SECTION 4 - from Right */}
+            <motion.div initial={{ opacity: 0, x: 100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Sharing Session</h3>
+                    <p>Setiap Jumat sore, tim kami rutin mengadakan sesi berbagi pengetahuan, ide, dan pengalaman. Dalam suasana yang santai namun produktif, anggota tim saling bertukar wawasan untuk meningkatkan keterampilan masing-masing. Kegiatan ini juga menjadi sarana untuk memperkuat kolaborasi, mendorong inovasi, dan membangun rasa saling mendukung dalam mencapai tujuan bersama. Melalui sesi ini, tim terus berkembang dan siap menghadapi tantangan dengan pengetahuan yang lebih luas.</p>
+                    </Col>
+                    <Col md={4} xs={12} className="mt-3 mt-md-0">
+                    <Image src="/ourteam/sharing.png" alt="Sharing Session" className="w-100 rounded shadow" />
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* SECTION 5 - from Left */}
+            <motion.div initial={{ opacity: 0, x: -100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={4} xs={12} className="mb-3 mb-md-0">
+                    <Image src="/ourteam/icebreaking.png" alt="Ice Breaking" className="w-100 rounded shadow" />
+                    </Col>
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Ice Breaking</h3>
+                    <p>Sebagai bagian dari dinamika Tim DOT, kami rutin melakukan sesi ice breaking sebelum memulai rapat atau kegiatan besar. Ice breaking ini bertujuan mencairkan suasana, membangun keakraban, dan mendorong interaksi yang lebih santai di antara anggota Tim DOT. Dengan berbagai permainan dan aktivitas ringan, setiap anggota merasa lebih nyaman, terbuka, dan terhubung satu sama lain. Ini tidak hanya meningkatkan suasana kerja yang positif, tetapi juga memperkuat kolaborasi dan komunikasi, menjadikan Tim DOT lebih solid dan siap bekerja sama secara efektif dalam menghadapi setiap tantangan.</p>
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* SECTION 6 - from Right */}
+            <motion.div className='mb-5' initial={{ opacity: 0, x: 100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
+                <Row className="align-items-center mt-5">
+                    <Col md={8} xs={12}>
+                    <h3 className="fw-bold">Team Bonding</h3>
+                    <p>Sebagai bagian dari dinamika Tim DOT, kami merayakan kegiatan besar Team Boanding. Team Bonding ini bertujuan mencairkan suasana, membangun keakraban, dan mendorong interaksi yang lebih santai di antara anggota Tim DOT. Dengan berbagai permainan dan aktivitas ringan, setiap anggota merasa lebih nyaman, terbuka, dan terhubung satu sama lain. Ini tidak hanya meningkatkan suasana kerja yang positif, tetapi juga memperkuat kolaborasi dan komunikasi, menjadikan Tim DOT lebih solid dan siap bekerja sama secara efektif dalam menghadapi setiap tantangan.</p>
+                    </Col>
+                    <Col md={4} xs={12} className="mt-3 mt-md-0">
+                    <Image src="/ourteam/bonding.png" alt="Team Bonding" className="w-100 rounded shadow" />
+                    </Col>
+                </Row>
+            </motion.div>
+
+            {/* Section Header */}
+            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
+                <h2 className="">TOP MANAGEMENT</h2>
+                <div className="d-flex flex-wrap justify-content-center gap-2">
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
+                </div>
+                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+            </motion.div>
+           <div className="team-carousel-wrapper align-items-center">
+                <Carousel indicators={false} controls={true} interval={null}>
+                    {teamData.map((member, index) => (
+                    <Carousel.Item key={index}>
+                        <motion.div
+                        className="carousel-card d-flex align-items-center justify-content-between flex-wrap shadow-lg"
+                        {...fadeInUp(0.2 + index * 0.1)}
+                        >
+                        <div className="carousel-image">
+                            <img
+                            src={member.image}
+                            alt={member.name}
+                            className="img-fluid fixed-image"
+                            />
+                        </div>
+                        <div className="carousel-text me-4 text-white">
+                            <h2 className="fw-bold text-danger">{member.name}</h2>
+                            <h5 className="fw-bold">{member.title}</h5>
+                            <p className="fst-italic mt-3">{member.description}</p>
+                        </div>
+                        </motion.div>
+                    </Carousel.Item>
+                    ))}
+                </Carousel>
+                </div>
 
         </div>
     );
 }
 
-export default BerandaCore;
+export default Beranda;

@@ -1,0 +1,136 @@
+.team-carousel-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-card {
+  background-color: #2b2b2b;
+  border-radius: 20px;
+  padding: 30px 40px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.carousel-image {
+  width: 250px;
+  height: 350px;
+  flex-shrink: 0;
+}
+
+
+.carousel-image img.fixed-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  display: block;
+}
+
+.carousel-text {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Carousel Arrows */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+  background-size: 100% 100%;
+  width: 40px;
+  height: 40px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+  z-index: 10;
+  position: absolute;
+}
+
+.carousel-control-prev {
+  left: -50px;
+}
+
+.carousel-control-next {
+  right: -50px;
+}
+
+/* ========= TABLET ========= */
+@media (max-width: 991.98px) {
+  .carousel-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    min-height: auto;
+  }
+
+  .carousel-text {
+    margin-top: 20px;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 50px;
+    height: 50px;
+  }
+
+  .carousel-control-prev {
+    left: -50px;
+  }
+
+  .carousel-control-next {
+    right: -50px;
+  }
+}
+
+/* ========= MOBILE ========= */
+@media (max-width: 576.98px) {
+  .carousel-card {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .carousel-image {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .carousel-image img.fixed-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 5 / 6;
+    object-fit: cover;
+  }
+
+  .carousel-text {
+    margin-top: 15px;
+  }
+
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 40px;
+    height: 40px;
+  }
+
+  .carousel-control-prev {
+    left: -40px;
+  }
+
+  .carousel-control-next {
+    right: -40px;
+  }
+}
