@@ -84,8 +84,6 @@ const DetailLowongan = () => {
     setFormData({ ...formData, cv_file: e.target.files[0] });
   };
 
-
-
   if (!job) {
     return (
       <div className="container my-5 text-center">

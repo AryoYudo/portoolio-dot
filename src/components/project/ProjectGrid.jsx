@@ -18,7 +18,7 @@ const projects = [
   },
   {
     category: 'Mobile',
-    icon: 'https://via.placeholder.com/16',
+    icon: 'https://via.placeholzder.com/16',
     title: 'Forklift Management System',
     imageUrl: 'https://via.placeholder.com/300',
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Image, Badge, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const technologies = ['AI Vision', 'Camera Vision', 'Python', 'Object Detection', 'Image Classification'];
 const memberProject = [
@@ -26,6 +27,10 @@ const DetailPerProject = () => {
           <span className="mx-1">Project</span> /
           <strong>AI-Enabled Camera Vision</strong>
         </div>
+      <nav className="mb-3">
+        <Link to="/" className="me-2 text-decoration-none text-dark">{`< Beranda`}</Link> /
+        <Link to="/lowongan" className="mx-2 text-decoration-none text-dark">Join Us</Link> /
+      </nav>
       <Row className="justify-content-center">
         <Col md={12}>
           {/* Title */}
