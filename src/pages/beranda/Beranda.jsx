@@ -2,11 +2,76 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Beranda.css'; // Optional: to add custom CSS styles
 import '../../ProjectCard.css'; // Optional: to add custom CSS styles
 import { Container, Row, Col, Image, Carousel  } from 'react-bootstrap';
-import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../TeamCarousel.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const Beranda = () => {
+    const [employees, setEmployees] = useState([]);
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/master_employee/list_employee', {
+        headers: {
+            'Content-Type': 'application/json',
+        },data: {}
+        })
+        .then((response) => {
+            if (response.data.status_code === 200) {
+            setEmployees(response.data.data);
+            }
+        })
+        .catch((error) => console.error('Error fetching employee data:', error));
+    }, []);
+
+    const getByPosition = (keyword) =>
+        employees.filter((emp) =>
+        emp.employee_position.toLowerCase().includes(keyword.toLowerCase())
+        );
+
+    const hod = getByPosition('HOD')[0];
+
+    const projectManagers = employees.filter(
+        (emp) => emp.employee_position.toLowerCase().includes('project manager')
+    );
+
+    const systemAnalysts = employees.filter(
+        (emp) =>
+        emp.employee_position.toLowerCase().includes('system analyst') &&
+        emp.employee_status.toLowerCase() === 'staff'
+    );
+
+    const staffUuids = new Set([
+        ...(hod ? [hod.employee_uuid] : []),
+        ...projectManagers.map((e) => e.employee_uuid),
+        ...systemAnalysts.map((e) => e.employee_uuid),
+    ]);
+
+    const otherStaff = employees.filter(
+        (emp) => emp.employee_status === 'Staff' && !staffUuids.has(emp.employee_uuid)
+    );
+
+    const otherIntern = employees.filter(
+        (emp) => emp.employee_status === 'Internship' && !staffUuids.has(emp.employee_uuid)
+    );
+
+    const imageStyle = {
+        width: '150px',
+        height: '150px',
+        borderRadius: '20px',
+        objectFit: 'cover',
+        filter: 'grayscale(100%)',
+        transition: 'filter 0.3s ease',
+    };
+
+    const imageHoverStyle = {
+        filter: 'grayscale(0%)',
+    };
+
+    const memberStyle = {
+        textAlign: 'center',
+        margin: '20px',
+        width: '150px',
+    };
     // Reusable motion variants
     const fadeInUp = (delay = 0) => ({
         initial: { opacity: 0, y: 30 },
@@ -427,7 +492,7 @@ const Beranda = () => {
 
             {/* See More */}
             <motion.div className="text-center mb-4" {...fadeInUp(0.8)}>
-                <a href="/projectlist" className="text-primary fw-bold" style={{ fontSize: '14px' }}>
+                <a href="/user/project" className="text-primary fw-bold" style={{ fontSize: '14px' }}>
                     See more &gt;
                 </a>
             </motion.div>
@@ -561,7 +626,121 @@ const Beranda = () => {
                     </Carousel.Item>
                     ))}
                 </Carousel>
+            </div>
+            {/* Section Header */}
+            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
+                <h2 className="">DOT TEAM</h2>
+                <div className="d-flex flex-wrap justify-content-center gap-2">
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
                 </div>
+                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+            </motion.div>
+
+            <div style={{ maxWidth: '1000px', margin: '60px auto', padding: '20px' }}>
+                {/* HOD */}
+                {hod && (
+                    <motion.div style={{ display: 'flex', justifyContent: 'center' }} {...fadeInUp(0)}>
+                    <div style={memberStyle}>
+                        <div
+                        style={{ position: 'relative' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(100%)';
+                        }}
+                        >
+                        <img src={hod.employee_picture} alt={hod.employee_name} style={imageStyle} />
+                        </div>
+                        <p style={{ fontWeight: 'bold', margin: 0 }}>{hod.employee_name}</p>
+                        <p style={{ fontSize: '12px', color: '#888', margin: 0 }}>{hod.employee_position}</p>
+                    </div>
+                    </motion.div>
+                )}
+
+                {/* PM + SA */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {[...projectManagers, ...systemAnalysts].map((member, i) => (
+                    <motion.div style={memberStyle} key={member.employee_uuid} {...fadeInUp(0.1 + i * 0.1)}>
+                        <div
+                        style={{ position: 'relative' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(100%)';
+                        }}
+                        >
+                        <img src={member.employee_picture} alt={member.employee_name} style={imageStyle} />
+                        </div>
+                        <p style={{ fontWeight: 'bold', margin: 0 }}>{member.employee_name}</p>
+                        <p style={{ fontSize: '12px', color: '#888', margin: 0 }}>{member.employee_position}</p>
+                    </motion.div>
+                    ))}
+                </div>
+
+                {/* Other Staff */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {otherStaff.map((member, i) => (
+                    <motion.div style={memberStyle} key={member.employee_uuid} {...fadeInUp(0.2 + i * 0.05)}>
+                        <div
+                        style={{ position: 'relative' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(100%)';
+                        }}
+                        >
+                        <img src={member.employee_picture} alt={member.employee_name} style={imageStyle} />
+                        </div>
+                        <p style={{ fontWeight: 'bold', margin: 0 }}>{member.employee_name}</p>
+                        <p style={{ fontSize: '12px', color: '#888', margin: 0 }}>{member.employee_position}</p>
+                    </motion.div>
+                    ))}
+                </div>
+            </div>
+            {/* Section Header */}
+            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
+                <h2 className="">INTERNSHIP IN DOT</h2>
+                <div className="d-flex flex-wrap justify-content-center gap-2">
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
+                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
+                </div>
+                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
+            </motion.div>
+            <div style={{ maxWidth: '1000px', margin: '60px auto', padding: '20px' }}>
+            {/* Other Staff */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                    {otherIntern.map((member, i) => (
+                    <motion.div style={memberStyle} key={member.employee_uuid} {...fadeInUp(0.2 + i * 0.05)}>
+                        <div
+                        style={{ position: 'relative' }}
+                        onMouseEnter={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(0%)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.currentTarget.querySelector('img').style.filter = 'grayscale(100%)';
+                        }}
+                        >
+                        <img src={member.employee_picture} alt={member.employee_name} style={imageStyle} />
+                        </div>
+                        <p style={{ fontWeight: 'bold', margin: 0 }}>{member.employee_name}</p>
+                        <p style={{ fontSize: '12px', color: '#888', margin: 0 }}>{member.employee_position}</p>
+                    </motion.div>
+                    ))}
+                </div>
+            </div>
+
 
         </div>
     );

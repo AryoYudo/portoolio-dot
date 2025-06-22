@@ -31,10 +31,10 @@ function App() {
         {/* <Route path="/" element={ <UserLayout> <> <Beranda /> <About /> <Project /> <TeamCulture /> <DotAIChatWidget /> </> </UserLayout> } /> */}
         <Route path="/" element={ <UserLayout> <> <Beranda />  <DotAIChatWidget /> </> </UserLayout> } />
         {/* <Route path="/detailproject" element={ <UserLayout> <> <DetailProject /> <DotAIChatWidget /> </> </UserLayout> } /> */}
-        <Route path="/projectlist" element={ <UserLayout> <> <ProjectPerList /> <DotAIChatWidget /> </> </UserLayout> } />
-        <Route path="/detail_per_project" element={ <UserLayout> <> <DetailPerProject /> <DotAIChatWidget /> </> </UserLayout> } />
-        <Route path="/lowongan" element={ <UserLayout> <> <Lowongan /> <DotAIChatWidget /> </> </UserLayout> } />
-        <Route path="/detailLowongan/:uuid" element={ <UserLayout> <> <DetailLowongan /> <DotAIChatWidget /> </> </UserLayout> } />
+        <Route path="/user/project" element={ <UserLayout> <> <ProjectPerList /> <DotAIChatWidget /> </> </UserLayout> } />
+        <Route path="/user/detail_per_project" element={ <UserLayout> <> <DetailPerProject /> <DotAIChatWidget /> </> </UserLayout> } />
+        <Route path="/user/lowongan" element={ <UserLayout> <> <Lowongan /> <DotAIChatWidget /> </> </UserLayout> } />
+        <Route path="/user/detailLowongan/:uuid" element={ <UserLayout> <> <DetailLowongan /> <DotAIChatWidget /> </> </UserLayout> } />
 
         {/* Admin Pages (tanpa DOT AI Chat) */}
         <Route path="/admin/login" element={<LoginAdmin />} />
