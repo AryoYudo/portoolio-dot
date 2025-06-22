@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'; // tambahin useEffect di sin
 import { Modal, Button, Form, Image } from 'react-bootstrap';
 import '../../../../App.css';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 
 const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
   const [name, setName] = useState('');
@@ -48,6 +50,18 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
     }
 
     try {
+      const result = await Swal.fire({
+        title: 'Add New Employee?',
+        text: 'Are you sure the entered data is correct?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, save it!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#E31F52' // 🔴 hanya ini yang diubah
+      });
+
+      if (!result.isConfirmed) return;
+
       await axios.post(
         'http://127.0.0.1:8000/api/master_employee/add_master_employee',
         formData,
@@ -58,6 +72,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
           },
         }
       );
+
       // Reset form setelah berhasil
       setName('');
       setStatus('Employee');
@@ -66,11 +81,15 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
       setPhotoFile(null);
       handleClose();
       if (onSuccessAdd) onSuccessAdd();
+
+      await Swal.fire('Success!', 'Employee has been added.', 'success');
+
     } catch (error) {
       console.error('Error saving employee:', error);
-      alert('Failed to add employee. Check console for error detail.');
+      await Swal.fire('Error', 'Failed to add employee. Please check the console.', 'error');
     }
   };
+
 
   return (
     <Modal

@@ -213,25 +213,21 @@ const Beranda = () => {
                 </motion.div>
 
                 {/* Image Section */}
-                <div className="col-md-4 d-flex align-items-end justify-content-end image-section">
-                    <div className="image-stack">
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
-                            <img src="/home/1.png" alt="Digital Solutions Illustration 1" className="stacked-image" />
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
-                            <img src="/home/2.png" alt="Digital Solutions Illustration 2" className="stacked-image" />
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
-                            <img src="/home/3.png" alt="Digital Solutions Illustration 3" className="stacked-image" />
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
-                            <img src="/home/4.png" alt="Digital Solutions Illustration 4" className="stacked-image" />
-                        </motion.div>
-                        <motion.div initial={{ opacity: 0, y: -100 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.5, delay: 2 }}>
-                            <img src="/home/5.png" alt="Digital Solutions Illustration 5" className="stacked-image" />
-                        </motion.div>
-                    </div>
+                <div className="col-md-4 d-flex">
+                    <motion.div
+                        {...fadeInUp(0)}
+                        className="col-md-6 d-flex justify-content-center align-items-center"
+                        style={{ width: '100%', height: '100%' }}
+                    >
+                        <img
+                        src="dotlanding.gif"
+                        alt="Platform Showcase"
+                        className="img-fluid"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    </motion.div>
                 </div>
+
             </div>
              {/* Layanan Section */}
             <div className="row my-5">
@@ -242,7 +238,7 @@ const Beranda = () => {
                 </div>
 
                 <motion.div {...fadeInUp(0)} className="col-md-6 d-flex justify-content-center align-items-center">
-                <img src="path-to-image.png" alt="Platform Showcase" className="img-fluid" />
+                <img src="tech.gif" alt="Platform Showcase" className="img-fluid" />
                 </motion.div>
 
                 <motion.div {...fadeInUp(0.2)} className="col-md-6 ">
@@ -250,22 +246,22 @@ const Beranda = () => {
                     {[
                     {
                         title: 'Artificial Intelligence (AI)',
-                        desc: 'Solusi AI untuk mempercepat transformasi digital...',
+                        desc: 'AI solutions to accelerate digital transformation, automate key processes, analyze big data, and predict future trends accurately.',
                         icon: 'bi-cpu',
                     },
                     {
                         title: 'Internet of Things (IoT)',
-                        desc: 'Integrasi IoT untuk pemantauan waktu nyata...',
+                        desc: 'IoT integration for real-time monitoring, better control, and faster data-driven decisions.',
                         icon: 'bi-wifi',
                     },
                     {
                         title: 'Mobile App Development',
-                        desc: 'Pengembangan aplikasi mobile untuk bisnis modern...',
+                        desc: 'Mobile app development for modern business, focusing on user experience and cross-platform performance',
                         icon: 'bi-phone',
                     },
                     {
                         title: 'Web Development',
-                        desc: 'Solusi digital inovatif dengan website cepat dan aman...',
+                        desc: 'Innovative digital solutions with fast, secure websites for seamless interactions and easy online management.',
                         icon: 'bi-globe',
                     },
                     ].map((item, i) => (
@@ -274,12 +270,12 @@ const Beranda = () => {
                         className="d-flex align-items-start mb-3"
                         {...fadeInUp(0.3 + i * 0.1)}
                     >
+                        <div className='mt'>
                         <span className="text-danger fs-4 me-3">
                         <i className={`bi ${item.icon}`}></i>
                         </span>
-                        <div>
-                        <h6>{item.title}</h6>
-                        <p className="m-0 text-muted">{item.desc}</p>
+                        <h5>{item.title}</h5>
+                        <h6 className="m-0 text-muted">{item.desc}</h6>
                         </div>
                     </motion.li>
                     ))}

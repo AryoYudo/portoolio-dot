@@ -212,7 +212,7 @@ const EmployeeList = () => {
                   variant="light"
                   onSelect={(e) => setShowResult(Number(e))}
                 >
-                  {[6, 12, 24].map((val) => (
+                  {[6, 12, 35].map((val) => (
                     <Dropdown.Item key={val} eventKey={val}>
                       {val}
                     </Dropdown.Item>
@@ -220,18 +220,7 @@ const EmployeeList = () => {
                 </DropdownButton>
               </div>
 
-              <div>
-                <Button variant="light" size="sm">{'<'}</Button>
-                <Button
-                  variant="danger"
-                  size="sm"
-                  className="mx-1"
-                  style={{ background: '#FAD6DD', border: 'none', color: '#E31F52' }}
-                >
-                  1
-                </Button>
-                <Button variant="light" size="sm">{'>'}</Button>
-              </div>
+              
             </div>
           </div>
         </div>

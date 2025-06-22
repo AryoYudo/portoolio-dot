@@ -7,6 +7,7 @@ import Sidebar from '../../../layouts/sidebar';
 import AddProjectModal from '../../../components/modals/admin/project/AddProject';
 import EditProjectModal from '../../../components/modals/admin/project/EditProject';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ProjectDataTable = () => {
   const [filterText, setFilterText] = useState("");
@@ -53,22 +54,37 @@ const ProjectDataTable = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this project?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       setLoading(true);
       const response = await axios.delete(`http://127.0.0.1:8000/api/project_list/delete_project/${id}`, {
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
-        }
+        }, data: {}
       });
+
       if (response.data.status_code === 200) {
+        await Swal.fire('Deleted!', 'Project has been deleted.', 'success');
         fetchProjects();
       } else {
-        alert("Failed to delete project.");
+        await Swal.fire('Failed', 'Failed to delete the project.', 'error');
       }
     } catch (error) {
       console.error("Delete error:", error);
+      await Swal.fire('Error', 'Something went wrong.', 'error');
     } finally {
       setLoading(false);
     }
