@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Badge } from 'react-bootstrap';
 import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
+import 'react-quill/dist/quill.snow.css'; 
+import ReactQuill from 'react-quill';
 
 const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
     const [title, setTitle] = useState('');
@@ -14,103 +16,118 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
     const [thumbnail, setThumbnail] = useState(null);
     const [members, setMembers] = useState([]);
     const [jobRelates, setJobRelates] = useState([]);
-    
+
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [technologyOptions, setTechnologyOptions] = useState([]);
     const [employeeOptions, setEmployeeOptions] = useState([]);
     const [jobRelateOptions, setJobRelateOptions] = useState([]);
 
-    console.log("Project data:", project);
-    
-    
     useEffect(() => {
+        if (!show || !project || !project.id) {
+            console.warn("Modal belum dibuka atau project belum lengkap");
+            return;
+        }
+
+        const uuid = project.project_uuid || project.id;
+
         const fetchCategories = async () => {
             try {
-            const response = await axios.get("http://127.0.0.1:8000/api/master/master_category", {
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
-                }, data: {}
-            });
-            if (response.data.status_code === 200) {
-                setCategoryOptions(response.data.data);
-            } else {
-                console.error("Error fetching categories:", response.data.message);
-            }
+                const response = await axios.get("http://127.0.0.1:8000/api/master/master_category", {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                    }, data: {}
+                });
+                if (response.data.status_code === 200) {
+                    setCategoryOptions(response.data.data);
+                }
             } catch (error) {
-            console.error("API error:", error);
+                console.error("API error:", error);
             }
         };
-        
+
         const fetchTechnologies = async () => {
             try {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_technology", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
-                    },data: {}
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                    }, data: {}
                 });
                 if (response.data.status_code === 200) {
                     setTechnologyOptions(response.data.data);
-                } else {
-                    console.error("Error fetching technologies:", response.data.message);
                 }
             } catch (error) {
                 console.error("API error:", error);
             }
         };
+
         const fetchEmployees = async () => {
             try {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_employee", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
-                    },data: {}
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                    }, data: {}
                 });
                 if (response.data.status_code === 200) {
                     setEmployeeOptions(response.data.data);
-                } else {
-                    console.error("Error fetching employees:", response.data.message);
                 }
             } catch (error) {
                 console.error("API error:", error);
             }
         };
+
         const fetchJobRelate = async () => {
             try {
-            const response = await axios.get("http://127.0.0.1:8000/api/master/master_job_relate", {
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
-                }, data: {}
-            });
-            if (response.data.status_code === 200) {
-                setJobRelateOptions(response.data.data);
-            }
+                const response = await axios.get("http://127.0.0.1:8000/api/master/master_job_relate", {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                    }, data: {}
+                });
+                if (response.data.status_code === 200) {
+                    setJobRelateOptions(response.data.data);
+                }
             } catch (err) {
-            console.error("Job relate API error", err);
+                console.error("Job relate API error", err);
             }
         };
 
-        if (project) {
-            setTitle(project.title || '');
-            setShortDescription(project.short_description || '');
-            setStartDate(project.start_project || '');
-            setEndDate(project.finish_project || '');
-            setDescription(project.description || '');
+        const fetchDetailProject = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/project_list/detail_project/${uuid}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }, data: {}
+                });
 
-            // Kalo datanya udah berbentuk array of object
-            setCategories(project.category || []);
-            setTechnologies(project.technology || []);
-            setMembers(project.member_project || []);
-            setJobRelates(project.job_relate || []);
-        }
+                if (response.data.status_code === 200) {
+                    const data = response.data.data;
 
+                    setTitle(data.title || '');
+                    setThumbnail(data.thumbnail_project || '');
+                    setShortDescription(data.short_description || '');
+                    setStartDate(data.start_project || '');
+                    setEndDate(data.finish_project || '');
+                    setDescription(data.description || '');
+                    setCategories(data.project_categories || []);
+                    setTechnologies(data.technology_project || []);
+                    setMembers(data.employee_participant || []);
+                    setJobRelates(data.job_relate_project || []);
+                }
+            } catch (error) {
+                console.error("Gagal ambil detail project:", error);
+            }
+        };
+
+        fetchDetailProject();
         fetchJobRelate();
         fetchCategories();
         fetchTechnologies();
         fetchEmployees();
-    }, [project]);
+    }, [show, project]);
+
 
 
         const handleSubmit = async (e) => {
@@ -139,12 +156,11 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                     formData,
                     {
                         headers: {
-                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUwNjI0MjMzfQ.em9w5bSlnisTzAB88SP8inwnUD44MXF8P-3EmWlMe5I'
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
                         }, data:{}
                     }
                 );
 
-                console.log('Success:', response.data);
                 alert('Project added successfully!');
                 handleSave(); 
                 handleClose();
@@ -442,7 +458,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 </div>
             </Form.Group>
 
-            <Form.Group className="mb-3">
+            {/* <Form.Group className="mb-3">
                 <Form.Label>Description</Form.Label>
                 <Form.Control
                 as="textarea"
@@ -451,6 +467,16 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 />
+            </Form.Group> */}
+            <Form.Group className="mb-3">
+                <Form.Label>Description</Form.Label>
+                    <ReactQuill
+                        theme="snow"
+                        value={description}
+                        onChange={setDescription}
+                        placeholder="Input content with formatting"
+                        style={{ height: '200px', marginBottom: '30px' }}
+                    />
             </Form.Group>
         </Form>
       </Modal.Body>

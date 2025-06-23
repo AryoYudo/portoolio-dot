@@ -32,13 +32,13 @@ function App() {
         <Route path="/" element={ <UserLayout> <> <Beranda />  <DotAIChatWidget /> </> </UserLayout> } />
         {/* <Route path="/detailproject" element={ <UserLayout> <> <DetailProject /> <DotAIChatWidget /> </> </UserLayout> } /> */}
         <Route path="/user/project" element={ <UserLayout> <> <ProjectPerList /> <DotAIChatWidget /> </> </UserLayout> } />
-        <Route path="/user/detail_per_project" element={ <UserLayout> <> <DetailPerProject /> <DotAIChatWidget /> </> </UserLayout> } />
+        <Route path="/user/detailProject/:uuid" element={ <UserLayout> <> <DetailPerProject /> <DotAIChatWidget /> </> </UserLayout> } />
         <Route path="/user/lowongan" element={ <UserLayout> <> <Lowongan /> <DotAIChatWidget /> </> </UserLayout> } />
         <Route path="/user/detailLowongan/:uuid" element={ <UserLayout> <> <DetailLowongan /> <DotAIChatWidget /> </> </UserLayout> } />
 
         {/* Admin Pages (tanpa DOT AI Chat) */}
         <Route path="/admin/login" element={<LoginAdmin />} />
-        <Route path="/admin" element={<AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout>} />
+        {/* <Route path="/admin" element={<AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout>} /> */}
         <Route path="/project" element={<ProjectList />} />
         <Route path="/employee" element={<EmployeeList />} />
         <Route path="/jobvacancy" element={<JobVacancy />} />
