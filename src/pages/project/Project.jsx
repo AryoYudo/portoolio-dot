@@ -175,7 +175,7 @@ const ProjectPerList = () => {
                   whileHover="hover"
                   viewport={{ once: true, amount: 0.3 }}
                   variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
-                  className="card shadow-sm border-0 h-100"
+                  className="card shadow-sm border-0 mt-5 h-100"
                   style={{ borderRadius: '20px' }}
                 >
                   <img
@@ -201,7 +201,7 @@ const ProjectPerList = () => {
                       </div>
                     </div>
 
-                    <p className="text-muted mt-2">
+                    <p className="text-muted">
                       {new Date(project.finish_project).getFullYear()}
                     </p>
 
@@ -248,7 +248,7 @@ const ProjectPerList = () => {
                   whileHover="hover"
                   viewport={{ once: true, amount: 0.3 }}
                   variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
-                  className="card shadow-sm border-0 h-100"
+                  className="card shadow- border-0 mt-5 h-100"
                   style={{ borderRadius: '20px' }}
                 >
                   <img
@@ -272,18 +272,19 @@ const ProjectPerList = () => {
                           </span>
                         ))}
                       </div>
-                      <div className="d-flex flex-wrap gap-1 mt-1">
+
+                    </div>
+                    <p className="text-muted">
+                      {new Date(project.finish_project).getFullYear()}
+                    </p>
+                                        <div className="d-flex justify-content-between align-items-start mt-2">
+                      <div className="d-flex flex-wrap gap-1">
                         {project.technology_project.map((tech, i) => (
                           <span key={i} className="badge bg-secondary-subtle text-dark fw-medium">
                             {tech.technology_name}
                           </span>
                         ))}
                       </div>
-                    </div>
-                    <p className="text-muted mt-2">
-                      {new Date(project.finish_project).getFullYear()}
-                    </p>
-                    <div className="text-end mt-2">
                       <Button variant="outline-danger" style={{ borderRadius: '12px' }}  onClick={() => handlePreview(project.project_uuid)}>
                         Preview
                       </Button>

@@ -104,77 +104,77 @@ const DetailPerProject = () => {
       </Row>
 
       <Row className="mt-4">
-          <Col md={8}>
+          <Col md={9}>
             <motion.div {...fadeInUp(0.4)} dangerouslySetInnerHTML={{ __html: detail.description }} />
           </Col>
 
-          <Col md={4}>
-        <div className="px-3">
-          <motion.div className="mb-4" {...fadeInUp(0.5)}>
-            <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark" style={{ borderColor: '#0d6efd' }}>
-              Technology Used
-            </h6>
-            <div className="d-flex flex-wrap gap-2 mt-2">
-              {detail.technology_project.map((tech, i) => (
-                <Badge key={i} bg="light" text="dark" className="border">
-                  {tech.technology_name}
-                </Badge>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.div className="mb-4" {...fadeInUp(0.6)}>
-            <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
-              Member Project
-            </h6>
-            {detail.employee_participant.map((member, i) => (
-              <div className="d-flex align-items-center mb-3" key={i}>
-                <Image src={member.employee_picture}  width={60} height={60} className="me-2 object-fit-cover" />
-                <div>
-                  <div className="fw-semibold">{member.employee_name}</div>
-                  <div className="text-muted small">{member.employee_position}</div>
-                </div>
+          <Col md={3}>
+          <div className="px-3">
+            <motion.div className="mb-4" {...fadeInUp(0.5)}>
+              <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark" style={{ borderColor: '#0d6efd' }}>
+                Technology Used
+              </h6>
+              <div className="d-flex flex-wrap gap-2 mt-2">
+                {detail.technology_project.map((tech, i) => (
+                  <Badge key={i} bg="light" text="dark" className="border">
+                    {tech.technology_name}
+                  </Badge>
+                ))}
               </div>
-            ))}
-          </motion.div>
+            </motion.div>
 
-          <motion.div className="mb-4" {...fadeInUp(0.7)}>
-            <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
-              Member Internship Project
-            </h6>
-            {memberIntern.map((intern, i) => (
-              <div className="d-flex align-items-center mb-3" key={i}>
-                <Image src={intern.employee_picture}  width={60} height={60} className="me-2 object-fit-cover" />
-                <div>
-                  <div className="fw-semibold">{intern.employee_name}</div>
-                  <div className="text-muted small">{intern.employee_position}</div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div className="mb-4" {...fadeInUp(0.8)}>
-            <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
-              Related Job Postings
-            </h6>
-            {relatedJobs.length === 0 ? (
-              <p className="text-muted">No related jobs available.</p>
-            ) : (
-              relatedJobs.map((job, i) => (
-                <div className="d-flex mb-3" key={i}>
-                  <Image src={job.image} rounded width={60} height={40} className="me-2 object-fit-cover" />
+            <motion.div className="mb-4" {...fadeInUp(0.6)}>
+              <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
+                Member Project
+              </h6>
+              {detail.employee_participant.map((member, i) => (
+                <div className="d-flex align-items-center mb-3" key={i}>
+                  <Image src={member.employee_picture}  width={60} height={60} className="me-2 object-fit-cover" />
                   <div>
-                    <div className="fw-semibold">{job.title}</div>
-                    <div className="text-muted small">
-                      <a href={job.link} className="text-decoration-none">Join here!</a>
-                    </div>
+                    <div className="fw-semibold">{member.employee_name}</div>
+                    <div className="text-muted small">{member.employee_position}</div>
                   </div>
                 </div>
-              ))
-            )}
-          </motion.div>
-        </div>
-      </Col>
+              ))}
+            </motion.div>
+
+            <motion.div className="mb-4" {...fadeInUp(0.7)}>
+              <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
+                Member Internship Project
+              </h6>
+              {memberIntern.map((intern, i) => (
+                <div className="d-flex align-items-center mb-3" key={i}>
+                  <Image src={intern.employee_picture}  width={60} height={60} className="me-2 object-fit-cover" />
+                  <div>
+                    <div className="fw-semibold">{intern.employee_name}</div>
+                    <div className="text-muted small">{intern.employee_position}</div>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div className="mb-4" {...fadeInUp(0.8)}>
+              <h6 className="fw-bold border-start border-4 ps-2 border-danger text-dark">
+                Related Job Postings
+              </h6>
+              {relatedJobs.length === 0 ? (
+                <p className="text-muted">No related jobs available.</p>
+              ) : (
+                relatedJobs.map((job, i) => (
+                  <div className="d-flex mb-3" key={i}>
+                    <Image src={job.job_picture} rounded width={60} height={40} className="me-2 object-fit-cover" />
+                    <div>
+                      <div className="fw-semibold">{job.position_job}</div>
+                      <div className="text-muted small">
+                        <a href={job.link} className="text-decoration-none">Join here!</a>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </motion.div>
+          </div>
+        </Col>
       </Row>
 
       {/* Related Projects */}

@@ -141,14 +141,15 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
             formData.append('finish_project', endDate);
 
             // Pastikan sudah array of object dengan ID
-            formData.append('category', JSON.stringify(categories)); // [{"category_id":1}]
-            formData.append('technology', JSON.stringify(technologies)); // [{"technology_id":3}]
-            formData.append('member_project', JSON.stringify(members)); // [{"employee_id":6,"employee_name":"..."}]
-            formData.append('job_relate', JSON.stringify(jobRelates)); // [{"job_id":1,...}]
+            formData.append('category', JSON.stringify(categories || []));
+            formData.append('technology', JSON.stringify(technologies || []));
+            formData.append('member_project', JSON.stringify(members || []));
+            formData.append('job_relate', JSON.stringify(jobRelates));
 
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ':', pair[1]);
             }
+            console.log('Form data prepared:', formData);
 
             try {
                 const response = await axios.post(
@@ -348,62 +349,62 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
 
 
 
-          <Form.Group className="mb-3">
-            <Form.Label>Member Project</Form.Label>
+            <Form.Group className="mb-3">
+                <Form.Label>Member Project</Form.Label>
 
-            <Form.Select
-                onChange={(e) => {
-                const selectedID = e.target.value;
-                const selectedObj = employeeOptions.find(emp => emp.employee_id.toString() === selectedID);
+                <Form.Select
+                    onChange={(e) => {
+                    const selectedID = e.target.value;
+                    const selectedObj = employeeOptions.find(emp => emp.employee_id.toString() === selectedID);
 
-                if (
-                    selectedID &&
-                    !members.some(m => m.employee_id.toString() === selectedID)
-                ) {
-                    // Hanya simpan data yg diperlukan
-                    setMembers([
-                    ...members,
-                    {
-                        employee_id: selectedObj.employee_id,
-                        employee_name: selectedObj.employee_name
+                    if (
+                        selectedID &&
+                        !members.some(m => m.employee_id.toString() === selectedID)
+                    ) {
+                        // Hanya simpan data yg diperlukan
+                        setMembers([
+                        ...members,
+                        {
+                            employee_id: selectedObj.employee_id,
+                            employee_name: selectedObj.employee_name
+                        }
+                        ]);
                     }
-                    ]);
-                }
 
-                e.target.value = ""; // reset select
-                }}
-            >
-                <option value="">Input Member Project</option>
-                {employeeOptions.map((emp) => (
-                <option key={emp.employee_id} value={emp.employee_id}>
-                    {emp.employee_name}
-                </option>
-                ))}
-            </Form.Select>
-
-            <div className="mt-2">
-                {members.map((emp) => (
-                <Badge
-                    bg="light"
-                    text="dark"
-                    className="me-1 mb-1"
-                    key={emp.employee_id}
+                    e.target.value = ""; // reset select
+                    }}
                 >
-                    {emp.employee_name}
-                    <span
-                    style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
-                    onClick={() =>
-                        setMembers(
-                        members.filter(m => m.employee_id !== emp.employee_id)
-                        )
-                    }
+                    <option value="">Input Member Project</option>
+                    {employeeOptions.map((emp) => (
+                    <option key={emp.employee_id} value={emp.employee_id}>
+                        {emp.employee_name}
+                    </option>
+                    ))}
+                </Form.Select>
+
+                <div className="mt-2">
+                    {members.map((emp) => (
+                    <Badge
+                        bg="light"
+                        text="dark"
+                        className="me-1 mb-1"
+                        key={emp.employee_id}
                     >
-                    ×
-                    </span>
-                </Badge>
-                ))}
-            </div>
-            </Form.Group>
+                        {emp.employee_name}
+                        <span
+                        style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
+                        onClick={() =>
+                            setMembers(
+                            members.filter(m => m.employee_id !== emp.employee_id)
+                            )
+                        }
+                        >
+                        ×
+                        </span>
+                    </Badge>
+                    ))}
+                </div>
+                </Form.Group>
 
 
             <Form.Group className="mb-3">
@@ -413,14 +414,20 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                     onChange={(e) => {
                     const selectedUUID = e.target.value;
                     const selectedObj = jobRelateOptions.find(
-                        job => job.job_relate_uuid === selectedUUID
+                        job => job.job_uuid === selectedUUID
                     );
 
                     if (
                         selectedUUID &&
-                        !jobRelates.some(j => j.job_relate_uuid === selectedUUID)
+                        !jobRelates.some(j => j.job_id === selectedObj.job_id)
                     ) {
-                        setJobRelates([...jobRelates, selectedObj]);
+                        setJobRelates([
+                        ...jobRelates,
+                        {
+                            job_id: selectedObj.job_id,
+                            position_job: selectedObj.position_job
+                        }
+                        ]);
                     }
 
                     e.target.value = "";
@@ -428,7 +435,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 >
                     <option value="">Input Job Related</option>
                     {jobRelateOptions.map(job => (
-                    <option key={job.job_relate_uuid} value={job.job_relate_uuid}>
+                    <option key={job.job_uuid} value={job.job_uuid}>
                         {job.position_job}
                     </option>
                     ))}
@@ -440,14 +447,14 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                         bg="light"
                         text="dark"
                         className="me-1 mb-1"
-                        key={job.job_relate_uuid}
+                        key={job.job_id}
                     >
                         {job.position_job}
                         <span
                         style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
                         onClick={() =>
                             setJobRelates(
-                            jobRelates.filter(j => j.job_relate_uuid !== job.job_relate_uuid)
+                            jobRelates.filter(j => j.job_id !== job.job_id)
                             )
                         }
                         >
@@ -457,6 +464,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                     ))}
                 </div>
             </Form.Group>
+
 
             {/* <Form.Group className="mb-3">
                 <Form.Label>Description</Form.Label>
