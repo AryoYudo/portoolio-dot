@@ -4,11 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import UserLayout from './layouts/UserLayout';
 import AdminLayout from './layouts/AdminLayout';
 
-// import Beranda from './components/Beranda';
-// import About from './components/About';
-// import Project from './components/project/ProjectGrid';
-// import TeamCulture from './components/Team';
-// import DetailProject from './components/project/DetailProject';
 import Lowongan from './pages/lowongan/Lowongan';
 import DetailLowongan from './pages/lowongan/DetailLowongan';
 import LoginAdmin from './pages/admin/auth/LoginAdmin';
