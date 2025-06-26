@@ -30,7 +30,7 @@ const DetailPerProject = () => {
         });
         if (res.data.status_code === 200) {
           setDetail(res.data.data);
-          // Contoh pemisahan intern dari employee_participant berdasarkan posisi
+          
           const allParticipants = res.data.data.employee_participant;
           const interns = allParticipants.filter(emp =>
             emp.employee_status?.toLowerCase() === "internship"
