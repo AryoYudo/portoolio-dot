@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Beranda.css'; // Optional: to add custom CSS styles
 import '../../ProjectCard.css'; // Optional: to add custom CSS styles
-import ProjectSection from '../../components/HastagSection'
+import HastagSection from '../../components/HastagSection'
 import { Container, Row, Col, Image, Carousel  } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../TeamCarousel.css';
@@ -456,22 +456,8 @@ const Beranda = () => {
                 </motion.div>
                 ))}
             </div>
-            {/* <div className='mt-5 mb-5'>
-                <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-3" >
-                    <h2 className="">DOT PROJECT</h2>
-                    <div className="d-flex flex-wrap justify-content-center gap-2">
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
-                        <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
-                    </div>
-                    <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-                </motion.div>
-            </div> */}
             <div>
-                <ProjectSection title="My Custom Project Title" />                                                  
+                <HastagSection title="DOT PROJECT" />                                                  
             </div>
 
             <div className="d-flex flex-wrap justify-content-center gap-3 mt-5">
@@ -502,18 +488,9 @@ const Beranda = () => {
             </motion.div>
 
             {/* Section Header */}
-            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-4" >
-                <h2 className="">OUR TEAM CULTURE</h2>
-                <div className="d-flex flex-wrap justify-content-center gap-2">
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
-                </div>
-                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-            </motion.div>
+            <div>
+                <HastagSection title="OUR TEAM CULTURE" />                                                  
+            </div>
 
             {/* SECTION 1 - from Left */}
             <motion.div initial={{ opacity: 0, x: -100 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}>
@@ -592,20 +569,9 @@ const Beranda = () => {
                     </Col>
                 </Row>
             </motion.div>
-
-            {/* Section Header */}
-            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
-                <h2 className="">TOP MANAGEMENT</h2>
-                <div className="d-flex flex-wrap justify-content-center gap-2">
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
-                </div>
-                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-            </motion.div>
+            <div>
+                <HastagSection title="TOP MANAGEMENT" />                                                  
+            </div>
            <div className="team-carousel-wrapper align-items-center">
                 <Carousel indicators={false} controls={true} interval={null}>
                     {teamData.map((member, index) => (
@@ -631,19 +597,9 @@ const Beranda = () => {
                     ))}
                 </Carousel>
             </div>
-            {/* Section Header */}
-            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
-                <h2 className="">DOT TEAM</h2>
-                <div className="d-flex flex-wrap justify-content-center gap-2">
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
-                </div>
-                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-            </motion.div>
+            <div>
+                <HastagSection title="DOT TEAM" />                                                  
+            </div>
 
             <div style={{ maxWidth: '1000px', margin: '60px auto', padding: '20px' }}>
                 {/* HOD */}
@@ -709,19 +665,9 @@ const Beranda = () => {
                     ))}
                 </div>
             </div>
-            {/* Section Header */}
-            <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-5" >
-                <h2 className="">INTERNSHIP IN DOT</h2>
-                <div className="d-flex flex-wrap justify-content-center gap-2">
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#AdaptiveLeadership</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#StartupVisionary</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#InnoMaestro</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#TeamAgility</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#UsersObsessed</h6>
-                    <h6 style={{ color: "#E31F52", opacity: "0.4" }}>#VelocityDecisionMaking</h6>
-                </div>
-                <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
-            </motion.div>
+            <div>
+                <HastagSection title="INTERNSHIP IN DOT"/>                                                  
+            </div>
             <div style={{ maxWidth: '1000px', margin: '60px auto', padding: '20px' }}>
             {/* Other Staff */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
