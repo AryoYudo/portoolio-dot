@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Beranda.css'; // Optional: to add custom CSS styles
 import '../../ProjectCard.css'; // Optional: to add custom CSS styles
+import ProjectSection from '../../components/HastagSection'
 import { Container, Row, Col, Image, Carousel  } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import '../../TeamCarousel.css';
@@ -455,7 +456,7 @@ const Beranda = () => {
                 </motion.div>
                 ))}
             </div>
-            <div className='mt-5 mb-5'>
+            {/* <div className='mt-5 mb-5'>
                 <motion.div initial={{ opacity: 0, y: 0 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 2, delay: 1 }} viewport={{ once: true }} className="text-center mt-3" >
                     <h2 className="">DOT PROJECT</h2>
                     <div className="d-flex flex-wrap justify-content-center gap-2">
@@ -468,6 +469,9 @@ const Beranda = () => {
                     </div>
                     <hr style={{ borderTop: '2px solid', margin: '10px 0' }} />
                 </motion.div>
+            </div> */}
+            <div>
+                <ProjectSection title="My Custom Project Title" />                                                  
             </div>
 
             <div className="d-flex flex-wrap justify-content-center gap-3 mt-5">
