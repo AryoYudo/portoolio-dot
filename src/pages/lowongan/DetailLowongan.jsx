@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 const DetailLowongan = () => {
   const { uuid } = useParams();
@@ -48,14 +50,26 @@ const DetailLowongan = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = new FormData();
+    payload.append('job_id', job.job_id);
+    payload.append('user_name', formData.user_name);
+    payload.append('email', formData.email);
+    payload.append('whatsapp_number', formData.whatsapp_number);
+    payload.append('cv_file', formData.cv_file);
+    payload.append('source', formData.source);
+
     try {
-      const payload = new FormData();
-      payload.append('job_id', job.job_id);
-      payload.append('user_name', formData.user_name);
-      payload.append('email', formData.email);
-      payload.append('whatsapp_number', formData.whatsapp_number);
-      payload.append('cv_file', formData.cv_file);
-      payload.append('source', formData.source);
+      const result = await Swal.fire({
+        title: 'Submit Application?',
+        text: 'Are you sure the data entered is correct?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#E31F52' // sesuai gaya kamu
+      });
+
+      if (!result.isConfirmed) return;
 
       const response = await axios.post(
         'http://127.0.0.1:8000/api/vacancy/applicants',
@@ -63,17 +77,17 @@ const DetailLowongan = () => {
       );
 
       if (response.data.status_code === 200) {
-        alert('Successfully applied!');
-        navigate('/lowongan');
+        await Swal.fire('Success!', 'Successfully applied.', 'success');
+        navigate('/user/lowongan');
       } else {
-        alert('Submission failed.');
+        await Swal.fire('Failed', 'Submission failed. Please try again.', 'error');
       }
+
     } catch (err) {
       console.error('Error submitting application:', err);
-      alert('There was an error submitting the form.');
+      await Swal.fire('Error', 'There was an error submitting the form.', 'error');
     }
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
