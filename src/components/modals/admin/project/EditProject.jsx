@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
 import 'react-quill/dist/quill.snow.css'; 
 import ReactQuill from 'react-quill';
+import Swal from 'sweetalert2';
 
 const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
     const [title, setTitle] = useState('');
@@ -132,6 +133,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
 
         const handleSubmit = async (e) => {
             e.preventDefault();
+
             const formData = new FormData();
             formData.append('title', title);
             formData.append('short_description', shortDescription);
@@ -152,26 +154,45 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
             console.log('Form data prepared:', formData);
 
             try {
+                const confirm = await Swal.fire({
+                    title: 'Update Project?',
+                    text: 'Are you sure the entered data is correct?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, update it!',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonColor: '#E31F52'
+                });
+
+                if (!confirm.isConfirmed) return;
+
                 const response = await axios.post(
                     `http://127.0.0.1:8000/api/project_list/update_project/${project.id}`,
                     formData,
                     {
                         headers: {
                             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
-                        }, data:{}
+                        },
+                        data: {}
                     }
                 );
 
-                alert('Project added successfully!');
+                await Swal.fire({
+                    title: 'Success!',
+                    text: 'Project updated successfully!',
+                    icon: 'success',
+                    confirmButtonColor: '#E31F52'
+                });
                 handleSave(); 
                 handleClose();
+
             } catch (error) {
                 if (error.response) {
                     console.error('Error response:', error.response.data);
-                    alert(`Failed: ${error.response.data.message}`);
+                    await Swal.fire('Failed', error.response.data.message, 'error');
                 } else {
                     console.error('Error:', error.message);
-                    alert('An error occurred while adding the project.');
+                    await Swal.fire('Error', 'An error occurred while updating the project.', 'error');
                 }
             }
         };
@@ -185,7 +206,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
         <Form>
           <Form.Group className="mb-3">
             <Form.Label>Thumbnail Project <span className="text-danger">*</span></Form.Label>
-            <Form.Control type="file" onChange={e => setThumbnail(e.target.files[0])} />
+            <Form.Control type="file" accept="image/*" onChange={e => setThumbnail(e.target.files[0])} />
           </Form.Group>
 
           <Form.Group className="mb-3">
