@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Row, Col } from 'react-bootstrap';
 import 'react-quill/dist/quill.snow.css'; 
 import ReactQuill from 'react-quill';
+import Swal from 'sweetalert2';
 
 const AddProjectModal = ({ show, handleClose, handleSave }) => {
     const [title, setTitle] = useState('');
@@ -99,19 +100,60 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validasi manual
+        if (!title || !shortDescription || !description || !startDate || !endDate || !members || !categories) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Form tidak lengkap',
+                text: 'Semua field teks wajib diisi!',
+                confirmButtonColor: '#E31F52'
+            });
+            return;
+        }
+
+        if (!thumbnail) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Thumbnail wajib',
+                text: 'Silakan upload gambar thumbnail!',
+                confirmButtonColor: '#E31F52'
+            });
+            return;
+        }
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        if (!validTypes.includes(thumbnail.type)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Format tidak didukung',
+                text: 'Thumbnail harus berupa JPG, PNG, atau WEBP.',
+                confirmButtonColor: '#E31F52'
+            });
+            return;
+        }
+
+        if (thumbnail.size > 2 * 1024 * 1024) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Ukuran file terlalu besar',
+                text: 'Maksimal ukuran thumbnail adalah 2MB.',
+                confirmButtonColor: '#E31F52'
+            });
+            return;
+        }
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('short_description', shortDescription);
         formData.append('description', description);
-        if (thumbnail) formData.append('picture', thumbnail);
+        formData.append('picture', thumbnail);
         formData.append('start_project', startDate);
         formData.append('finish_project', endDate);
-        // Pastikan sudah array of object dengan ID
-        formData.append('category', JSON.stringify(categories)); // [{"category_id":1}]
-        formData.append('technology', JSON.stringify(technologies)); // [{"technology_id":3}]
-        formData.append('member_project', JSON.stringify(members)); // [{"employee_id":6,"employee_name":"..."}]
-        formData.append('job_relate', JSON.stringify(jobRelates)); // [{"job_id":1,...}]
-
+        formData.append('category', JSON.stringify(categories));
+        formData.append('technology', JSON.stringify(technologies));
+        formData.append('member_project', JSON.stringify(members));
+        formData.append('job_relate', JSON.stringify(jobRelates));
 
         try {
             const response = await axios.post(
@@ -119,22 +161,35 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
                 formData,
                 {
                     headers: {
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
-                    }
+                        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw',
+                    },
                 }
             );
 
             console.log('Success:', response.data);
-            alert('Project added successfully!');
-            handleSave(); 
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Project berhasil ditambahkan!',
+                confirmButtonColor: '#E31F52'
+            });
+            handleSave();
             handleClose();
         } catch (error) {
             if (error.response) {
                 console.error('Error response:', error.response.data);
-                alert(`Failed: ${error.response.data.message}`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: error.response.data.message || 'Terjadi kesalahan saat mengirim data.',
+                });
             } else {
                 console.error('Error:', error.message);
-                alert('An error occurred while adding the project.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Gagal mengirim data ke server.',
+                });
             }
         }
     };
@@ -188,7 +243,7 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
             </Row>
 
            <Form.Group className="mb-3">
-                <Form.Label>Category</Form.Label>
+                <Form.Label>Category <span className="text-danger">*</span></Form.Label>
 
                 <Form.Select
                     onChange={(e) => {
@@ -250,7 +305,7 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
 
 
                <Form.Group className="mb-3">
-                    <Form.Label>Technology Used</Form.Label>
+                    <Form.Label>Technology Used <span className="text-danger">*</span></Form.Label>
 
                     <Form.Select
                         onChange={(e) => {
@@ -308,110 +363,57 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
                         </Badge>
                         ))}
                     </div>
-                    </Form.Group>
+                </Form.Group>
 
-
-
-          <Form.Group className="mb-3">
-            <Form.Label>Member Project</Form.Label>
-
-            <Form.Select
-                onChange={(e) => {
-                const selectedID = e.target.value;
-                const selectedObj = employeeOptions.find(emp => emp.employee_id.toString() === selectedID);
-
-                if (
-                    selectedID &&
-                    !members.some(m => m.employee_id.toString() === selectedID)
-                ) {
-                    // Hanya simpan data yg diperlukan
-                    setMembers([
-                    ...members,
-                    {
-                        employee_id: selectedObj.employee_id,
-                        employee_name: selectedObj.employee_name
-                    }
-                    ]);
-                }
-
-                e.target.value = ""; // reset select
-                }}
-            >
-                <option value="">Input Member Project</option>
-                {employeeOptions.map((emp) => (
-                <option key={emp.employee_id} value={emp.employee_id}>
-                    {emp.employee_name}
-                </option>
-                ))}
-            </Form.Select>
-
-            <div className="mt-2">
-                {members.map((emp) => (
-                <Badge
-                    bg="light"
-                    text="dark"
-                    className="me-1 mb-1"
-                    key={emp.employee_id}
-                >
-                    {emp.employee_name}
-                    <span
-                    style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
-                    onClick={() =>
-                        setMembers(
-                        members.filter(m => m.employee_id !== emp.employee_id)
-                        )
-                    }
-                    >
-                    ×
-                    </span>
-                </Badge>
-                ))}
-            </div>
-            </Form.Group>
 
 
             <Form.Group className="mb-3">
-                <Form.Label>Job Related</Form.Label>
+                <Form.Label>Member Project <span className="text-danger">*</span></Form.Label>
 
                 <Form.Select
                     onChange={(e) => {
-                    const selectedUUID = e.target.value;
-                    const selectedObj = jobRelateOptions.find(
-                        job => job.job_relate_uuid === selectedUUID
-                    );
+                    const selectedID = e.target.value;
+                    const selectedObj = employeeOptions.find(emp => emp.employee_id.toString() === selectedID);
 
                     if (
-                        selectedUUID &&
-                        !jobRelates.some(j => j.job_relate_uuid === selectedUUID)
+                        selectedID &&
+                        !members.some(m => m.employee_id.toString() === selectedID)
                     ) {
-                        setJobRelates([...jobRelates, selectedObj]);
+                        // Hanya simpan data yg diperlukan
+                        setMembers([
+                        ...members,
+                        {
+                            employee_id: selectedObj.employee_id,
+                            employee_name: selectedObj.employee_name
+                        }
+                        ]);
                     }
 
-                    e.target.value = "";
+                    e.target.value = ""; // reset select
                     }}
                 >
-                    <option value="">Input Job Related</option>
-                    {jobRelateOptions.map(job => (
-                    <option key={job.job_relate_uuid} value={job.job_relate_uuid}>
-                        {job.position_job}
+                    <option value="">Input Member Project</option>
+                    {employeeOptions.map((emp) => (
+                    <option key={emp.employee_id} value={emp.employee_id}>
+                        {emp.employee_name}
                     </option>
                     ))}
                 </Form.Select>
 
                 <div className="mt-2">
-                    {jobRelates.map(job => (
+                    {members.map((emp) => (
                     <Badge
                         bg="light"
                         text="dark"
                         className="me-1 mb-1"
-                        key={job.job_relate_uuid}
+                        key={emp.employee_id}
                     >
-                        {job.position_job}
+                        {emp.employee_name}
                         <span
                         style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
                         onClick={() =>
-                            setJobRelates(
-                            jobRelates.filter(j => j.job_relate_uuid !== job.job_relate_uuid)
+                            setMembers(
+                            members.filter(m => m.employee_id !== emp.employee_id)
                             )
                         }
                         >
@@ -422,8 +424,67 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
                 </div>
             </Form.Group>
 
+
             <Form.Group className="mb-3">
-            <Form.Label>Description</Form.Label>
+                    <Form.Label>Job Related</Form.Label>
+    
+                    <Form.Select
+                        onChange={(e) => {
+                        const selectedUUID = e.target.value;
+                        const selectedObj = jobRelateOptions.find(
+                            job => job.job_uuid === selectedUUID
+                        );
+    
+                        if (
+                            selectedUUID &&
+                            !jobRelates.some(j => j.job_id === selectedObj.job_id)
+                        ) {
+                            setJobRelates([
+                            ...jobRelates,
+                            {
+                                job_id: selectedObj.job_id,
+                                position_job: selectedObj.position_job
+                            }
+                            ]);
+                        }
+    
+                        e.target.value = "";
+                        }}
+                    >
+                        <option value="">Input Job Related</option>
+                        {jobRelateOptions.map(job => (
+                        <option key={job.job_uuid} value={job.job_uuid}>
+                            {job.position_job}
+                        </option>
+                        ))}
+                    </Form.Select>
+    
+                    <div className="mt-2">
+                        {jobRelates.map(job => (
+                        <Badge
+                            bg="light"
+                            text="dark"
+                            className="me-1 mb-1"
+                            key={job.job_id}
+                        >
+                            {job.position_job}
+                            <span
+                            style={{ cursor: 'pointer', color: 'red', marginLeft: 4 }}
+                            onClick={() =>
+                                setJobRelates(
+                                jobRelates.filter(j => j.job_id !== job.job_id)
+                                )
+                            }
+                            >
+                            ×
+                            </span>
+                        </Badge>
+                        ))}
+                    </div>
+                </Form.Group>
+
+            <Form.Group className="mb-3">
+            <Form.Label>Description <span className="text-danger">*</span></Form.Label>
                 <ReactQuill
                     theme="snow"
                     value={description}

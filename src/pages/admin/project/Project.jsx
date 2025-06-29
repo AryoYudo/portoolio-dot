@@ -59,8 +59,7 @@ const ProjectDataTable = () => {
       text: 'Do you really want to delete this project?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#E31F52',
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'Cancel',
     });
@@ -77,8 +76,14 @@ const ProjectDataTable = () => {
       });
 
       if (response.data.status_code === 200) {
-        await Swal.fire('Deleted!', 'Project has been deleted.', 'success');
+        await Swal.fire({
+            title: 'Deleted!',
+            text: 'Project has been deleted!',
+            icon: 'success',
+            confirmButtonColor: '#E31F52'
+        });
         fetchProjects();
+
       } else {
         await Swal.fire('Failed', 'Failed to delete the project.', 'error');
       }
