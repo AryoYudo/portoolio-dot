@@ -60,6 +60,18 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
     }
 
     try {
+      const result = await Swal.fire({
+        title: 'Edit Employee?',
+        text: 'Are you sure the entered data is correct?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, save it!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#E31F52' // 🔴 hanya ini yang diubah
+      });
+
+      if (!result.isConfirmed) return;
+
       await axios.post(
         `http://127.0.0.1:8000/api/master_employee/update_employee/${employee.employee_uuid}`,
         formData,
@@ -72,6 +84,14 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
       );
       handleClose();
       if (onSuccessEdit) onSuccessEdit();
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Employee has been updated successfully!',
+        confirmButtonColor: '#E31F52'
+      });
+
     } catch (error) {
       console.error('Error updating employee:', error);
       alert('Failed to update employee. Check console for details.');

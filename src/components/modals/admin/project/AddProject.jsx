@@ -170,7 +170,7 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil',
-                text: 'Project berhasil ditambahkan!',
+                text: 'Project has been added successfully!',
                 confirmButtonColor: '#E31F52'
             });
             handleSave();

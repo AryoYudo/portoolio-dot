@@ -82,7 +82,12 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
       handleClose();
       if (onSuccessAdd) onSuccessAdd();
 
-      await Swal.fire('Success!', 'Employee has been added.', 'success');
+      Swal.fire({
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Employee has been added successfully!.',
+          confirmButtonColor: '#E31F52'
+      });
 
     } catch (error) {
       console.error('Error saving employee:', error);
