@@ -7,6 +7,7 @@ import ReactQuill from 'react-quill';
 import Swal from 'sweetalert2';
 
 const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
+    const token = localStorage.getItem('accessToken');
     const [title, setTitle] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     const [startDate, setStartDate] = useState('');
@@ -36,7 +37,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_category", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                        'Authorization': `Bearer ${token}`
                     }, data: {}
                 });
                 if (response.data.status_code === 200) {
@@ -52,7 +53,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_technology", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                        'Authorization': `Bearer ${token}`
                     }, data: {}
                 });
                 if (response.data.status_code === 200) {
@@ -68,7 +69,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_employee", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                        'Authorization': `Bearer ${token}`
                     }, data: {}
                 });
                 if (response.data.status_code === 200) {
@@ -84,7 +85,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                 const response = await axios.get("http://127.0.0.1:8000/api/master/master_job_relate", {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                        'Authorization': `Bearer ${token}`
                     }, data: {}
                 });
                 if (response.data.status_code === 200) {
@@ -171,7 +172,7 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
                     formData,
                     {
                         headers: {
-                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+                            'Authorization': `Bearer ${token}`,
                         },
                         data: {}
                     }

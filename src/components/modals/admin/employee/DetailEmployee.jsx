@@ -3,7 +3,7 @@ import { Modal, Button, Image, Badge } from 'react-bootstrap';
 import axios from 'axios';
 
 const EmployeeDetailModal = ({ show, handleClose, employee, handleEdit, handleDelete }) => {
-  console.log('Employee Detail:', employee);
+  const token = localStorage.getItem('accessToken');
   if (!employee) return null;
   
   const onDeleteClick = async () => {
@@ -16,7 +16,7 @@ const EmployeeDetailModal = ({ show, handleClose, employee, handleEdit, handleDe
           `http://127.0.0.1:8000/api/master_employee/delete_employee/${employee.employee_uuid}`,
           {
             headers: {
-              'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
+              'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },data:{}
           }
@@ -24,7 +24,7 @@ const EmployeeDetailModal = ({ show, handleClose, employee, handleEdit, handleDe
 
       if (response.data.messagetype === 'S') {
         alert('Employee deleted successfully!');
-        handleDelete(employee.employee_uuid); // ✅ Panggil props dari parent
+        handleDelete(employee.employee_uuid); 
         handleClose();
       } else {
         alert(`Failed to delete employee. Message: ${response.data?.message || 'Unknown error'}`);

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 
 const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
+  const token = localStorage.getItem('accessToken');
   const [name, setName] = useState('');
   const [status, setStatus] = useState('Employee'); // 'Employee' atau 'Internship'
   const [positionList, setPositionList] = useState([]);
@@ -17,7 +18,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
     if (show) {
       axios.get('http://127.0.0.1:8000/api/master/master_position', {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw',
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },data: {}
       })
@@ -67,7 +68,7 @@ const AddEmployeeModal = ({ show, handleClose, onSuccessAdd }) => {
         formData,
         {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },
         }

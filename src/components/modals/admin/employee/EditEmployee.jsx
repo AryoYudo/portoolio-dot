@@ -5,6 +5,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
+  const token = localStorage.getItem('accessToken');
   const [name, setName] = useState('');
   const [status, setStatus] = useState('Employee');
   const [positionList, setPositionList] = useState([]);
@@ -15,19 +16,19 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
     useEffect(() => {
     if (show) {
         axios.get(
-        'http://127.0.0.1:8000/api/master/master_position',
+          'http://127.0.0.1:8000/api/master/master_position',
         {
             headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
-            'Content-Type': 'application/json'
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
             }
         }
         )
         .then((response) => {
-        setPositionList(response.data.data);
+          setPositionList(response.data.data);
         })
         .catch((error) => {
-        console.error('Error fetching position list:', error);
+          console.error('Error fetching position list:', error);
         });
     }
     }, [show]);
@@ -78,7 +79,7 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
         formData,
         {
           headers: {
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'multipart/form-data',
           },data:{}
         }
