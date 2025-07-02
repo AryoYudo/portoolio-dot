@@ -7,6 +7,7 @@ import EditVacancyModal from '../../../components/modals/admin/job/EditVacancyMo
 import axios from 'axios';
 
 const JobVacancy = () => {
+  const token = localStorage.getItem('accessToken');
   const [filterText, setFilterText] = useState('');
   const [showResult, setShowResult] = useState(5);
   const [jobList, setJobList] = useState([]);
@@ -20,7 +21,7 @@ const JobVacancy = () => {
       const response = await axios.get('http://127.0.0.1:8000/api/job_vacancy/list_job', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+          'Authorization': `Bearer ${token}`
         },data:{}
       });
       setJobList(response.data.data);
@@ -105,7 +106,7 @@ const JobVacancy = () => {
     try {
       await axios.delete(`http://127.0.0.1:8000/api/job_vacancy/delete_job/${job_uuid}`, {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+          'Authorization': `Bearer ${token}`,
         },data:{}
       });
       fetchJobVacancies();

@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  InputGroup,
-  Spinner,
-  FormControl,
-  Button,
-  Dropdown,
-  DropdownButton,
-  Card,
-  Row,
-  Col,
-} from 'react-bootstrap';
+import { InputGroup, Spinner, FormControl, Button, Dropdown, DropdownButton, Card, Row, Col, } from 'react-bootstrap';
 import Sidebar from '../../../layouts/sidebar';
 import AddEmployeeModal from '../../../components/modals/admin/employee/AddEmployeeModal';
 import EmployeeDetailModal from '../../../components/modals/admin/employee/DetailEmployee';
@@ -17,6 +7,7 @@ import EditEmployeeModal from '../../../components/modals/admin/employee/EditEmp
 import axios from 'axios';
 
 const EmployeeList = () => {
+  const token = localStorage.getItem('accessToken');
   const [employeeList, setEmployeeList] = useState([]);
   const [filterText, setFilterText] = useState('');
   const [showResult, setShowResult] = useState(12);
@@ -34,7 +25,7 @@ const EmployeeList = () => {
         {
           params: { search: filterText },
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },data: {}
         }
@@ -81,7 +72,7 @@ const EmployeeList = () => {
         `http://127.0.0.1:8000/api/master_employee/delete_employee/${uuid}`,
         {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw`,
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
           },data: {}
         }

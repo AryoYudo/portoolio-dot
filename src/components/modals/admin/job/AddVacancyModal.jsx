@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 const AddVacancyModal = ({ show, handleClose, handleSave }) => {
+  const token = localStorage.getItem('accessToken');
   const [positionJob, setPositionJob] = useState('');
   const [shortDescription, setShortDescription] = useState('');
   const [availableUntil, setAvailableUntil] = useState('');
@@ -32,7 +33,7 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
         {
           headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+            'Authorization': `Bearer ${token}`
           },
         }
       );
