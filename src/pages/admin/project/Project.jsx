@@ -10,6 +10,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const ProjectDataTable = () => {
+  const token = localStorage.getItem('accessToken');
   const [filterText, setFilterText] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,7 @@ const ProjectDataTable = () => {
       const response = await axios.get('http://127.0.0.1:8000/api/project_list/list_data_project', {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+          'Authorization': `Bearer ${token}`
         },data:{}
       });
       if (response.data.status_code === 200) {
@@ -71,7 +72,7 @@ const ProjectDataTable = () => {
       const response = await axios.delete(`http://127.0.0.1:8000/api/project_list/delete_project/${id}`, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNzMyMGFlOWMtYmNlMy00NTc1LTlkZjQtYWRhMTQ5MDYyZTA1IiwiYmFkZ2Vfbm8iOiJhcnlvMTIzIiwiZnVsbG5hbWUiOiJBcnlvIiwiZXhwIjoxNzUxMzk4MTY3fQ.dDzDBGc2cP67jT8VjpLw1NoujnCjKMKc-ByJyQ6ubqw'
+          'Authorization': `Bearer ${token}`
         }, data: {}
       });
 
