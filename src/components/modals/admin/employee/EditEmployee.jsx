@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Image } from 'react-bootstrap';
 import '../../../../App.css';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
   const [name, setName] = useState('');
@@ -84,7 +85,7 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
       );
       handleClose();
       if (onSuccessEdit) onSuccessEdit();
-      
+
       Swal.fire({
         icon: 'success',
         title: 'Success',
