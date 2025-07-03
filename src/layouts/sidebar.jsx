@@ -3,8 +3,10 @@ import { NavLink } from 'react-router-dom';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Collapse } from 'react-bootstrap';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [openJobMenu, setOpenJobMenu] = useState(false);
   return (
     <div className="col-md-2 position-fixed bg-white shadow-sm vh-100 d-flex flex-column p-3" >
@@ -91,9 +93,6 @@ const Sidebar = () => {
             </ul>
           </Collapse>
         </li>
-
-
-
       </ul>
 
       <div className="mt-auto ms-2 w-100 mb-4">
@@ -105,6 +104,14 @@ const Sidebar = () => {
             type="button"
             className="btn w-100 fw-bold d-flex align-items-center justify-content-center"
             style={{ borderColor: '#E31F52', color: '#E31F52' }}
+            onClick={() => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              localStorage.removeItem('userName');
+              localStorage.removeItem('userUUID');
+
+              navigate('/admin/login');
+            }}
           >
             <i className="bi bi-box-arrow-right me-2"></i>
             Log Out
