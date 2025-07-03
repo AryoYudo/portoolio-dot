@@ -14,6 +14,7 @@ import ApplicantList from './pages/admin/vacancy/Applicants';
 import DetailPerProject from './pages/project/DetailPerProject';
 import ProjectPerList from './pages/project/Project';
 import Beranda from './pages/beranda/Beranda';
+import PrivateRoute from './routes/PrivateRoute';
 
 // ✅ Import DOT AI Chat Component
 import DotAIChatWidget from './components/ai/DotAIChatWidget';
@@ -34,10 +35,10 @@ function App() {
         {/* Admin Pages (tanpa DOT AI Chat) */}
         <Route path="/admin/login" element={<LoginAdmin />} />
         {/* <Route path="/admin" element={<AdminLayout> <div>Dashboard Admin (Contoh)</div> </AdminLayout>} /> */}
-        <Route path="/project" element={<ProjectList />} />
-        <Route path="/employee" element={<EmployeeList />} />
-        <Route path="/jobvacancy" element={<JobVacancy />} />
-        <Route path="/applicantlist" element={<ApplicantList />} />
+        <Route path="/project" element={<PrivateRoute><AdminLayout><ProjectList /></AdminLayout></PrivateRoute>} />
+        <Route path="/employee" element={<PrivateRoute><AdminLayout><EmployeeList /></AdminLayout></PrivateRoute>} />
+        <Route path="/jobvacancy" element={<PrivateRoute><AdminLayout><JobVacancy /></AdminLayout></PrivateRoute>} />
+        <Route path="/applicantlist" element={<PrivateRoute><AdminLayout><ApplicantList /></AdminLayout></PrivateRoute>} />
       </Routes>
     </Router>
   );
