@@ -110,7 +110,7 @@ const DetailLowongan = () => {
     <div className="container my-5">
       <nav className="mb-3">
         <Link to="/" className="me-2 text-decoration-none text-dark">{`< Beranda`}</Link> /
-        <Link to="/lowongan" className="mx-2 text-decoration-none text-dark">Join Us</Link> /
+        <Link to="/user/lowongan" className="mx-2 text-decoration-none text-dark">Join Us</Link> /
         <strong className="ms-2">{job.position_job}</strong>
       </nav>
 

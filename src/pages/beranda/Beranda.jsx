@@ -10,6 +10,13 @@ import axios from 'axios';
 
 const Beranda = () => {
     const [employees, setEmployees] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const handleSelect = (selectedIndex) => {
+        setActiveIndex(selectedIndex);
+    };
+
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/master_employee/list_employee', {
         headers: {
@@ -22,6 +29,28 @@ const Beranda = () => {
             }
         })
         .catch((error) => console.error('Error fetching employee data:', error));
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/project_list/data_project', {
+            headers: {
+                'Content-Type': 'application/json',
+            },data: {}
+        })
+
+        .then(res => {
+            if (res.data.status_code === 200) {
+            const mappedProjects = res.data.data.map(item => ({
+                image: item.thumbnail_project,
+                title: item.title,
+                category: item.project_category?.category_name || '-',
+            }));
+            setProjects(mappedProjects);
+            }
+        })
+        .catch(err => {
+            console.error("Gagal mengambil data project:", err);
+        });
     }, []);
 
     const getByPosition = (keyword) =>
@@ -131,33 +160,33 @@ const Beranda = () => {
             color: "#E31F52",
         },
     ];
-    const projects = [
-        {
-            title: 'AI Smart Parking And Application',
-            category: 'Artificial Intelligence (AI)',
-            image: '/project/project1.png',
-        },
-        {
-            title: 'AI-Enhanced PCB COUNTER',
-            category: 'Artificial Intelligence (AI)',
-            image: '/project/project2.png',
-        },
-        {
-            title: 'Forklift Management System',
-            category: 'Mobile',
-            image: '/project/project3.png',
-        },
-        {
-            title: 'My Satnusa Mobile Apps',
-            category: 'Mobile',
-            image: '/project/project4.png',
-        },
-        {
-            title: 'Xiaomi AI–Powered',
-            category: 'Artificial Intelligence (AI)',
-            image: '/project/project5.png',
-        },
-    ];
+    // const projects = [
+    //     {
+    //         title: 'AI Smart Parking And Application',
+    //         category: 'Artificial Intelligence (AI)',
+    //         image: '/project/project1.png',
+    //     },
+    //     {
+    //         title: 'AI-Enhanced PCB COUNTER',
+    //         category: 'Artificial Intelligence (AI)',
+    //         image: '/project/project2.png',
+    //     },
+    //     {
+    //         title: 'Forklift Management System',
+    //         category: 'Mobile',
+    //         image: '/project/project3.png',
+    //     },
+    //     {
+    //         title: 'My Satnusa Mobile Apps',
+    //         category: 'Mobile',
+    //         image: '/project/project4.png',
+    //     },
+    //     {
+    //         title: 'Xiaomi AI–Powered',
+    //         category: 'Artificial Intelligence (AI)',
+    //         image: '/project/project5.png',
+    //     },
+    // ];
     const teamData = [
         {
             name: 'Abidin Fan Hasibuan',
@@ -572,31 +601,46 @@ const Beranda = () => {
             <div>
                 <HastagSection title="TOP MANAGEMENT" />                                                  
             </div>
-           <div className="team-carousel-wrapper align-items-center">
-                <Carousel indicators={false} controls={true} interval={null}>
-                    {teamData.map((member, index) => (
+             <div className="team-carousel-wrapper align-items-center">
+            <Carousel
+                activeIndex={activeIndex}
+                onSelect={handleSelect}
+                indicators={false}
+                controls={true}
+                interval={null}
+            >
+                {teamData.map((member, index) => (
                     <Carousel.Item key={index}>
-                        <motion.div
-                        className="carousel-card d-flex align-items-center justify-content-between flex-wrap shadow-lg"
-                        {...fadeInUp(0.2 + index * 0.1)}
-                        >
-                        <div className="carousel-image">
-                            <img
-                            src={member.image}
-                            alt={member.name}
-                            className="img-fluid fixed-image"
-                            />
-                        </div>
-                        <div className="carousel-text me-4 text-white">
-                            <h2 className="fw-bold text-danger">{member.name}</h2>
-                            <h5 className="fw-bold">{member.title}</h5>
-                            <p className="fst-italic mt-3">{member.description}</p>
-                        </div>
-                        </motion.div>
+                        <AnimatePresence mode="wait">
+                            {index === activeIndex && (
+                                <motion.div
+                                    key={index + '-' + member.name}
+                                    className="carousel-card d-flex align-items-center justify-content-between flex-wrap shadow-lg"
+                                    initial={{ opacity: 0, x: 100 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -100 }}
+                                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                                >
+                                    <div className="carousel-image">
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            className="img-fluid fixed-image"
+                                        />
+                                    </div>
+                                    <div className="carousel-text me-4 text-white">
+                                        <h2 className="fw-bold text-danger">{member.name}</h2>
+                                        <h5 className="fw-bold">{member.title}</h5>
+                                        <p className="fst-italic mt-3">{member.description}</p>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </Carousel.Item>
-                    ))}
-                </Carousel>
-            </div>
+                ))}
+            </Carousel>
+        </div>
+
             <div>
                 <HastagSection title="DOT TEAM" />                                                  
             </div>
