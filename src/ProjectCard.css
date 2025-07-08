@@ -8,6 +8,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.project-logo svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  object-fit: contain;
+}
+
+
 
 .project-card {
   overflow: hidden;

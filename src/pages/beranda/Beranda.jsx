@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import '../../TeamCarousel.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
 
 const Beranda = () => {
     const [employees, setEmployees] = useState([]);
@@ -43,6 +44,8 @@ const Beranda = () => {
             const mappedProjects = res.data.data.map(item => ({
                 image: item.thumbnail_project,
                 title: item.title,
+                logo: item.project_category.logo,
+                project_uuid: item.project_uuid,
                 category: item.project_category?.category_name || '-',
             }));
             setProjects(mappedProjects);
@@ -499,12 +502,17 @@ const Beranda = () => {
                     <img src={project.image} alt={project.title} className="project-img" />
                     <div className="gradient-overlay rounded-4"></div>
                     <span className="badge-category">
-                        <i className="bi bi-cpu me-1" />
+                        {/* <i className="bi bi-cpu me-1" /> */}
+
+                        <span className="project-logo me-2 d-inline-block" style={{ width: '24px', height: '24px' }} dangerouslySetInnerHTML={{ __html: project.logo }} />
                         {project.category}
                     </span>
-                    <div className="project-title">
-                        <span>{project.title}</span>
+                     <div className="project-title">
+                        <Link to={`/user/detailProject/${project.project_uuid}`} className="text-decoration-none text-white">
+                            <span>{project.title}</span>
+                        </Link>
                     </div>
+
                     </motion.div>
                 ))}
             </div>

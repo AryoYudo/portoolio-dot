@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import '../../ProjectCard.css'; // Optional: to add custom CSS styles
 import { Container, Row, Col, Image, Badge,   Spinner, } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import 'react-quill/dist/quill.snow.css'; 
-import ReactQuill from 'react-quill';
+import * as icons from 'simple-icons/icons';
+import techSlugMap from '../../utils/techSlugMap'; // sesuaikan path
+
+const getIconByName = (name) => {
+  const slug = techSlugMap[name];
+  if (!slug) return null;
+
+  const iconKey = `si${slug.charAt(0).toUpperCase()}${slug.slice(1)}`;
+  const icon = icons[iconKey];
+  return icon ? { svg: icon.svg, hex: icon.hex } : null;
+};
 
 const DetailPerProject = () => {
   const { uuid } = useParams();
@@ -63,8 +74,8 @@ const DetailPerProject = () => {
       {/* Breadcrumb */}
       <nav className="mb-3">
         <Link to="/" className="me-2 text-decoration-none text-dark">{`< Beranda`}</Link> /
-        <Link to="/lowongan" className="mx-2 text-decoration-none text-dark">Project</Link> /
-        <Link className="mx-2 text-decoration-none text-dark">Detail Project</Link>
+        <Link to="/user/project" className="mx-2 text-decoration-none text-dark">Project</Link> /
+        <Link className="mx-2 text-decoration-none text-dark fw-bold">Detail Project</Link>
       </nav>
 
       <Row className="justify-content-center">
@@ -79,10 +90,16 @@ const DetailPerProject = () => {
           {/* Tags */}
           <motion.div className="d-flex justify-content-center gap-2 mb-4" {...fadeInUp(0.2)}>
             {detail.project_categories.map((cat, i) => (
-              <span key={i} className="badge rounded-pill bg-light text-dark border">
-                {cat.category_name}
-              </span>
-            ))}
+                <span key={i} className="badge rounded-pill bg-light text-dark border d-inline-flex align-items-center px-3 py-2 gap-2">
+                  <span
+                    className="project-logo  d-inline-block"
+                    style={{ width: '20px', height: '20px' }}
+                    dangerouslySetInnerHTML={{ __html: cat.logo }}
+                  />
+                  <span className="fw-semibold">{cat.category_name}</span>
+                </span>
+              ))}
+
           </motion.div>
 
           <motion.div {...fadeInUp(0.3)}>
@@ -115,12 +132,33 @@ const DetailPerProject = () => {
                 Technology Used
               </h6>
               <div className="d-flex flex-wrap gap-2 mt-2">
-                {detail.technology_project.map((tech, i) => (
-                  <Badge key={i} bg="light" text="dark" className="border">
-                    {tech.technology_name}
-                  </Badge>
-                ))}
+                {detail.technology_project.map((tech, i) => {
+                  const icon = getIconByName(tech.technology_name);
+
+                  // Kalau ada logo, tampilkan ikon saja (tanpa badge & teks)
+                  if (icon) {
+                    const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
+                    return (
+                      <span
+                        key={i}
+                        className="d-inline-block"
+                        title={tech.technology_name}
+                        style={{ width: '28px', height: '28px' }}
+                        dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                      />
+                    );
+                  }
+
+                  // Kalau tidak ada logo, tampilkan teks dengan badge
+                  return (
+                    <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
+                      {tech.technology_name}
+                    </Badge>
+                  );
+                })}
               </div>
+
+
             </motion.div>
 
             <motion.div className="mb-4" {...fadeInUp(0.6)}>
