@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Col, Form, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { motion } from 'framer-motion';
 
 
 const DetailLowongan = () => {
@@ -18,6 +19,13 @@ const DetailLowongan = () => {
     email: '',
     whatsapp_number: '',
     cv_file: null
+  });
+
+  const fadeInUp = (delay = 0) => ({
+      initial: { opacity: 0, y: 30 },
+      whileInView: { opacity: 1, y: 0 },
+      transition: { duration: 0.8, delay },
+      viewport: { once: true, amount: 0.3 },
   });
 
 
@@ -100,9 +108,7 @@ const DetailLowongan = () => {
 
   if (!job) {
     return (
-      <div className="container my-5 text-center">
-        <h4>Loading job details...</h4>
-      </div>
+      <div className="d-flex justify-content-center align-items-center vh-100"><Spinner animation="border" variant="danger" /></div>
     );
   }
 
@@ -116,22 +122,38 @@ const DetailLowongan = () => {
 
       
       <div className="row mt-5 align-items-center flex-column-reverse flex-md-row">
-        <div className="col-md-6">
-          <h2 className="fw-bold">{job.position_job}</h2>
-          <p>{job.description}</p>
-        </div>
+        {/* Kiri: Deskripsi & Judul */}
+          <motion.h2 className="fw-bold mb-4" {...fadeInUp(0.3)}>
+            {job.position_job}
+          </motion.h2>
+        <motion.div
+          className="col-md-6 text-center text-md-start"
+          {...fadeInUp(0.2)}
+        >
+          <motion.div {...fadeInUp(0.4)}>
+            <div dangerouslySetInnerHTML={{ __html: job.description }} />
+          </motion.div>
+        </motion.div>
 
         {/* Kanan: Gambar */}
-        <div className="col-md-6 d-flex justify-content-center align-items-center p-3">
+        <motion.div
+          className="col-md-6 d-flex justify-content-center align-items-center p-3"
+          {...fadeInUp(0.5)}
+        >
           <img
             src={job.job_picture}
             alt={job.position_job}
             className="img-fluid w-100 rounded shadow"
             style={{ maxHeight: '100%', maxWidth: '100%' }}
           />
-        </div>
+        </motion.div>
       </div>
-      <div className="text-center mt-4">
+
+      {/* Tombol Apply */}
+      <motion.div
+        className="text-center mt-4"
+        {...fadeInUp(0.6)}
+      >
         <button
           className="btn text-white px-4 py-2 fw-bold"
           style={{ backgroundColor: '#E31F52', borderRadius: '10px' }}
@@ -139,7 +161,7 @@ const DetailLowongan = () => {
         >
           Apply Now!
         </button>
-      </div>
+      </motion.div>
 
       {/* Modal Apply */}
       <Modal show={showModal} onHide={handleClose} size="lg" centered>

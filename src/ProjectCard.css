@@ -15,6 +15,14 @@
   object-fit: contain;
 }
 
+.card-body p.text-muted {
+  margin-bottom: 0.5rem;
+}
+
+.card-body .badge,
+.card-body .d-inline-block {
+  vertical-align: middle;
+}
 
 
 .project-card {

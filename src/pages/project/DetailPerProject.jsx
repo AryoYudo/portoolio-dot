@@ -204,7 +204,10 @@ const DetailPerProject = () => {
                     <div>
                       <div className="fw-semibold">{job.position_job}</div>
                       <div className="text-muted small">
-                        <a href={job.link} className="text-decoration-none">Join here!</a>
+                        {/* <a href={job.link} className="text-decoration-none">Join here!</a> */}
+                        <Link to={`/user/detailLowongan/${job.job_uuid}`} className="text-decoration-none">
+                          Join here!
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -220,11 +223,7 @@ const DetailPerProject = () => {
         <Col md={12}>
           <div className="row">
             {detail.others_project.map((proj, i) => (
-              <motion.div
-                className="col-md-3 mb-4"
-                key={proj.project_uuid}
-                {...fadeInUp(0.1 * i)}
-              >
+              <motion.div className="col-md-3 mb-4" key={proj.project_uuid} {...fadeInUp(0.1 * i)} >
                 <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
                   <img
                     src={proj.thumbnail_project || "job.png"}
@@ -243,7 +242,7 @@ const DetailPerProject = () => {
                       <div className="d-flex flex-wrap gap-1">
                         {proj.project_categories.map((cat, idx) => (
                           <span key={idx} className="badge bg-danger-subtle text-danger fw-medium">
-                            {cat.category_name}
+                            <span className="project-logo  d-inline-block" style={{ width: '15px', height: '15px' }} dangerouslySetInnerHTML={{ __html: cat.logo }} />
                           </span>
                         ))}
                       </div>
@@ -251,7 +250,30 @@ const DetailPerProject = () => {
                     <p className="text-muted mt-2">
                       {new Date(proj.finish_project).getFullYear()}
                     </p>
-                    <div className="text-end mt-2">
+                    <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                      <div className="d-flex flex-wrap gap-2 align-items-center">
+                        {proj.technology_project.map((tech, i) => {
+                          const icon = getIconByName(tech.technology_name);
+                          if (icon) {
+                            const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
+                            return (
+                              <span
+                                key={i}
+                                className="d-inline-block"
+                                title={tech.technology_name}
+                                style={{ width: '28px', height: '28px' }}
+                                dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                              />
+                            );
+                          }
+                          return (
+                            <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
+                              {tech.technology_name}
+                            </Badge>
+                          );
+                        })}
+                      </div>
+
                       <button
                         className="btn btn-outline-danger"
                         style={{ borderRadius: '12px' }}
@@ -260,6 +282,7 @@ const DetailPerProject = () => {
                         Preview
                       </button>
                     </div>
+
                   </div>
                 </div>
               </motion.div>

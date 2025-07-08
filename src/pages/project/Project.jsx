@@ -1,10 +1,11 @@
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Spinner, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import * as icons from 'simple-icons/icons';
+import techSlugMap from '../../utils/techSlugMap'; // sesuaikan path
 
 // Motion variants
 const fadeInLeft = {
@@ -33,7 +34,14 @@ const hoverCard = {
   }
 };
 
+const getIconByName = (name) => {
+  const slug = techSlugMap[name];
+  if (!slug) return null;
 
+  const iconKey = `si${slug.charAt(0).toUpperCase()}${slug.slice(1)}`;
+  const icon = icons[iconKey];
+  return icon ? { svg: icon.svg, hex: icon.hex } : null;
+};
 
 const ProjectPerList = () => {
   const [categories, setCategories] = useState([]);
@@ -110,8 +118,15 @@ const ProjectPerList = () => {
   const projects2025 = projects.filter(p => new Date(p.finish_project).getFullYear() === 2025);
   const projects2024 = projects.filter(p => new Date(p.finish_project).getFullYear() === 2024);
 
+  // if (!projects) {
+  //   return<div className="d-flex justify-content-center align-items-center vh-100"><Spinner animation="border" variant="danger" /></div>;
+  // }
+
   return (
     <Container className="py-4">
+      {projects.length === 0 && (
+        <div className="d-flex justify-content-center align-items-center vh-100"><Spinner animation="border" variant="danger" /></div>
+      )}
       {/* Breadcrumb */}
       <Row className="align-items-center mb-3 mt-4">
         <motion.nav initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeInLeft}>
@@ -169,15 +184,9 @@ const ProjectPerList = () => {
 
             {projects2025.map((project, index) => (
               <Col key={project.project_uuid} md={3} className="mb-4">
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  whileHover="hover"
-                  viewport={{ once: true, amount: 0.3 }}
-                  variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
-                  className="card shadow-sm border-0 mt-5 h-100"
-                  style={{ borderRadius: '20px' }}
-                >
+                <motion.div initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.3 }} variants={{ ...fadeInUp(index * 0.2), ...hoverCard }} className="card shadow-sm border-0 mt-5" style={{ borderRadius: '20px',  minHeight: '450px'  }} >
+                  <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+
                   <img
                     src={project.thumbnail_project || "job.png"}
                     className="card-img-top"
@@ -189,13 +198,13 @@ const ProjectPerList = () => {
                       borderTopRightRadius: '20px'
                     }}
                   />
-                  <div className="card-body d-flex flex-column justify-content-between">
+                  <div className="card-body flex-column justify-content-between"  style={{ minHeight: '50px' }}>
                     <div>
                       <h5 className="card-title fw-bold">{project.title}</h5>
                       <div className="d-flex flex-wrap gap-1">
                         {project.project_categories.map((cat, i) => (
                           <span key={i} className="badge bg-danger-subtle text-danger fw-medium">
-                            {cat.category_name}
+                            <span className="project-logo  d-inline-block" style={{ width: '15px', height: '15px' }} dangerouslySetInnerHTML={{ __html: cat.logo }} />
                           </span>
                         ))}
                       </div>
@@ -205,18 +214,35 @@ const ProjectPerList = () => {
                       {new Date(project.finish_project).getFullYear()}
                     </p>
 
-                    <div className="d-flex justify-content-between align-items-start mt-2">
-                      <div className="d-flex flex-wrap gap-1">
-                        {project.technology_project.map((tech, i) => (
-                          <span key={i} className="badge bg-secondary-subtle text-dark fw-medium">
-                            {tech.technology_name}
-                          </span>
-                        ))}
+                    <div className="d-flex justify-content-between align-items-start mt-2 ">
+                      <div className="d-flex flex-wrap gap-2">
+                        {project.technology_project.map((tech, i) => {
+                          const icon = getIconByName(tech.technology_name);
+                          if (icon) {
+                            const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
+                            return (
+                              <span
+                                key={i}
+                                className="d-inline-block"
+                                title={tech.technology_name}
+                                style={{ width: '28px', height: '28px' }}
+                                dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                              />
+                            );
+                          }
+                          // Kalau tidak ada logo, tampilkan teks dengan badge
+                          return (
+                            <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
+                              {tech.technology_name}
+                            </Badge>
+                          );
+                        })}
                       </div>
                       <Button variant="outline-danger" style={{ borderRadius: '12px' }}  onClick={() => handlePreview(project.project_uuid)}>
                         Preview
                       </Button>
                     </div>
+                  </div>
                   </div>
                 </motion.div>
               </Col>
@@ -226,7 +252,7 @@ const ProjectPerList = () => {
 
         {(selectedYear === "" || selectedYear === "2024") && projects2024.length > 0 && (
           <>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={fadeInUp(0.2)} >
+            <motion.div initial="hidden" whileInView="visible" className='mt-5' viewport={{ once: true, amount: 0.2 }} variants={fadeInUp(0.2)} >
               <h1 className="text-center fw-bold">PROJECT DOT 2024</h1>
             </motion.div>
 
@@ -242,63 +268,80 @@ const ProjectPerList = () => {
 
             {projects2024.map((project, index) => (
               <Col key={project.project_uuid} md={3} className="mb-4">
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  whileHover="hover"
-                  viewport={{ once: true, amount: 0.3 }}
-                  variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
-                  className="card shadow- border-0 mt-5 h-100"
-                  style={{ borderRadius: '20px' }}
-                >
-                  <img
-                    src={project.thumbnail_project || "job.png"}
-                    className="card-img-top"
-                    alt="thumbnail"
-                    style={{
-                      height: '180px',
-                      objectFit: 'cover',
-                      borderTopLeftRadius: '20px',
-                      borderTopRightRadius: '20px'
-                    }}
-                  />
-                  <div className="card-body d-flex flex-column justify-content-between">
-                    <div>
-                      <h5 className="card-title fw-bold">{project.title}</h5>
-                      <div className="d-flex flex-wrap gap-1">
-                        {project.project_categories.map((cat, i) => (
-                          <span key={i} className="badge bg-danger-subtle text-danger fw-medium">
-                            {cat.category_name}
-                          </span>
-                        ))}
-                      </div>
+                <motion.div initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.3 }} variants={{ ...fadeInUp(index * 0.2), ...hoverCard }} className="card shadow- border-0 mt-5" style={{ borderRadius: '20px' }} >
+                  <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
+                      <img
+                        src={project.thumbnail_project || "job.png"}
+                        className="card-img-top"
+                        style={{
+                          height: '180px',
+                          objectFit: 'cover',
+                          borderTopLeftRadius: '20px',
+                          borderTopRightRadius: '20px'
+                        }}
+                        alt="Thumbnail"
+                      />
+                      <div className="card-body  flex-column justify-content-between">
+                        <div>
+                          <h5 className="card-title fw-bold">{project.title}</h5>
+                          <div className="d-flex flex-wrap gap-1">
+                            {project.project_categories.map((cat, i) => (
+                              <span key={i} className="badge bg-danger-subtle text-danger fw-medium">
+                                <span
+                                  className="project-logo d-inline-block"
+                                  style={{ width: '15px', height: '15px' }}
+                                  dangerouslySetInnerHTML={{ __html: cat.logo }}
+                                />
+                              </span>
+                            ))}
+                          </div>
+                        </div>
 
-                    </div>
-                    <p className="text-muted">
-                      {new Date(project.finish_project).getFullYear()}
-                    </p>
-                                        <div className="d-flex justify-content-between align-items-start mt-2">
-                      <div className="d-flex flex-wrap gap-1">
-                        {project.technology_project.map((tech, i) => (
-                          <span key={i} className="badge bg-secondary-subtle text-dark fw-medium">
-                            {tech.technology_name}
-                          </span>
-                        ))}
+                        <p className="text-muted mt-2">
+                          {new Date(project.finish_project).getFullYear()}
+                        </p>
+
+                        <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                          <div className="d-flex flex-wrap gap-2 align-items-center">
+                            {project.technology_project.map((tech, i) => {
+                              const icon = getIconByName(tech.technology_name);
+                              if (icon) {
+                                const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
+                                return (
+                                  <span
+                                    key={i}
+                                    className="d-inline-block"
+                                    title={tech.technology_name}
+                                    style={{ width: '28px', height: '28px' }}
+                                    dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                                  />
+                                );
+                              }
+                              return (
+                                <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
+                                  {tech.technology_name}
+                                </Badge>
+                              );
+                            })}
+                          </div>
+
+                          <Button
+                            variant="outline-danger"
+                            style={{ borderRadius: '12px' }}
+                            onClick={() => handlePreview(project.project_uuid)}
+                          >
+                            Preview
+                          </Button>
+                        </div>
                       </div>
-                      <Button variant="outline-danger" style={{ borderRadius: '12px' }}  onClick={() => handlePreview(project.project_uuid)}>
-                        Preview
-                      </Button>
                     </div>
-                  </div>
+
                 </motion.div>
               </Col>
             ))}
           </>
         )}
 
-        {projects.length === 0 && (
-          <p className="text-center">Tidak ada project ditemukan.</p>
-        )}
       </Row>
 
     </Container>
