@@ -183,70 +183,95 @@ const ProjectPerList = () => {
             <motion.hr initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUp(0.5)} style={{ borderTop: '2px solid', margin: '10px 0' }} />
 
             {projects2025.map((project, index) => (
-              <Col key={project.project_uuid} md={3} className="mb-4">
-                <motion.div initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.3 }} variants={{ ...fadeInUp(index * 0.2), ...hoverCard }} className="card shadow-sm border-0 mt-5" style={{ borderRadius: '20px',  minHeight: '450px'  }} >
-                  <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
-
-                  <img
-                    src={project.thumbnail_project || "job.png"}
-                    className="card-img-top"
-                    alt="thumbnail"
-                    style={{
-                      height: '180px',
-                      objectFit: 'cover',
-                      borderTopLeftRadius: '20px',
-                      borderTopRightRadius: '20px'
-                    }}
-                  />
-                  <div className="card-body flex-column justify-content-between"  style={{ minHeight: '50px' }}>
-                    <div>
-                      <h5 className="card-title fw-bold">{project.title}</h5>
-                      <div className="d-flex flex-wrap gap-1">
-                        {project.project_categories.map((cat, i) => (
-                          <span key={i} className="badge bg-danger-subtle text-danger fw-medium">
-                            <span className="project-logo  d-inline-block" style={{ width: '15px', height: '15px' }} dangerouslySetInnerHTML={{ __html: cat.logo }} />
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <p className="text-muted">
-                      {new Date(project.finish_project).getFullYear()}
-                    </p>
-
-                    <div className="d-flex justify-content-between align-items-start mt-2 ">
-                      <div className="d-flex flex-wrap gap-2">
-                        {project.technology_project.map((tech, i) => {
-                          const icon = getIconByName(tech.technology_name);
-                          if (icon) {
-                            const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
-                            return (
+                <Col key={project.project_uuid} md={3} className="mb-4">
+                  <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    whileHover="hover"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
+                    className="card shadow-sm border-0 h-100 mt-4"
+                    style={{ borderRadius: '20px' }}
+                  >
+                    <img
+                      src={project.thumbnail_project || "job.png"}
+                      className="card-img-top"
+                      alt="thumbnail"
+                      style={{
+                        height: '180px',
+                        objectFit: 'cover',
+                        borderTopLeftRadius: '20px',
+                        borderTopRightRadius: '20px',
+                      }}
+                    />
+                    <div className="card-body d-flex flex-column justify-content-between">
+                      <div>
+                        <h5 className="card-title fw-bold">{project.title}</h5>
+                        <div className="d-flex flex-wrap gap-1">
+                          {project.project_categories.map((cat, i) => (
+                            <span
+                              key={i}
+                              className="badge bg-danger-subtle text-danger fw-medium"
+                            >
                               <span
-                                key={i}
-                                className="d-inline-block"
-                                title={tech.technology_name}
-                                style={{ width: '28px', height: '28px' }}
-                                dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                                className="project-logo d-inline-block"
+                                style={{ width: '15px', height: '15px' }}
+                                dangerouslySetInnerHTML={{ __html: cat.logo }}
                               />
-                            );
-                          }
-                          // Kalau tidak ada logo, tampilkan teks dengan badge
-                          return (
-                            <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
-                              {tech.technology_name}
-                            </Badge>
-                          );
-                        })}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                      <Button variant="outline-danger" style={{ borderRadius: '12px' }}  onClick={() => handlePreview(project.project_uuid)}>
-                        Preview
-                      </Button>
+
+                      <p className="text-muted mt-2">
+                        {new Date(project.finish_project).getFullYear()}
+                      </p>
+
+                      <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                        <div className="d-flex flex-wrap gap-2 align-items-center">
+                          {project.technology_project.map((tech, i) => {
+                            const icon = getIconByName(tech.technology_name);
+                            if (icon) {
+                              const svgWithColor = icon.svg.replace(
+                                '<svg',
+                                `<svg fill="#${icon.hex}"`
+                              );
+                              return (
+                                <span
+                                  key={i}
+                                  className="d-inline-block"
+                                  title={tech.technology_name}
+                                  style={{ width: '28px', height: '28px' }}
+                                  dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                                />
+                              );
+                            }
+                            return (
+                              <Badge
+                                key={i}
+                                bg="light"
+                                text="dark"
+                                className="border px-2 py-1"
+                              >
+                                {tech.technology_name}
+                              </Badge>
+                            );
+                          })}
+                        </div>
+
+                        <Button
+                          variant="outline-danger"
+                          style={{ borderRadius: '12px' }}
+                          onClick={() => handlePreview(project.project_uuid)}
+                        >
+                          Preview
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                  </div>
-                </motion.div>
-              </Col>
-            ))}
+                  </motion.div>
+                </Col>
+              ))}
+
           </>
         )}
 
@@ -268,77 +293,94 @@ const ProjectPerList = () => {
 
             {projects2024.map((project, index) => (
               <Col key={project.project_uuid} md={3} className="mb-4">
-                <motion.div initial="hidden" whileInView="visible" whileHover="hover" viewport={{ once: true, amount: 0.3 }} variants={{ ...fadeInUp(index * 0.2), ...hoverCard }} className="card shadow- border-0 mt-5" style={{ borderRadius: '20px' }} >
-                  <div className="card shadow-sm border-0 h-100" style={{ borderRadius: '20px' }}>
-                      <img
-                        src={project.thumbnail_project || "job.png"}
-                        className="card-img-top"
-                        style={{
-                          height: '180px',
-                          objectFit: 'cover',
-                          borderTopLeftRadius: '20px',
-                          borderTopRightRadius: '20px'
-                        }}
-                        alt="Thumbnail"
-                      />
-                      <div className="card-body  flex-column justify-content-between">
-                        <div>
-                          <h5 className="card-title fw-bold">{project.title}</h5>
-                          <div className="d-flex flex-wrap gap-1">
-                            {project.project_categories.map((cat, i) => (
-                              <span key={i} className="badge bg-danger-subtle text-danger fw-medium">
-                                <span
-                                  className="project-logo d-inline-block"
-                                  style={{ width: '15px', height: '15px' }}
-                                  dangerouslySetInnerHTML={{ __html: cat.logo }}
-                                />
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <p className="text-muted mt-2">
-                          {new Date(project.finish_project).getFullYear()}
-                        </p>
-
-                        <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap">
-                          <div className="d-flex flex-wrap gap-2 align-items-center">
-                            {project.technology_project.map((tech, i) => {
-                              const icon = getIconByName(tech.technology_name);
-                              if (icon) {
-                                const svgWithColor = icon.svg.replace('<svg', `<svg fill="#${icon.hex}"`);
-                                return (
-                                  <span
-                                    key={i}
-                                    className="d-inline-block"
-                                    title={tech.technology_name}
-                                    style={{ width: '28px', height: '28px' }}
-                                    dangerouslySetInnerHTML={{ __html: svgWithColor }}
-                                  />
-                                );
-                              }
-                              return (
-                                <Badge key={i} bg="light" text="dark" className="border px-2 py-1">
-                                  {tech.technology_name}
-                                </Badge>
-                              );
-                            })}
-                          </div>
-
-                          <Button
-                            variant="outline-danger"
-                            style={{ borderRadius: '12px' }}
-                            onClick={() => handlePreview(project.project_uuid)}
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  whileHover="hover"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={{ ...fadeInUp(index * 0.2), ...hoverCard }}
+                  className="card shadow-sm border-0 h-100 mt-4 mb-5"
+                  style={{ borderRadius: '20px' }}
+                >
+                  <img
+                    src={project.thumbnail_project || "job.png"}
+                    className="card-img-top"
+                    style={{
+                      height: '180px',
+                      objectFit: 'cover',
+                      borderTopLeftRadius: '20px',
+                      borderTopRightRadius: '20px',
+                    }}
+                    alt="Thumbnail"
+                  />
+                  <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                      <h5 className="card-title fw-bold">{project.title}</h5>
+                      <div className="d-flex flex-wrap gap-1">
+                        {project.project_categories.map((cat, i) => (
+                          <span
+                            key={i}
+                            className="badge bg-danger-subtle text-danger fw-medium"
                           >
-                            Preview
-                          </Button>
-                        </div>
+                            <span
+                              className="project-logo d-inline-block"
+                              style={{ width: '15px', height: '15px' }}
+                              dangerouslySetInnerHTML={{ __html: cat.logo }}
+                            />
+                          </span>
+                        ))}
                       </div>
                     </div>
 
+                    <p className="text-muted mt-2">
+                      {new Date(project.finish_project).getFullYear()}
+                    </p>
+
+                    <div className="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                      <div className="d-flex flex-wrap gap-2 align-items-center">
+                        {project.technology_project.map((tech, i) => {
+                          const icon = getIconByName(tech.technology_name);
+                          if (icon) {
+                            const svgWithColor = icon.svg.replace(
+                              '<svg',
+                              `<svg fill="#${icon.hex}"`
+                            );
+                            return (
+                              <span
+                                key={i}
+                                className="d-inline-block"
+                                title={tech.technology_name}
+                                style={{ width: '28px', height: '28px' }}
+                                dangerouslySetInnerHTML={{ __html: svgWithColor }}
+                              />
+                            );
+                          }
+                          return (
+                            <Badge
+                              key={i}
+                              bg="light"
+                              text="dark"
+                              className="border px-2 py-1"
+                            >
+                              {tech.technology_name}
+                            </Badge>
+                          );
+                        })}
+                      </div>
+
+                      <Button
+                        variant="outline-danger"
+                        style={{ borderRadius: '12px' }}
+                        onClick={() => handlePreview(project.project_uuid)}
+                      >
+                        Preview
+                      </Button>
+                    </div>
+                  </div>
                 </motion.div>
               </Col>
             ))}
+
           </>
         )}
 

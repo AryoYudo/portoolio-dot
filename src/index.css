@@ -67,6 +67,15 @@ code {
   }
 }
 
+.active-scroll {
+  color: #E31F52 !important;
+  font-weight: bold !important;
+}
+
+.active-scroll svg path {
+  fill: #E31F52 !important;
+}
+
 
 
 
