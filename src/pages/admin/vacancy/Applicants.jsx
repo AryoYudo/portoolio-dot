@@ -110,12 +110,20 @@ const ApplicantList = () => {
       {/* Main Content */}
       <div className="p-4 flex-grow-1 mt-4">
         <div className="p-4 card shadow">
-          <h2 className="fw-bold mb-2">Job Vacancy</h2>
+          <h2 className="fw-bold mb-2">Applicants</h2>
           <div className="mb-3">
-            <span className="fw-semibold text-danger">
-              Applicants ({filteredData.length})
-            </span>
-          </div>
+          <a href="/jobvacancy" className="fw-semibold text-muted text-decoration-none" >
+            Job Vacancy
+          </a>
+          <a
+            href="/applicantlist"
+            className="fw-semibold text-danger ms-3 text-decoration-none"
+          >
+            Applicants ({filteredData.length})
+          </a>
+        </div>
+
+
 
           {/* Search Input */}
           <InputGroup className="mb-3" style={{ maxWidth: '100%' }}>

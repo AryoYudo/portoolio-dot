@@ -1,15 +1,25 @@
 import React from 'react';
 import { Modal, Button, Image, Badge } from 'react-bootstrap';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const EmployeeDetailModal = ({ show, handleClose, employee, handleEdit, handleDelete }) => {
   const token = localStorage.getItem('accessToken');
   if (!employee) return null;
   
   const onDeleteClick = async () => {
-    if (!window.confirm(`Are you sure you want to delete ${employee.employee_name}?`)) {
-      return;
-    }
+
+    const result = await Swal.fire({
+      title: 'Delete Employee?',
+      text: `Are you sure you want to delete ${employee.employee_name}?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#E31F52' // 🔴 hanya ini yang diubah
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
         const response = await axios.delete(
@@ -22,10 +32,18 @@ const EmployeeDetailModal = ({ show, handleClose, employee, handleEdit, handleDe
           }
         );
 
-      if (response.data.messagetype === 'S') {
-        alert('Employee deleted successfully!');
-        handleDelete(employee.employee_uuid); 
-        handleClose();
+        if (response.data.messagetype === 'S') {
+          // ✅ Tampilkan SweetAlert sukses
+          await Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: 'Employee has been deleted successfully.',
+            confirmButtonColor: '#E31F52'
+          });
+
+          // Lanjutkan proses delete di UI
+          handleDelete(employee.employee_uuid);
+          handleClose();
       } else {
         alert(`Failed to delete employee. Message: ${response.data?.message || 'Unknown error'}`);
       }

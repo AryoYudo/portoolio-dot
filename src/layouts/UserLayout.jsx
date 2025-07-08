@@ -5,10 +5,11 @@ import Footer from './footer';
 
 const UserLayout = ({ children }) => {
   return (
-    <div className="d-flex flex-column min-vh-100"> {/* Flexbox full height layout */}
+    <div className="d-flex flex-column min-vh-100">
       <Header />
 
-      <main className="flex-grow-1" style={{ paddingTop: '80px' }}>
+      {/* Padding top dibuat responsive biar tidak ketutup header */}
+      <main className="flex-grow-1 pt-5 mt-3 pt-md-4 pt-lg-5">
         {children}
       </main>
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
-const EditVacancyModal = ({ show, handleClose, vacancy }) => {
+const EditVacancyModal = ({ show, handleClose, vacancy, handleSave }) => {
   const token = localStorage.getItem('accessToken');
   const [positionJob, setPositionJob] = useState('');
   const [shortDescription, setShortDescription] = useState('');
@@ -43,6 +44,18 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
     if (picture) formData.append('picture', picture);
 
     try {
+      const result = await Swal.fire({
+        title: 'Update Job Vacancy?',
+        text: 'Are you sure all the data entered is correct?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update it!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#E31F52'
+      });
+
+      if (!result.isConfirmed) return;
+
       const response = await axios.post(
         `http://127.0.0.1:8000/api/job_vacancy/update_job/${vacancy.job_uuid}`,
         formData,
@@ -53,12 +66,23 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
           },data:{}
         }
       );
-      console.log('Success:', response.data);
-      alert('Vacancy updated successfully!');
+      if (handleSave) handleSave();
+      await Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: 'Vacancy has been updated successfully.',
+        confirmButtonColor: '#E31F52'
+      });
+
       handleClose();
     } catch (error) {
       console.error('Error updating vacancy:', error);
-      alert('Failed to update vacancy!');
+      await Swal.fire({
+        icon: 'error',
+        title: 'Failed!',
+        text: 'Failed to update vacancy. Please try again.',
+        confirmButtonColor: '#E31F52'
+      });
     }
   };
 
@@ -70,7 +94,9 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <Form.Group className="mb-3">
-            <Form.Label>Title *</Form.Label>
+            <Form.Label>
+              Title <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               value={positionJob}
@@ -80,7 +106,9 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Short Description (Max. 30) *</Form.Label>
+            <Form.Label>
+              Short Description (Max. 30) <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               value={shortDescription}
@@ -91,7 +119,9 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Available Until *</Form.Label>
+            <Form.Label>
+              Available Until <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="date"
               value={availableUntil}
@@ -101,7 +131,9 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Category *</Form.Label>
+            <Form.Label>
+              Category <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               value={statusId}
@@ -132,7 +164,7 @@ const EditVacancyModal = ({ show, handleClose, vacancy }) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" type="submit">
+          <Button style={{ background: '#E31F52' }} type="submit">
             Update Vacancy
           </Button>
         </Modal.Footer>

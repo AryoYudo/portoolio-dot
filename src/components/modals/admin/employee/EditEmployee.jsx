@@ -21,7 +21,7 @@ const EditEmployeeModal = ({ show, handleClose, onSuccessEdit, employee }) => {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
-            }
+            },data: {}
         }
         )
         .then((response) => {

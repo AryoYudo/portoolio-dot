@@ -5,6 +5,7 @@ import Sidebar from '../../../layouts/sidebar';
 import AddVacancyModal from '../../../components/modals/admin/job/AddVacancyModal';
 import EditVacancyModal from '../../../components/modals/admin/job/EditVacancyModal';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const JobVacancy = () => {
   const token = localStorage.getItem('accessToken');
@@ -41,6 +42,7 @@ const JobVacancy = () => {
   };
 
   const handleEditSuccess = () => {
+    setLoading(true);
     fetchJobVacancies();
     setShowEditModal(false);
   };
@@ -102,17 +104,42 @@ const JobVacancy = () => {
   ];
 
   const handleDelete = async (job_uuid) => {
-    if (!window.confirm('Are you sure you want to delete this vacancy?')) return;
+    const result = await Swal.fire({
+      title: 'Delete Job Vacancy?',
+      text: 'Are you sure you want to delete this vacancy?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#E31F52'
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       await axios.delete(`http://127.0.0.1:8000/api/job_vacancy/delete_job/${job_uuid}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
-        },data:{}
+        },
+        data: {}
       });
-      fetchJobVacancies();
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Vacancy has been deleted successfully.',
+        confirmButtonColor: '#E31F52'
+      });
+
+      fetchJobVacancies(); // refresh data
     } catch (error) {
       console.error('Error deleting job:', error);
-      alert('Failed to delete job');
+      await Swal.fire({
+        icon: 'error',
+        title: 'Failed!',
+        text: 'Failed to delete job.',
+        confirmButtonColor: '#E31F52'
+      });
     }
   };
 
@@ -125,6 +152,17 @@ const JobVacancy = () => {
       <div className="p-4 flex-grow-1 mt-4">
         <div className="p-4 card shadow">
           <h2 className="fw-bold mb-2">Job Vacancy</h2>
+            <div className="mb-3">
+              <span className="fw-semibold text-danger">Job Vacancy</span>
+                <a
+                  href="/applicantlist"
+                  className="fw-semibold text-muted ms-3 text-decoration-none"
+                >
+                  Applicants
+                </a>
+            </div>
+
+
           <div className="d-flex mb-3">
             <InputGroup style={{ flexGrow: 1, maxWidth: '90%' }} className="me-2">
               <InputGroup.Text style={{ background: '#f0f0f0', borderRight: 'none' }}>

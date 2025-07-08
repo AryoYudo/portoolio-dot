@@ -65,7 +65,6 @@ const EmployeeList = () => {
   };
 
   const handleDelete = async (uuid) => {
-    if (!window.confirm('Yakin ingin menghapus data ini?')) return;
     setLoading(true);
     try {
       await axios.delete(

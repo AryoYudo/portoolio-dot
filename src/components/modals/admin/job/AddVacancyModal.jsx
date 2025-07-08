@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const AddVacancyModal = ({ show, handleClose, handleSave }) => {
   const token = localStorage.getItem('accessToken');
@@ -27,6 +28,18 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
     formData.append('description', description);
 
     try {
+      const result = await Swal.fire({
+        title: 'Add Job Vacancy?',
+        text: 'Are you sure all the data entered is correct?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes!',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#E31F52'
+      });
+
+      if (!result.isConfirmed) return;
+
       const response = await axios.post(
         'http://127.0.0.1:8000/api/job_vacancy/add_job',
         formData,
@@ -37,13 +50,25 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
           },
         }
       );
-      console.log('Success:', response.data);
-      alert('Vacancy added successfully!');
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Added!',
+        text: 'Vacancy has been added successfully.',
+        confirmButtonColor: '#E31F52'
+      });
+
       handleClose();
       handleSave();
+      
     } catch (error) {
       console.error('Error adding vacancy:', error);
-      alert('Failed to add vacancy!');
+      await Swal.fire({
+        icon: 'error',
+        title: 'Failed!',
+        text: 'Failed to add vacancy. Please try again.',
+        confirmButtonColor: '#E31F52'
+      });
     }
   };
 
@@ -57,7 +82,9 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
         <p>Please provide correct and complete information in the fields below.</p>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Title *</Form.Label>
+            <Form.Label>
+              Title <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Input Event Title"
@@ -68,7 +95,9 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Short Description (Max. 30) *</Form.Label>
+            <Form.Label>
+              Short Description (Max. 30) <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="text"
               placeholder="Input Short Description"
@@ -80,7 +109,9 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Available Until *</Form.Label>
+            <Form.Label>
+              Available Until <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Control
               type="date"
               value={availableUntil}
@@ -90,7 +121,9 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Category *</Form.Label>
+            <Form.Label>
+              Category <span className="text-danger">*</span>
+            </Form.Label>
             <Form.Select
               value={statusId}
               onChange={(e) => setStatusId(e.target.value)}
@@ -122,10 +155,11 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
             />
           </Form.Group>
 
-          <Button style={{ background: "#E31F52",}} type="submit" className="w-100">
+          <Button style={{ background: "#E31F52" }} type="submit" className="w-100">
             Add Vacancy
           </Button>
         </Form>
+
       </Modal.Body>
     </Modal>
   );
