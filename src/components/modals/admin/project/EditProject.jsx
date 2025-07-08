@@ -130,8 +130,6 @@ const EditProjectModal = ({ show, handleClose, handleSave, project }) => {
         fetchEmployees();
     }, [show, project]);
 
-
-
         const handleSubmit = async (e) => {
             e.preventDefault();
 

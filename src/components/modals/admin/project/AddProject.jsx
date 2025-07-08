@@ -98,6 +98,21 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
         fetchTechnologies();
         fetchEmployees();
     }, []);
+    useEffect(() => {
+        if (show) {
+            setTitle('');
+            setShortDescription('');
+            setStartDate('');
+            setEndDate('');
+            setCategories([]);
+            setTechnologies([]);
+            setDescription('');
+            setThumbnail(null);
+            setMembers([]);
+            setJobRelates([]);
+        }
+    }, [show]);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -157,6 +172,18 @@ const AddProjectModal = ({ show, handleClose, handleSave }) => {
         formData.append('job_relate', JSON.stringify(jobRelates));
 
         try {
+            const result = await Swal.fire({
+                title: 'Add New Project?',
+                text: 'Are you sure the entered data is correct?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes!',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#E31F52' // 🔴 hanya ini yang diubah
+            });
+            
+            if (!result.isConfirmed) return;
+            
             const response = await axios.post(
                 'http://127.0.0.1:8000/api/project_list/insert_project',
                 formData,

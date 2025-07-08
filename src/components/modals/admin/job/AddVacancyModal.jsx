@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import ReactQuill from 'react-quill';
 
 const AddVacancyModal = ({ show, handleClose, handleSave }) => {
   const token = localStorage.getItem('accessToken');
@@ -146,13 +147,14 @@ const AddVacancyModal = ({ show, handleClose, handleSave }) => {
 
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
+            <ReactQuill
+              theme="snow"
               placeholder="Input Content"
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={description || ''}
+              onChange={(value) => setDescription(value)}
+              style={{ height: '200px', marginBottom: '1rem' }}
             />
+
           </Form.Group>
 
           <Button style={{ background: "#E31F52" }} type="submit" className="w-100">
