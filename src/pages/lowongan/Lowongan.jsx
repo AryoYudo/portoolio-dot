@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 
@@ -50,8 +50,7 @@ const Lowongan = () => {
   return (
     <div className="container my-5">
       <nav className="mb-3">
-        <span className="me-2 text-muted">{`< Back`}</span>
-        <span className="me-2">Beranda</span> /
+        <Link to="/" className="me-2 text-decoration-none text-dark">{`< Beranda`}</Link> /
         <strong className="mx-2">Join Us</strong>
       </nav>
 
