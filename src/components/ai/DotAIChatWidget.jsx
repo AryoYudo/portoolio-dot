@@ -257,7 +257,7 @@ const DotAIChatWidget = () => {
               </Form>
 
               {/* Mic Button */}
-              <Button
+              {/* <Button
                 variant={isListening ? 'secondary' : 'outline-secondary'}
                 onMouseDown={handleMicDown}
                 onMouseUp={handleMicUp}
@@ -266,7 +266,7 @@ const DotAIChatWidget = () => {
                 style={{ borderRadius: '50%', width: '2.5rem', height: '2.5rem' }}
               >
                 <i className={`bi ${isListening ? 'bi-mic-mute-fill' : 'bi-mic-fill'}`} />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
