@@ -53,14 +53,14 @@ const Footer = () => {
               </div>
               <p>Stay informed with our newsletter</p>
               <div className="input-group">
-                <input
+                {/* <input
                   type="email"
                   className="form-control"
                   placeholder="Type your E-mail Address"
                 />
                 <button className="btn btn-light" type="submit">
                   &#10140;
-                </button>
+                </button> */}
               </div>
             </div>
 
