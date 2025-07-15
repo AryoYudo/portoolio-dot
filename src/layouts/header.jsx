@@ -3,28 +3,42 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Link, useLocation } from 'react-router-dom';
 import { Link as ScrollLink } from 'react-scroll';
 import '../index.css'; // Optional: to add custom CSS styles
+import { useNavigate } from 'react-router-dom';
+import { scroller } from 'react-scroll';
 
 const Header = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState('');
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [activeLink, setActiveLink] = useState('');
 
-  const handleSetActive = (to) => {
-    setActiveLink(to);
-  };
+    const location = useLocation();
+    const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-  const location = useLocation();
+    const handleNavClick = (section) => {
+        if (location.pathname !== '/') {
+        navigate('/', { state: { scrollTo: section } });
+        } else {
+        scroller.scrollTo(section, {
+            duration: 300,
+            smooth: true,
+            offset: -50,
+        });
+        }
+    };
 
-  const isActive = (path) => location.pathname === path;
-  const linkClass = (path) =>
-    `nav-link ms-4 d-flex align-items-center gap-2 ${isActive(path) ? 'text-danger fw-bold' : 'text-dark'}`;
-  const iconColor = (path) => (isActive(path) ? '#E31F52' : '#333333');
+    const handleSetActive = (to) => {
+        setActiveLink(to);
+    };
 
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
+    const isActive = (path) => location.pathname === path;
+    const linkClass = (path) =>
+        `nav-link ms-4 d-flex align-items-center gap-2 ${isActive(path) ? 'text-danger fw-bold' : 'text-dark'}`;
+    const iconColor = (path) => (isActive(path) ? '#E31F52' : '#333333');
 
-  return (
+    return (
         <header className="bg-white position-fixed top-0 start-0 shadow-sm w-100" style={{ zIndex: 1050 }}>
             <div className="container-fluid px-3 px-md-4">
                 {/* Desktop & Tablet Navbar */}
@@ -60,29 +74,28 @@ const Header = () => {
                     {/* Links for large screens */}
                     <nav className="d-none d-lg-flex align-items-center ms-auto">
                         {/* Beranda */}
-                        <ScrollLink to="beranda" smooth={true} duration={300} offset={-50} spy={true} activeClass="active-scroll" className={`nav-link ms-4 d-flex align-items-center gap-2`} style={{ cursor: 'pointer' }} >
+                        <span onClick={() => handleNavClick('beranda')} className="nav-link ms-4 d-flex align-items-center gap-2" style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 33" fill="none">
                                 <path d="M4 4.5H13.3333V16.5H4V4.5ZM18.6667 4.5H28V11.1667H18.6667V4.5ZM18.6667 16.5H28V28.5H18.6667V16.5ZM4 21.8333H13.3333V28.5H4V21.8333Z" fill={iconColor('/')} />
                             </svg>
                             Beranda
-                        </ScrollLink>
+                        </span>
 
                         {/* About */}
-                        <ScrollLink to="about" smooth={true} duration={300} offset={-50} spy={true} activeClass="active-scroll" className={`nav-link ms-4 d-flex align-items-center gap-2`} style={{ cursor: 'pointer' }} >
+                        <span onClick={() => handleNavClick('about')} className="nav-link ms-4 d-flex align-items-center gap-2" style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 33" fill="none">
                             <path d="M16 21.8327V16.4993M16 11.166H16.0133M29.3333 16.4993C29.3333 23.8631 23.3638 29.8327 16 29.8327C8.63616 29.8327 2.66663 23.8631 2.66663 16.4993C2.66663 9.13555 8.63616 3.16602 16 3.16602C23.3638 3.16602 29.3333 9.13555 29.3333 16.4993Z" stroke={iconColor('/about')} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             About
-                        </ScrollLink>
+                        </span>
 
                         {/* Project */}
-                        <ScrollLink to="project" smooth={true} duration={300} offset={-50} spy={true} activeClass="active-scroll" className={`nav-link ms-4 d-flex align-items-center gap-2`} style={{ cursor: 'pointer' }} >
+                         <span onClick={() => handleNavClick('project')} className="nav-link ms-4 d-flex align-items-center gap-2" style={{ cursor: 'pointer' }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 33" fill="none">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M9.66662 9.34091V7.78091C9.66681 7.22227 9.86741 6.68224 10.232 6.25896C10.5965 5.83568 11.1009 5.55724 11.6533 5.47424L13.28 5.23024C15.0832 4.95971 16.9167 4.95971 18.72 5.23024L20.3466 5.47424C20.8991 5.55724 21.4034 5.83568 21.7679 6.25896C22.1325 6.68224 22.3331 7.22227 22.3333 7.78091V9.34091L24.6186 9.52491C25.4689 9.5936 26.2716 9.9454 26.8983 10.5241C27.5251 11.1027 27.9397 11.8748 28.076 12.7169C28.6963 16.5471 28.6963 20.4521 28.076 24.2822C27.9397 25.1243 27.5251 25.8964 26.8983 26.4751C26.2716 27.0538 25.4689 27.4056 24.6186 27.4742L22.1226 27.6742C18.0475 28.0032 13.9524 28.0032 9.87729 27.6742L7.38129 27.4742C6.53102 27.4056 5.72834 27.0538 5.10158 26.4751C4.47482 25.8964 4.06018 25.1243 3.92396 24.2822C3.30367 20.4521 3.30367 16.5471 3.92396 12.7169C4.06045 11.8751 4.47521 11.1033 5.10194 10.5249C5.72868 9.94647 6.53121 9.59487 7.38129 9.52624L9.66662 9.34091ZM13.5773 7.20757C15.1834 6.96668 16.8165 6.96668 18.4226 7.20757L20.0493 7.45157C20.1282 7.46338 20.2003 7.50312 20.2524 7.56355C20.3045 7.62398 20.3332 7.70111 20.3333 7.78091V9.20091C17.4467 9.03628 14.5532 9.03628 11.6666 9.20091V7.77957C11.6667 7.69977 11.6954 7.62265 11.7475 7.56222C11.7996 7.50178 11.8717 7.46205 11.9506 7.45024L13.5773 7.20757ZM10.0386 11.3169C14.0066 10.9969 17.9933 10.9969 21.9613 11.3169L24.4573 11.5196C24.8618 11.5519 25.2437 11.719 25.542 11.9941C25.8403 12.2692 26.0377 12.6364 26.1026 13.0369C26.1853 13.5502 26.256 14.0636 26.316 14.5809C23.1066 16.1609 19.5772 16.9826 16 16.9826C12.4227 16.9826 8.89333 16.1609 5.68396 14.5809C5.74262 14.0649 5.81462 13.5502 5.89729 13.0369C5.96223 12.6364 6.15964 12.2692 6.45793 11.9941C6.75622 11.719 7.13815 11.5519 7.54262 11.5196L10.0386 11.3169ZM5.50529 16.7089C8.80109 18.2073 12.3795 18.9826 16 18.9826C19.6204 18.9826 23.1988 18.2073 26.4946 16.7089C26.622 19.1337 26.4906 21.5653 26.1026 23.9622C26.038 24.363 25.8407 24.7305 25.5424 25.0059C25.244 25.2812 24.862 25.4485 24.4573 25.4809L21.9613 25.6809C17.9933 26.0009 14.0066 26.0009 10.0386 25.6809L7.54262 25.4809C7.13796 25.4485 6.75588 25.2812 6.45756 25.0059C6.15925 24.7305 5.96196 24.363 5.89729 23.9622C5.50929 21.5622 5.37729 19.1302 5.50529 16.7089Z"  fill={iconColor('/project')} />
                             </svg>
                             Project
-                        </ScrollLink>
-
+                        </span>
 
                         {/* Contact */}
                         <ScrollLink to="contact" smooth={true} duration={300} offset={-50} spy={true} onSetActive={handleSetActive} className={`nav-link ms-4 gap-2 ${activeLink === 'contact' ? 'text-danger fw-bold' : 'text-dark'}`} style={{ cursor: 'pointer' }} >

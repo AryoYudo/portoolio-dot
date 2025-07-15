@@ -4,10 +4,12 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Collapse } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const [openJobMenu, setOpenJobMenu] = useState(false);
+
   return (
     <div className="col-md-2 position-fixed bg-white shadow-sm vh-100 d-flex flex-column p-3" >
       <div className="d-flex justify-content-center mb-4">
@@ -105,12 +107,33 @@ const Sidebar = () => {
             className="btn w-100 fw-bold d-flex align-items-center justify-content-center"
             style={{ borderColor: '#E31F52', color: '#E31F52' }}
             onClick={() => {
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              localStorage.removeItem('userName');
-              localStorage.removeItem('userUUID');
+              Swal.fire({
+                title: 'Yakin ingin keluar?',
+                text: 'Kamu akan keluar dari sesi saat ini.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#E31F52',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Logout',
+                cancelButtonText: 'Batal'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  localStorage.removeItem('accessToken');
+                  localStorage.removeItem('refreshToken');
+                  localStorage.removeItem('userName');
+                  localStorage.removeItem('userUUID');
 
-              navigate('/admin/login');
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil Keluar',
+                    text: 'Kamu telah logout.',
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(() => {
+                    navigate('/admin/login');
+                  });
+                }
+              });
             }}
           >
             <i className="bi bi-box-arrow-right me-2"></i>
