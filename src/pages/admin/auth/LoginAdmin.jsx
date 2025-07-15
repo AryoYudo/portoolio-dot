@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const LoginAdmin = () => {
     const [badge, setBadge] = useState('');
@@ -13,7 +14,7 @@ const LoginAdmin = () => {
         try {
             const res = await axios.post('http://127.0.0.1:8000/api/auth/login', {
                 badge,
-                password,
+                password,   
             });
 
             if (res.data.status_code === 200) {
@@ -25,15 +26,43 @@ const LoginAdmin = () => {
                 localStorage.setItem('userName', user_name);
                 localStorage.setItem('userUUID', uuid);
 
-                // Redirect ke halaman dashboard atau halaman lain
-                navigate('/project');
+                // Tampilkan notifikasi sukses
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Berhasil',
+                    text: `Selamat datang, ${user_name}!`,
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    navigate('/project');
+                });
             } else {
-                alert('Login gagal: ' + res.data.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: res.data.message || 'Periksa kembali badge dan password Anda.'
+                });
             }
         } catch (err) {
             console.error(err);
-            alert('Terjadi kesalahan saat login');
+
+            if (err.response && err.response.data) {
+                const { message } = err.response.data;
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Gagal',
+                    text: message || 'Terjadi kesalahan saat login.'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Terjadi Kesalahan',
+                    text: 'Gagal menghubungi server atau terjadi masalah teknis.'
+                });
+            }
         }
+
     };
 
     return (
@@ -51,15 +80,7 @@ const LoginAdmin = () => {
                 <form onSubmit={handleLogin}>
                     <div className="mb-3">
                         <label htmlFor="badge" className="form-label fw-semibold">Badge</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="badge"
-                            value={badge}
-                            onChange={(e) => setBadge(e.target.value)}
-                            placeholder="e.g., aryo123"
-                            required
-                        />
+                        <input type="text" className="form-control" id="badge" value={badge} onChange={(e) => setBadge(e.target.value)} placeholder="Badge" required />
                     </div>
                     <div className="mb-4">
                         <label htmlFor="password" className="form-label fw-semibold">Password</label>

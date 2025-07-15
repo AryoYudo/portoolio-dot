@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { motion } from 'framer-motion';
 
-
 const DetailLowongan = () => {
   const { uuid } = useParams();
   const [job, setJob] = useState(null);
@@ -27,7 +26,6 @@ const DetailLowongan = () => {
       transition: { duration: 0.8, delay },
       viewport: { once: true, amount: 0.3 },
   });
-
 
   const handleShow = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
